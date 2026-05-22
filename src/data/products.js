@@ -5,6 +5,7 @@ export const products = {
   'seamless-fascia-post': {
     slug: 'seamless-fascia-post',
     imageFolder: 'fascia-post',
+    featuredImage: '/images/products/fascia-post/6x6_S4S_Grey_1.png',
     name: 'Seamless Fascia Post',
     species: 'Engineered Composite',
     tagline: 'Quit site-wrapping columns. Deliver a superior look in one piece.',
@@ -33,6 +34,7 @@ export const products = {
   'seamless-cedar-timbers': {
     slug: 'seamless-cedar-timbers',
     imageFolder: 'cedar-timbers',
+    featuredImage: '/images/products/cedar-timbers/6x6_S4S_Natural-WRC_1.png',
     name: 'Seamless Cedar Timbers',
     species: 'Coastal Western Red Cedar',
     tagline: 'Full-sawn cedar. Hollow-core engineering. Old-growth on demand.',
@@ -61,6 +63,7 @@ export const products = {
   'seamless-treated': {
     slug: 'seamless-treated',
     imageFolder: 'treated',
+    featuredImage: '/images/products/treated/6x6_Rougher-Head_Treated_1.png',
     name: 'Seamless Treated',
     species: 'Pressure-Treated Composite',
     tagline: 'Built for ground contact. Looks like it wasn\u2019t.',
@@ -89,6 +92,7 @@ export const products = {
   'seamless-cypress': {
     slug: 'seamless-cypress',
     imageFolder: 'cypress',
+    featuredImage: null,
     name: 'Seamless Cypress',
     species: 'Cypress',
     tagline: 'Naturally rot-resistant. Engineered to last.',
@@ -117,6 +121,7 @@ export const products = {
   'timber-lite-doug-fir': {
     slug: 'timber-lite-doug-fir',
     imageFolder: 'timber-lite',
+    featuredImage: '/images/products/timber-lite/6x6_S4S_Natural-Doug-Fir_1.png',
     name: 'Timber-Lite Doug Fir',
     species: 'Douglas Fir',
     tagline: 'Structural look. Engineered weight.',
