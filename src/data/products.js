@@ -23,10 +23,6 @@ export const products = {
       { title: 'Hollow core', body: 'Run wires through the middle. Lighter to handle. Stable through weather.' },
       { title: 'Standard hardware', body: 'Compatible with Simpson Strong-Tie post bases and caps.' },
     ],
-    photos: {
-      'Grey':      '/images/products/fascia-post/grey.jpg',
-      'LagerTone': '/images/products/fascia-post/lagertone.jpg',
-    },
     documents: [
       { label: 'Info Sheet', href: '/docs/seamless-collection-2026.pdf' },
       { label: 'Installation & Handling Guide', href: '/docs/seamless-install-guide.pdf' },
@@ -54,9 +50,6 @@ export const products = {
       { title: 'Old-growth look', body: 'Full-sawn dimensions and grain that read as a single solid timber.' },
       { title: 'Sustainable supply', body: 'Built from responsibly sourced second-growth fiber, not old-growth.' },
     ],
-    photos: {
-      'Natural WRC': '/images/products/cedar-timbers/natural-wrc.jpg',
-    },
     documents: [
       { label: 'Info Sheet', href: '/docs/seamless-collection-2026.pdf' },
       { label: 'Installation & Handling Guide', href: '/docs/seamless-install-guide.pdf' },
@@ -84,9 +77,6 @@ export const products = {
       { title: 'Full-sawn appearance', body: 'Reads as solid timber from every angle, treated or not.' },
       { title: '25-year warranty', body: 'Same warranty as the rest of the Seamless family.' },
     ],
-    photos: {
-      'Treated': '/images/products/treated/treated.jpg',
-    },
     documents: [
       { label: 'Info Sheet', href: '/docs/seamless-collection-2026.pdf' },
       { label: 'Installation & Handling Guide', href: '/docs/seamless-install-guide.pdf' },
@@ -114,9 +104,6 @@ export const products = {
       { title: 'Hollow core', body: 'Run wires, save weight, eliminate surface checking.' },
       { title: 'Supply you can spec', body: 'Available on lead times that work for a build schedule.' },
     ],
-    photos: {
-      'Natural Cypress': '/images/products/cypress/natural-cypress.jpg',
-    },
     documents: [
       { label: 'Info Sheet', href: '/docs/seamless-collection-2026.pdf' },
       { label: 'Installation & Handling Guide', href: '/docs/seamless-install-guide.pdf' },
@@ -144,9 +131,6 @@ export const products = {
       { title: 'Clean dimensions', body: 'Engineered straight and stays straight \u2014 no twist, no crown.' },
       { title: 'Sibling to Seamless', body: 'Same engineering, same warranty, distinct identity.' },
     ],
-    photos: {
-      'Natural Doug Fir': '/images/products/timber-lite/natural-doug-fir.jpg',
-    },
     documents: [
       { label: 'Info Sheet', href: '/docs/seamless-collection-2026.pdf' },
       { label: 'Installation & Handling Guide', href: '/docs/seamless-install-guide.pdf' },

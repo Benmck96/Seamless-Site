@@ -8,7 +8,6 @@ export interface Props {
     colors: string[];
     lengths: string;
     warranty: string;
-    photos?: Record<string, string>;
   };
 }
 
@@ -18,10 +17,9 @@ const isTimberLite = product.slug === 'timber-lite-doug-fir';
 const accentClass = isTimberLite ? 'text-ink' : 'text-cedar';
 const accentBg = isTimberLite ? 'bg-ink' : 'bg-cedar';
 
-const photos = product.photos ?? {};
-const hasPhotos = Object.keys(photos).length > 0;
-// Pick the initial photo: match first color, then first entry in the map
-const initialSrc = photos[product.colors[0]] ?? Object.values(photos)[0] ?? '';
+// Base URL for this product's images — files are named Size_Finish_Colour.jpg
+// e.g. /images/products/seamless-fascia-post/6x6_S4S_Grey.jpg
+const photoBase = `/images/products/${product.slug}/`;
 ---
 
 <section class="bg-ink text-bone py-16">
@@ -31,38 +29,31 @@ const initialSrc = photos[product.colors[0]] ?? Object.values(photos)[0] ?? '';
       Pick your spec.
     </h2>
 
-    {/* Photo map embedded for the client-side script */}
-    <div id="product-photos-data" class="hidden" data-photos={JSON.stringify(photos)}></div>
+    {/* Photo base path passed to client script via data attribute */}
+    <div id="product-config-data" class="hidden" data-photo-base={photoBase}></div>
 
-    <div class={`grid gap-8 items-start ${hasPhotos ? 'md:grid-cols-3' : 'md:grid-cols-3'}`}>
+    <div class="grid md:grid-cols-3 gap-8 items-start">
 
-      {/* ── Photo panel (left column on desktop, below toggles on mobile) ── */}
-      {hasPhotos && (
-        <div class="order-2 md:order-1">
-          {/* Outer wrapper keeps the 3:4 portrait ratio */}
-          <div class="relative overflow-hidden bg-[#ede9e2]" style="aspect-ratio: 3 / 4;">
-            {/* Placeholder – visible until a real photo loads */}
-            <div
-              id="photo-placeholder"
-              class="absolute inset-0 flex items-center justify-center"
-            >
-              <span class="text-[#a89f93] text-[10px] eyebrow tracking-widest">Photo coming soon</span>
-            </div>
-
-            {/* The photo itself – starts invisible, fades in on load */}
-            <img
-              id="product-photo"
-              src={initialSrc}
-              alt={product.name}
-              class="absolute inset-0 w-full h-full object-cover"
-              style="opacity: 0; transition: opacity 0.45s ease;"
-            />
+      {/* ── Photo panel (below toggles on mobile, left column on desktop) ── */}
+      <div class="order-2 md:order-1">
+        <div class="relative overflow-hidden bg-[#ede9e2]" style="aspect-ratio: 3 / 4;">
+          {/* Shown until a real photo loads */}
+          <div id="photo-placeholder" class="absolute inset-0 flex items-center justify-center">
+            <span class="text-[#a89f93] text-[10px] eyebrow tracking-widest">Photo coming soon</span>
           </div>
+          {/* Photo — starts invisible, fades in once loaded */}
+          <img
+            id="product-photo"
+            src=""
+            alt={product.name}
+            class="absolute inset-0 w-full h-full object-cover"
+            style="opacity: 0; transition: opacity 0.45s ease;"
+          />
         </div>
-      )}
+      </div>
 
-      {/* ── Toggles (first on mobile so users configure before seeing photo) ── */}
-      <div class={`order-1 md:order-2 space-y-8 ${!hasPhotos ? 'md:col-span-2' : ''}`}>
+      {/* ── Toggles (first on mobile) ── */}
+      <div class="order-1 md:order-2 space-y-8">
 
         {/* Size */}
         <div>
@@ -115,7 +106,7 @@ const initialSrc = photos[product.colors[0]] ?? Object.values(photos)[0] ?? '';
         )}
       </div>
 
-      {/* ── Live spec panel (right column) ── */}
+      {/* ── Live spec panel ── */}
       <div class="order-3 border border-smoke p-6 bg-ink">
         <div class="eyebrow text-ash mb-4">Selected configuration</div>
         <div class="space-y-3 text-sm mb-6">
@@ -172,75 +163,104 @@ const initialSrc = photos[product.colors[0]] ?? Object.values(photos)[0] ?? '';
 </style>
 
 <script>
-  // ── Photo data ──────────────────────────────────────────────────────────────
-  const photoDataEl = document.getElementById('product-photos-data');
-  const photos: Record<string, string> = photoDataEl
-    ? JSON.parse(photoDataEl.dataset.photos ?? '{}')
-    : {};
+  // ── Helpers ────────────────────────────────────────────────────────────────
 
+  /** Replace spaces with hyphens so "Rougher Head" → "Rougher-Head" */
+  function toFile(s: string): string {
+    return s.replace(/\s+/g, '-');
+  }
+
+  /**
+   * Build a priority list of filenames to try for the current selection.
+   * Most-specific first, falling back to fewer dimensions.
+   *
+   * Full convention:  Size_Finish_Colour.jpg  →  6x6_S4S_Grey.jpg
+   */
+  function buildCandidates(base: string, size: string, finish: string, color: string): string[] {
+    const s = toFile(size);
+    const f = toFile(finish);
+    const c = toFile(color);
+    const list: string[] = [];
+
+    // 1 — exact match: all three dimensions
+    if (s && f && c) list.push(`${base}${s}_${f}_${c}.jpg`);
+    // 2 — finish + colour (no size — useful when one shot covers all sizes)
+    if (f && c)      list.push(`${base}${f}_${c}.jpg`);
+    // 3 — colour only (single-colour products, or one hero shot per colour)
+    if (c)           list.push(`${base}${c}.jpg`);
+    // 4 — size + finish (no colour variant shot)
+    if (s && f)      list.push(`${base}${s}_${f}.jpg`);
+
+    return list;
+  }
+
+  // ── DOM refs ───────────────────────────────────────────────────────────────
+
+  const configData      = document.getElementById('product-config-data');
+  const photoBase       = configData?.dataset.photoBase ?? '';
   const photoImg        = document.getElementById('product-photo')      as HTMLImageElement | null;
   const photoPlaceholder = document.getElementById('photo-placeholder') as HTMLElement | null;
 
-  // Current selections — populated as groups are wired up below
+  // ── Selection state ────────────────────────────────────────────────────────
+
   const selections: Record<string, string> = {};
+  let isFirstLoad = true;
 
-  function resolvePhotoSrc(): string {
-    // Priority: color match → size match → finish match → first photo in map
-    return (
-      (selections.color   && photos[selections.color])   ||
-      (selections.size    && photos[selections.size])    ||
-      (selections.finish  && photos[selections.finish])  ||
-      Object.values(photos)[0] ||
-      ''
+  // ── Photo loading ──────────────────────────────────────────────────────────
+
+  function loadPhoto() {
+    if (!photoImg || !photoBase) return;
+
+    const candidates = buildCandidates(
+      photoBase,
+      selections.size   ?? '',
+      selections.finish ?? '',
+      selections.color  ?? '',
     );
-  }
 
-  function updatePhoto(src: string) {
-    if (!photoImg || !src) return;
+    if (!candidates.length) return;
 
-    const FADE_MS = 450; // must match the CSS transition duration above
+    const FADE = 450; // ms — must match the CSS transition above
 
-    // If the src hasn't changed, just make sure it's visible
-    if (photoImg.src.endsWith(src)) {
-      if (parseFloat(photoImg.style.opacity) < 1) {
-        photoImg.style.opacity = '1';
-        if (photoPlaceholder) photoPlaceholder.style.display = 'none';
+    // Fade out the current image (skip on very first load — nothing is showing)
+    if (!isFirstLoad) photoImg.style.opacity = '0';
+    isFirstLoad = false;
+
+    let idx = 0;
+
+    function attempt() {
+      if (idx >= candidates.length) {
+        // Nothing found — leave image hidden and show placeholder
+        photoImg!.style.opacity = '0';
+        if (photoPlaceholder) photoPlaceholder.style.display = '';
+        return;
       }
-      return;
+      photoImg!.src = candidates[idx++];
     }
 
-    // Fade out, swap, fade in
-    photoImg.style.opacity = '0';
+    photoImg.onload = () => {
+      photoImg!.style.opacity = '1';
+      if (photoPlaceholder) photoPlaceholder.style.display = 'none';
+    };
 
-    setTimeout(() => {
-      photoImg.src = src;
+    photoImg.onerror = () => {
+      attempt(); // try the next candidate
+    };
 
-      photoImg.onload = () => {
-        photoImg.style.opacity = '1';
-        if (photoPlaceholder) photoPlaceholder.style.display = 'none';
-      };
-
-      photoImg.onerror = () => {
-        // Image missing — keep placeholder visible
-        photoImg.style.opacity = '0';
-        if (photoPlaceholder) photoPlaceholder.style.display = '';
-      };
-    }, FADE_MS);
+    // Start the first attempt after the fade-out completes
+    setTimeout(attempt, isFirstLoad ? 0 : FADE);
   }
 
-  // ── Config group wiring ─────────────────────────────────────────────────────
-  const groups = document.querySelectorAll('[data-config-group]');
+  // ── Wire up toggle groups ──────────────────────────────────────────────────
 
-  groups.forEach((group) => {
+  document.querySelectorAll('[data-config-group]').forEach((group) => {
     const groupName = group.getAttribute('data-config-group')!;
     const display   = document.querySelector(`[data-config-display="${groupName}"]`);
     const buttons   = group.querySelectorAll('.config-btn');
 
-    // Capture the initial active value
-    const activeBtn = group.querySelector('.config-btn.is-active') as HTMLButtonElement | null;
-    if (activeBtn) {
-      selections[groupName] = activeBtn.dataset.configOption ?? '';
-    }
+    // Seed selections from the initially-active button
+    const active = group.querySelector('.config-btn.is-active') as HTMLButtonElement | null;
+    if (active) selections[groupName] = active.dataset.configOption ?? '';
 
     buttons.forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -250,15 +270,13 @@ const initialSrc = photos[product.colors[0]] ?? Object.values(photos)[0] ?? '';
         const value = (btn as HTMLButtonElement).dataset.configOption ?? '';
         selections[groupName] = value;
 
-        if (display) {
-          display.textContent = value.replace('x', '×');
-        }
+        if (display) display.textContent = value.replace('x', '×');
 
-        updatePhoto(resolvePhotoSrc());
+        loadPhoto();
       });
     });
   });
 
-  // Show the initial photo on page load
-  updatePhoto(resolvePhotoSrc());
+  // Kick off the initial photo on page load
+  loadPhoto();
 </script>
