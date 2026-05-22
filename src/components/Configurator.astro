@@ -43,7 +43,7 @@ const photoBase = `/images/products/${product.imageFolder}/`;
 
       {/* ── Photo panel — 3/5 of page width on desktop ── */}
       <div class="md:col-span-3">
-        <div class="relative overflow-hidden bg-[#ede9e2]" style="aspect-ratio: 4 / 3;">
+        <div id="photo-container" class="relative overflow-hidden bg-[#ede9e2]" style="aspect-ratio: 4 / 3;">
           {/* Placeholder — visible until a photo loads */}
           <div id="photo-placeholder" class="absolute inset-0 flex items-center justify-center">
             <span class="text-[#a89f93] text-[10px] eyebrow tracking-widest">Photo coming soon</span>
@@ -61,6 +61,13 @@ const photoBase = `/images/products/${product.imageFolder}/`;
           {/* Dot indicators — shown only when there are multiple shots */}
           <div id="photo-dots" class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 hidden">
           </div>
+
+          {/* Zoom lens — circular magnifier that follows the cursor */}
+          <div
+            id="photo-zoom-lens"
+            class="absolute hidden pointer-events-none"
+            style="width: 190px; height: 190px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.85); box-shadow: 0 4px 24px rgba(0,0,0,0.28); background-repeat: no-repeat; z-index: 10;"
+          ></div>
         </div>
       </div>
 
@@ -410,6 +417,55 @@ const photoBase = `/images/products/${product.imageFolder}/`;
       });
     });
   });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Zoom lens
+  // ─────────────────────────────────────────────────────────────────────────
+
+  const photoContainer = document.getElementById('photo-container') as HTMLElement | null;
+  const zoomLens       = document.getElementById('photo-zoom-lens')  as HTMLElement | null;
+  const ZOOM           = 2.5; // magnification factor
+
+  function positionLens(e: MouseEvent) {
+    if (!zoomLens || !photoContainer || !photoImg?.src) return;
+
+    const rect = photoContainer.getBoundingClientRect();
+    const x    = e.clientX - rect.left;
+    const y    = e.clientY - rect.top;
+    const lw   = zoomLens.offsetWidth;
+    const lh   = zoomLens.offsetHeight;
+
+    // Keep the lens fully inside the container
+    const lx = Math.max(0, Math.min(x - lw / 2, rect.width  - lw));
+    const ly = Math.max(0, Math.min(y - lh / 2, rect.height - lh));
+    zoomLens.style.left = `${lx}px`;
+    zoomLens.style.top  = `${ly}px`;
+
+    // Compute background offset so the cursor point is centred inside the lens
+    const bgW = rect.width  * ZOOM;
+    const bgH = rect.height * ZOOM;
+    const bx  = lw / 2 - (x / rect.width)  * bgW;
+    const by  = lh / 2 - (y / rect.height) * bgH;
+
+    zoomLens.style.backgroundImage    = `url('${photoImg.src}')`;
+    zoomLens.style.backgroundSize     = `${bgW}px ${bgH}px`;
+    zoomLens.style.backgroundPosition = `${bx}px ${by}px`;
+  }
+
+  if (photoContainer && zoomLens) {
+    photoContainer.style.cursor = 'crosshair';
+
+    photoContainer.addEventListener('mouseenter', () => {
+      // Show only when a real photo is visible (not the placeholder)
+      if (photoImg && parseFloat(photoImg.style.opacity) > 0.5) {
+        zoomLens.classList.remove('hidden');
+      }
+    });
+    photoContainer.addEventListener('mouseleave', () => {
+      zoomLens.classList.add('hidden');
+    });
+    photoContainer.addEventListener('mousemove', positionLens);
+  }
 
   // For products where a group has no rendered buttons (e.g. single-color products
   // where the color selector is hidden), the selections object never gets seeded for
