@@ -8,6 +8,7 @@ export interface Props {
     colors: string[];
     lengths: string;
     warranty: string;
+    photos?: Record<string, string>;
   };
 }
 
@@ -16,6 +17,11 @@ const showColors = product.colors.length > 1;
 const isTimberLite = product.slug === 'timber-lite-doug-fir';
 const accentClass = isTimberLite ? 'text-ink' : 'text-cedar';
 const accentBg = isTimberLite ? 'bg-ink' : 'bg-cedar';
+
+const photos = product.photos ?? {};
+const hasPhotos = Object.keys(photos).length > 0;
+// Pick the initial photo: match first color, then first entry in the map
+const initialSrc = photos[product.colors[0]] ?? Object.values(photos)[0] ?? '';
 ---
 
 <section class="bg-ink text-bone py-16">
@@ -25,10 +31,40 @@ const accentBg = isTimberLite ? 'bg-ink' : 'bg-cedar';
       Pick your spec.
     </h2>
 
-    <div class="grid md:grid-cols-3 gap-12">
-      <!-- Toggles -->
-      <div class="md:col-span-2 space-y-8">
-        <!-- Size -->
+    {/* Photo map embedded for the client-side script */}
+    <div id="product-photos-data" class="hidden" data-photos={JSON.stringify(photos)}></div>
+
+    <div class={`grid gap-8 items-start ${hasPhotos ? 'md:grid-cols-3' : 'md:grid-cols-3'}`}>
+
+      {/* ── Photo panel (left column on desktop, below toggles on mobile) ── */}
+      {hasPhotos && (
+        <div class="order-2 md:order-1">
+          {/* Outer wrapper keeps the 3:4 portrait ratio */}
+          <div class="relative overflow-hidden bg-[#ede9e2]" style="aspect-ratio: 3 / 4;">
+            {/* Placeholder – visible until a real photo loads */}
+            <div
+              id="photo-placeholder"
+              class="absolute inset-0 flex items-center justify-center"
+            >
+              <span class="text-[#a89f93] text-[10px] eyebrow tracking-widest">Photo coming soon</span>
+            </div>
+
+            {/* The photo itself – starts invisible, fades in on load */}
+            <img
+              id="product-photo"
+              src={initialSrc}
+              alt={product.name}
+              class="absolute inset-0 w-full h-full object-cover"
+              style="opacity: 0; transition: opacity 0.45s ease;"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* ── Toggles (first on mobile so users configure before seeing photo) ── */}
+      <div class={`order-1 md:order-2 space-y-8 ${!hasPhotos ? 'md:col-span-2' : ''}`}>
+
+        {/* Size */}
         <div>
           <div class="eyebrow text-ash mb-3">Size</div>
           <div class="flex flex-wrap gap-2" data-config-group="size">
@@ -44,7 +80,7 @@ const accentBg = isTimberLite ? 'bg-ink' : 'bg-cedar';
           </div>
         </div>
 
-        <!-- Finish -->
+        {/* Finish */}
         <div>
           <div class="eyebrow text-ash mb-3">Finish</div>
           <div class="flex flex-wrap gap-2" data-config-group="finish">
@@ -60,7 +96,7 @@ const accentBg = isTimberLite ? 'bg-ink' : 'bg-cedar';
           </div>
         </div>
 
-        <!-- Color -->
+        {/* Color */}
         {showColors && (
           <div>
             <div class="eyebrow text-ash mb-3">Color</div>
@@ -79,8 +115,8 @@ const accentBg = isTimberLite ? 'bg-ink' : 'bg-cedar';
         )}
       </div>
 
-      <!-- Live spec panel -->
-      <div class="border border-smoke p-6 bg-ink">
+      {/* ── Live spec panel (right column) ── */}
+      <div class="order-3 border border-smoke p-6 bg-ink">
         <div class="eyebrow text-ash mb-4">Selected configuration</div>
         <div class="space-y-3 text-sm mb-6">
           <div class="flex justify-between border-b border-smoke pb-2">
@@ -106,10 +142,14 @@ const accentBg = isTimberLite ? 'bg-ink' : 'bg-cedar';
             <span class={`font-medium ${accentClass}`}>{product.warranty}</span>
           </div>
         </div>
-        <a href="/contact" class={`block ${accentBg} text-bone text-center py-3 text-sm font-medium hover:opacity-85 transition-opacity`}>
+        <a
+          href="/contact"
+          class={`block ${accentBg} text-bone text-center py-3 text-sm font-medium hover:opacity-85 transition-opacity`}
+        >
           Request this spec →
         </a>
       </div>
+
     </div>
   </div>
 </section>
@@ -132,22 +172,93 @@ const accentBg = isTimberLite ? 'bg-ink' : 'bg-cedar';
 </style>
 
 <script>
-  // Wire up each config group: toggle is-active class + update the matching display value
+  // ── Photo data ──────────────────────────────────────────────────────────────
+  const photoDataEl = document.getElementById('product-photos-data');
+  const photos: Record<string, string> = photoDataEl
+    ? JSON.parse(photoDataEl.dataset.photos ?? '{}')
+    : {};
+
+  const photoImg        = document.getElementById('product-photo')      as HTMLImageElement | null;
+  const photoPlaceholder = document.getElementById('photo-placeholder') as HTMLElement | null;
+
+  // Current selections — populated as groups are wired up below
+  const selections: Record<string, string> = {};
+
+  function resolvePhotoSrc(): string {
+    // Priority: color match → size match → finish match → first photo in map
+    return (
+      (selections.color   && photos[selections.color])   ||
+      (selections.size    && photos[selections.size])    ||
+      (selections.finish  && photos[selections.finish])  ||
+      Object.values(photos)[0] ||
+      ''
+    );
+  }
+
+  function updatePhoto(src: string) {
+    if (!photoImg || !src) return;
+
+    const FADE_MS = 450; // must match the CSS transition duration above
+
+    // If the src hasn't changed, just make sure it's visible
+    if (photoImg.src.endsWith(src)) {
+      if (parseFloat(photoImg.style.opacity) < 1) {
+        photoImg.style.opacity = '1';
+        if (photoPlaceholder) photoPlaceholder.style.display = 'none';
+      }
+      return;
+    }
+
+    // Fade out, swap, fade in
+    photoImg.style.opacity = '0';
+
+    setTimeout(() => {
+      photoImg.src = src;
+
+      photoImg.onload = () => {
+        photoImg.style.opacity = '1';
+        if (photoPlaceholder) photoPlaceholder.style.display = 'none';
+      };
+
+      photoImg.onerror = () => {
+        // Image missing — keep placeholder visible
+        photoImg.style.opacity = '0';
+        if (photoPlaceholder) photoPlaceholder.style.display = '';
+      };
+    }, FADE_MS);
+  }
+
+  // ── Config group wiring ─────────────────────────────────────────────────────
   const groups = document.querySelectorAll('[data-config-group]');
+
   groups.forEach((group) => {
-    const groupName = group.getAttribute('data-config-group');
-    const display = document.querySelector(`[data-config-display="${groupName}"]`);
-    const buttons = group.querySelectorAll('.config-btn');
+    const groupName = group.getAttribute('data-config-group')!;
+    const display   = document.querySelector(`[data-config-display="${groupName}"]`);
+    const buttons   = group.querySelectorAll('.config-btn');
+
+    // Capture the initial active value
+    const activeBtn = group.querySelector('.config-btn.is-active') as HTMLButtonElement | null;
+    if (activeBtn) {
+      selections[groupName] = activeBtn.dataset.configOption ?? '';
+    }
 
     buttons.forEach((btn) => {
       btn.addEventListener('click', () => {
         buttons.forEach((b) => b.classList.remove('is-active'));
         btn.classList.add('is-active');
+
+        const value = (btn as HTMLButtonElement).dataset.configOption ?? '';
+        selections[groupName] = value;
+
         if (display) {
-          const value = btn.getAttribute('data-config-option') || '';
           display.textContent = value.replace('x', '×');
         }
+
+        updatePhoto(resolvePhotoSrc());
       });
     });
   });
+
+  // Show the initial photo on page load
+  updatePhoto(resolvePhotoSrc());
 </script>
