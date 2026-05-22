@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro';
+
+const lines = [
+  { name: 'Fascia Post', sizes: '4×4 → 8×8', variants: 'Grey · LagerTone', href: '/products/seamless-fascia-post' },
+  { name: 'Cedar', sizes: '6×6 · 8×8', variants: 'S4S · RH', href: '/products/seamless-cedar-timbers' },
+  { name: 'Treated', sizes: '6×6 · 8×8', variants: 'S4S · RH', href: '/products/seamless-treated' },
+  { name: 'Cypress', sizes: '6×6 · 8×8', variants: 'S4S', href: '/products/seamless-cypress' },
+];
+---
+
+<Base title="Seamless™ — Engineered Timbers by CureWood">
+  <section class="max-w-7xl mx-auto px-6 pt-16 pb-24">
+    <!-- Status -->
+    <div class="flex items-center gap-2 mb-6">
+      <span class="w-1.5 h-1.5 rounded-full bg-cedar"></span>
+      <span class="eyebrow">In production · Vancouver · 2026 batch shipping</span>
+    </div>
+
+    <!-- Hero headline -->
+    <h1 class="text-6xl md:text-8xl font-medium leading-[0.95] tracking-tightest">
+      A timber.
+    </h1>
+    <h1 class="text-6xl md:text-8xl font-medium leading-[0.95] tracking-tightest text-cedar italic mb-8">
+      Just better.
+    </h1>
+
+    <p class="text-lg md:text-xl text-smoke leading-snug max-w-2xl mb-10">
+      Hollow-core engineered posts and timbers. The look of old-growth without
+      cutting any. Five species, three finishes, one warranty that outlasts the
+      trim crew.
+    </p>
+
+    <div class="flex flex-wrap gap-3 mb-16">
+      <a href="/products" class="btn-primary">Browse products →</a>
+      <a href="/technical/downloads" class="btn-secondary">Download spec book</a>
+      <a href="/contact" class="text-sm text-ash py-3 px-2 hover:text-cedar transition-colors">or, request a sample →</a>
+    </div>
+
+    <!-- Product matrix -->
+    <div class="border-t border-b border-ink grid grid-cols-2 md:grid-cols-5">
+      {lines.map((line) => (
+        <a
+          href={line.href}
+          class="p-4 border-r border-line last:border-r-0 hover:bg-bone hover:text-cedar transition-colors group"
+        >
+          <div class="eyebrow">{line.name}</div>
+          <div class="text-sm mt-1.5">{line.sizes}</div>
+          <div class="text-[11px] text-ash mt-0.5">{line.variants}</div>
+        </a>
+      ))}
+      <a href="/products/timber-lite-doug-fir" class="p-4 bg-ink text-bone hover:bg-cedar transition-colors">
+        <div class="text-[11px] uppercase tracking-wider-1 text-ash font-medium">Timber-Lite</div>
+        <div class="text-sm mt-1.5">6×6 · 8×8</div>
+        <div class="text-[11px] text-ash mt-0.5">Doug Fir</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Why Seamless -->
+  <section class="max-w-7xl mx-auto px-6 py-24 border-t border-line">
+    <div class="eyebrow mb-4">Why Seamless</div>
+    <h2 class="text-4xl md:text-5xl font-medium tracking-tighter-2 max-w-3xl mb-12">
+      Old-growth aesthetics. <span class="italic text-cedar">Second-growth ethics.</span>
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <div>
+        <div class="text-cedar font-medium text-sm mb-3">01 / The look</div>
+        <p class="text-smoke leading-relaxed">
+          Full-sawn faces, color-matched grain, no seams or site-wrapping.
+          Reads as a single solid timber from any angle that matters.
+        </p>
+      </div>
+      <div>
+        <div class="text-cedar font-medium text-sm mb-3">02 / The build</div>
+        <p class="text-smoke leading-relaxed">
+          Hollow-core construction means stable, lighter, and dimensionally
+          honest. Run wires through the middle. Cut it with standard tools.
+        </p>
+      </div>
+      <div>
+        <div class="text-cedar font-medium text-sm mb-3">03 / The deal</div>
+        <p class="text-smoke leading-relaxed">
+          25-year limited warranty against manufacturing defects and joint
+          separation. Responsibly-sourced second-growth fiber.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

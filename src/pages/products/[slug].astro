@@ -1,0 +1,154 @@
+---
+import Base from '../../layouts/Base.astro';
+import Configurator from '../../components/Configurator.astro';
+import CrossSell from '../../components/CrossSell.astro';
+import { products, productOrder } from '../../data/products.js';
+
+export function getStaticPaths() {
+  return productOrder.map((slug) => ({
+    params: { slug },
+    props: { product: products[slug] },
+  }));
+}
+
+const { product } = Astro.props;
+
+// Build the cross-sell list — everything except current product
+const otherProducts = productOrder
+  .filter((s) => s !== product.slug)
+  .map((s) => products[s]);
+
+const isTimberLite = product.slug === 'timber-lite-doug-fir';
+---
+
+<Base title={`${product.name} — Seamless™ by CureWood`} description={product.tagline}>
+  <!-- HERO -->
+  <section class="max-w-7xl mx-auto px-6 pt-12 pb-16">
+    <a href="/products" class="eyebrow hover:text-cedar transition-colors inline-flex items-center gap-2 mb-8">
+      ← All products
+    </a>
+
+    <div class="flex items-center gap-2 mb-4">
+      <span class={`w-1.5 h-1.5 rounded-full ${isTimberLite ? 'bg-ink' : 'bg-cedar'}`}></span>
+      <span class="eyebrow">{isTimberLite ? 'Sibling line' : 'Seamless family'} · {product.species}</span>
+    </div>
+
+    <h1 class="text-5xl md:text-7xl font-medium leading-[0.95] tracking-tightest">
+      {product.headline}
+    </h1>
+    <h1 class={`text-5xl md:text-7xl font-medium leading-[0.95] tracking-tightest italic mb-6 ${isTimberLite ? 'text-ink' : 'text-cedar'}`}>
+      {product.headlineAccent}
+    </h1>
+
+    <p class="text-lg md:text-xl text-smoke leading-snug max-w-2xl">
+      {product.description}
+    </p>
+  </section>
+
+  <!-- CONFIGURATOR -->
+  <Configurator product={product} />
+
+  <!-- WHY THIS LINE -->
+  <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
+    <div class="eyebrow mb-4">Why {product.name}</div>
+    <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 max-w-2xl mb-12">
+      {product.tagline}
+    </h2>
+    <div class="grid md:grid-cols-2 gap-x-12 gap-y-8">
+      {product.valueProps.map((vp, i) => (
+        <div class="border-t border-line pt-4">
+          <div class={`text-sm font-medium mb-2 ${isTimberLite ? 'text-ink' : 'text-cedar'}`}>
+            {String(i + 1).padStart(2, '0')} / {vp.title}
+          </div>
+          <p class="text-smoke leading-relaxed">{vp.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- SPEC TABLE -->
+  <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
+    <div class="eyebrow mb-4">Specifications</div>
+    <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-8">
+      The numbers, all of them.
+    </h2>
+    <div class="border-t border-ink">
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="border-b border-line py-4 flex justify-between md:border-r md:pr-6">
+          <span class="eyebrow">Sizes</span>
+          <span class="text-sm">{product.sizes.map(s => s.replace('x', '×')).join(' · ')}</span>
+        </div>
+        <div class="border-b border-line py-4 flex justify-between md:pl-6">
+          <span class="eyebrow">Lengths</span>
+          <span class="text-sm">{product.lengths}</span>
+        </div>
+        <div class="border-b border-line py-4 flex justify-between md:border-r md:pr-6">
+          <span class="eyebrow">Finishes</span>
+          <span class="text-sm">{product.finishes.join(' · ')}</span>
+        </div>
+        <div class="border-b border-line py-4 flex justify-between md:pl-6">
+          <span class="eyebrow">Colors</span>
+          <span class="text-sm">{product.colors.join(' · ')}</span>
+        </div>
+        <div class="border-b border-line py-4 flex justify-between md:border-r md:pr-6">
+          <span class="eyebrow">Species</span>
+          <span class="text-sm">{product.species}</span>
+        </div>
+        <div class="border-b border-line py-4 flex justify-between md:pl-6">
+          <span class="eyebrow">Fiber source</span>
+          <span class="text-sm">{product.fiber}</span>
+        </div>
+        <div class="border-b border-line py-4 flex justify-between md:border-r md:pr-6">
+          <span class="eyebrow">Warranty</span>
+          <span class="text-sm">{product.warranty}</span>
+        </div>
+        <div class="border-b border-line py-4 flex justify-between md:pl-6">
+          <span class="eyebrow">Hardware</span>
+          <span class="text-sm">Simpson Strong-Tie compatible</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOCUMENTS -->
+  <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
+    <div class="eyebrow mb-4">Documents</div>
+    <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-8">
+      Everything you need to spec it.
+    </h2>
+    <div class="grid md:grid-cols-3 gap-4">
+      {product.documents.map((doc) => (
+        <a href={doc.href} class="block border border-line p-6 hover:border-ink transition-colors group">
+          <div class="eyebrow mb-2">PDF</div>
+          <div class="text-lg font-medium group-hover:text-cedar transition-colors">
+            {doc.label} →
+          </div>
+        </a>
+      ))}
+      <a href="/warranty" class="block border border-line p-6 hover:border-ink transition-colors group">
+        <div class="eyebrow mb-2">Warranty</div>
+        <div class="text-lg font-medium group-hover:text-cedar transition-colors">
+          25-Year Limited Warranty →
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- CROSS-SELL -->
+  <CrossSell products={otherProducts} />
+
+  <!-- CTA -->
+  <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
+    <h2 class="text-4xl md:text-5xl font-medium tracking-tighter-2 mb-4">
+      Spec it. Sample it. <span class="italic text-cedar">Ship it.</span>
+    </h2>
+    <p class="text-lg text-smoke max-w-xl mb-8">
+      Talk to our team about pricing, lead times, samples, or technical questions.
+      We answer the phone.
+    </p>
+    <div class="flex flex-wrap gap-3">
+      <a href="/contact" class="btn-primary">Talk to sales →</a>
+      <a href="/contact" class="btn-secondary">Request samples</a>
+    </div>
+  </section>
+</Base>

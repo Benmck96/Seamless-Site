@@ -1,0 +1,153 @@
+---
+export interface Props {
+  product: {
+    slug: string;
+    name: string;
+    sizes: string[];
+    finishes: string[];
+    colors: string[];
+    lengths: string;
+    warranty: string;
+  };
+}
+
+const { product } = Astro.props;
+const showColors = product.colors.length > 1;
+const isTimberLite = product.slug === 'timber-lite-doug-fir';
+const accentClass = isTimberLite ? 'text-ink' : 'text-cedar';
+const accentBg = isTimberLite ? 'bg-ink' : 'bg-cedar';
+---
+
+<section class="bg-ink text-bone py-16">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="eyebrow text-ash mb-2">Configure</div>
+    <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-10">
+      Pick your spec.
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-12">
+      <!-- Toggles -->
+      <div class="md:col-span-2 space-y-8">
+        <!-- Size -->
+        <div>
+          <div class="eyebrow text-ash mb-3">Size</div>
+          <div class="flex flex-wrap gap-2" data-config-group="size">
+            {product.sizes.map((size, i) => (
+              <button
+                type="button"
+                data-config-option={size}
+                class={`config-btn px-5 py-3 border text-sm font-medium transition-colors ${i === 0 ? 'is-active' : ''}`}
+              >
+                {size.replace('x', '×')}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Finish -->
+        <div>
+          <div class="eyebrow text-ash mb-3">Finish</div>
+          <div class="flex flex-wrap gap-2" data-config-group="finish">
+            {product.finishes.map((finish, i) => (
+              <button
+                type="button"
+                data-config-option={finish}
+                class={`config-btn px-5 py-3 border text-sm font-medium transition-colors ${i === 0 ? 'is-active' : ''}`}
+              >
+                {finish}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Color -->
+        {showColors && (
+          <div>
+            <div class="eyebrow text-ash mb-3">Color</div>
+            <div class="flex flex-wrap gap-2" data-config-group="color">
+              {product.colors.map((color, i) => (
+                <button
+                  type="button"
+                  data-config-option={color}
+                  class={`config-btn px-5 py-3 border text-sm font-medium transition-colors ${i === 0 ? 'is-active' : ''}`}
+                >
+                  {color}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <!-- Live spec panel -->
+      <div class="border border-smoke p-6 bg-ink">
+        <div class="eyebrow text-ash mb-4">Selected configuration</div>
+        <div class="space-y-3 text-sm mb-6">
+          <div class="flex justify-between border-b border-smoke pb-2">
+            <span class="text-ash">Size</span>
+            <span class="font-medium" data-config-display="size">{product.sizes[0].replace('x', '×')}</span>
+          </div>
+          <div class="flex justify-between border-b border-smoke pb-2">
+            <span class="text-ash">Finish</span>
+            <span class="font-medium" data-config-display="finish">{product.finishes[0]}</span>
+          </div>
+          {showColors && (
+            <div class="flex justify-between border-b border-smoke pb-2">
+              <span class="text-ash">Color</span>
+              <span class="font-medium" data-config-display="color">{product.colors[0]}</span>
+            </div>
+          )}
+          <div class="flex justify-between border-b border-smoke pb-2">
+            <span class="text-ash">Lengths</span>
+            <span class="font-medium text-right">{product.lengths}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-ash">Warranty</span>
+            <span class={`font-medium ${accentClass}`}>{product.warranty}</span>
+          </div>
+        </div>
+        <a href="/contact" class={`block ${accentBg} text-bone text-center py-3 text-sm font-medium hover:opacity-85 transition-opacity`}>
+          Request this spec →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .config-btn {
+    background: transparent;
+    border-color: var(--smoke);
+    color: var(--bone);
+    cursor: pointer;
+  }
+  .config-btn:hover {
+    border-color: var(--bone);
+  }
+  .config-btn.is-active {
+    background: var(--bone);
+    border-color: var(--bone);
+    color: var(--ink);
+  }
+</style>
+
+<script>
+  // Wire up each config group: toggle is-active class + update the matching display value
+  const groups = document.querySelectorAll('[data-config-group]');
+  groups.forEach((group) => {
+    const groupName = group.getAttribute('data-config-group');
+    const display = document.querySelector(`[data-config-display="${groupName}"]`);
+    const buttons = group.querySelectorAll('.config-btn');
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        buttons.forEach((b) => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        if (display) {
+          const value = btn.getAttribute('data-config-option') || '';
+          display.textContent = value.replace('x', '×');
+        }
+      });
+    });
+  });
+</script>

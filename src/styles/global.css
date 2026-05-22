@@ -1,0 +1,39 @@
+@import url('https://rsms.me/inter/inter.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bone: #FAFAF7;
+  --ink: #0A0A0A;
+  --cedar: #D4451F;
+  --smoke: #444444;
+  --ash: #888888;
+  --line: #D4D2CC;
+}
+
+html {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bone);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-[11px] uppercase tracking-wider-2 text-ash font-medium;
+  }
+
+  .btn-primary {
+    @apply inline-block bg-ink text-bone px-6 py-3 text-sm font-medium transition-opacity hover:opacity-85;
+  }
+
+  .btn-secondary {
+    @apply inline-block border border-ink text-ink px-6 py-3 text-sm font-medium transition-colors hover:bg-ink hover:text-bone;
+  }
+}

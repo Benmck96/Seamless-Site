@@ -1,0 +1,92 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const products = [
+  {
+    name: 'Seamless Fascia Post',
+    tag: 'Most popular',
+    href: '/products/seamless-fascia-post',
+    sizes: '4×4 · 6×6 · 8×8',
+    finishes: 'S4S · Rougher Head',
+    colors: 'Grey · LagerTone',
+    blurb: 'Quit site-wrapping columns. Deliver a superior look in one piece.',
+  },
+  {
+    name: 'Seamless Cedar Timbers',
+    tag: 'Full-sawn cedar',
+    href: '/products/seamless-cedar-timbers',
+    sizes: '6×6 · 8×8',
+    finishes: 'S4S · Rougher Head',
+    colors: 'Natural WRC',
+    blurb: 'Coastal Western Red Cedar appearance with hollow-core stability.',
+  },
+  {
+    name: 'Seamless Treated',
+    tag: 'Ground-contact',
+    href: '/products/seamless-treated',
+    sizes: '6×6 · 8×8',
+    finishes: 'S4S · Rougher Head',
+    colors: 'Treated',
+    blurb: 'Pressure-treated for ground contact and exterior longevity.',
+  },
+  {
+    name: 'Seamless Cypress',
+    tag: 'Premium',
+    href: '/products/seamless-cypress',
+    sizes: '6×6 · 8×8',
+    finishes: 'S4S',
+    colors: 'Natural Cypress',
+    blurb: 'Naturally rot-resistant cypress in the Seamless profile.',
+  },
+  {
+    name: 'Timber-Lite Doug Fir',
+    tag: 'Sibling line',
+    href: '/products/timber-lite-doug-fir',
+    sizes: '6×6 · 8×8',
+    finishes: 'S4S',
+    colors: 'Natural Doug Fir',
+    blurb: 'Doug fir engineered timbers for structural-look applications.',
+  },
+];
+---
+
+<Base title="Products — Seamless™ Engineered Timbers">
+  <section class="max-w-7xl mx-auto px-6 pt-16 pb-12">
+    <div class="eyebrow mb-4">Products</div>
+    <h1 class="text-5xl md:text-6xl font-medium tracking-tighter-2 max-w-3xl mb-6">
+      Five species. Three finishes. <span class="italic text-cedar">One timber that doesn't lie.</span>
+    </h1>
+    <p class="text-lg text-smoke max-w-2xl">
+      Every Seamless product shares the same hollow-core engineering and
+      full-sawn appearance. Pick the species and finish your project demands.
+    </p>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-6 pb-24 grid md:grid-cols-2 gap-6">
+    {products.map((p) => (
+      <a href={p.href} class="block border border-line p-8 hover:border-ink transition-colors group">
+        <div class="flex justify-between items-start mb-6">
+          <h2 class="text-2xl font-medium tracking-tighter-2 group-hover:text-cedar transition-colors">
+            {p.name}
+          </h2>
+          <span class="eyebrow">{p.tag}</span>
+        </div>
+        <p class="text-smoke mb-8 leading-relaxed">{p.blurb}</p>
+        <div class="grid grid-cols-3 gap-4 text-sm border-t border-line pt-4">
+          <div>
+            <div class="eyebrow mb-1">Sizes</div>
+            <div>{p.sizes}</div>
+          </div>
+          <div>
+            <div class="eyebrow mb-1">Finishes</div>
+            <div>{p.finishes}</div>
+          </div>
+          <div>
+            <div class="eyebrow mb-1">Colors</div>
+            <div>{p.colors}</div>
+          </div>
+        </div>
+      </a>
+    ))}
+  </section>
+</Base>
