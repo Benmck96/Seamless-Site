@@ -39,83 +39,84 @@ const photoBase = `/images/products/${product.imageFolder}/`;
       data-colors={JSON.stringify(product.colors)}
     ></div>
 
-    <div class="grid md:grid-cols-2 gap-12 items-start">
+    <div class="grid md:grid-cols-3 gap-8 items-start">
 
-      {/* ── Photo panel (left half) ── */}
+      {/* ── Photo panel ── */}
       <div class="order-2 md:order-1">
-        {/* White background + object-contain keeps the full product visible,
-            centred, regardless of how each photo is composed */}
-        <div class="relative overflow-hidden bg-white aspect-square">
+        <div class="relative overflow-hidden bg-[#ede9e2]" style="aspect-ratio: 3 / 4;">
+          {/* Placeholder — visible until a photo loads */}
           <div id="photo-placeholder" class="absolute inset-0 flex items-center justify-center">
-            <span class="text-[#bbb] text-[10px] eyebrow tracking-widest">Photo coming soon</span>
+            <span class="text-[#a89f93] text-[10px] eyebrow tracking-widest">Photo coming soon</span>
           </div>
+
+          {/* Photo — crossfades on selection change, cycles through numbered shots */}
           <img
             id="product-photo"
             src=""
             alt={product.name}
-            class="absolute inset-0 w-full h-full object-contain p-6"
+            class="absolute inset-0 w-full h-full object-cover"
             style="opacity: 0; transition: opacity 0.45s ease;"
           />
+
+          {/* Dot indicators — shown only when there are multiple shots */}
           <div id="photo-dots" class="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 hidden">
           </div>
         </div>
       </div>
 
-      {/* ── Controls (right half): toggles stacked above spec panel ── */}
-      <div class="order-1 md:order-2 flex flex-col gap-10">
+      {/* ── Toggles ── */}
+      <div class="order-1 md:order-2 space-y-8">
 
-        {/* Toggles */}
-        <div class="space-y-8">
-          <div>
-            <div class="eyebrow text-ash mb-3">Size</div>
-            <div class="flex flex-wrap gap-2" data-config-group="size">
-              {product.sizes.map((size, i) => (
-                <button
-                  type="button"
-                  data-config-option={size}
-                  class={`config-btn px-5 py-3 border text-sm font-medium transition-colors ${i === 0 ? 'is-active' : ''}`}
-                >
-                  {size.replace('x', '×')}
-                </button>
-              ))}
-            </div>
+        <div>
+          <div class="eyebrow text-ash mb-3">Size</div>
+          <div class="flex flex-wrap gap-2" data-config-group="size">
+            {product.sizes.map((size, i) => (
+              <button
+                type="button"
+                data-config-option={size}
+                class={`config-btn px-5 py-3 border text-sm font-medium transition-colors ${i === 0 ? 'is-active' : ''}`}
+              >
+                {size.replace('x', '×')}
+              </button>
+            ))}
           </div>
-
-          <div>
-            <div class="eyebrow text-ash mb-3">Finish</div>
-            <div class="flex flex-wrap gap-2" data-config-group="finish">
-              {product.finishes.map((finish, i) => (
-                <button
-                  type="button"
-                  data-config-option={finish}
-                  class={`config-btn px-5 py-3 border text-sm font-medium transition-colors ${i === 0 ? 'is-active' : ''}`}
-                >
-                  {finish}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {showColors && (
-            <div>
-              <div class="eyebrow text-ash mb-3">Color</div>
-              <div class="flex flex-wrap gap-2" data-config-group="color">
-                {product.colors.map((color, i) => (
-                  <button
-                    type="button"
-                    data-config-option={color}
-                    class={`config-btn px-5 py-3 border text-sm font-medium transition-colors ${i === 0 ? 'is-active' : ''}`}
-                  >
-                    {color}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
 
-        {/* ── Spec panel ── */}
-        <div class="border border-smoke p-6 bg-ink">
+        <div>
+          <div class="eyebrow text-ash mb-3">Finish</div>
+          <div class="flex flex-wrap gap-2" data-config-group="finish">
+            {product.finishes.map((finish, i) => (
+              <button
+                type="button"
+                data-config-option={finish}
+                class={`config-btn px-5 py-3 border text-sm font-medium transition-colors ${i === 0 ? 'is-active' : ''}`}
+              >
+                {finish}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {showColors && (
+          <div>
+            <div class="eyebrow text-ash mb-3">Color</div>
+            <div class="flex flex-wrap gap-2" data-config-group="color">
+              {product.colors.map((color, i) => (
+                <button
+                  type="button"
+                  data-config-option={color}
+                  class={`config-btn px-5 py-3 border text-sm font-medium transition-colors ${i === 0 ? 'is-active' : ''}`}
+                >
+                  {color}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ── Spec panel ── */}
+      <div class="order-3 border border-smoke p-6 bg-ink">
         <div class="eyebrow text-ash mb-4">Selected configuration</div>
         <div class="space-y-3 text-sm mb-6">
           <div class="flex justify-between border-b border-smoke pb-2">
@@ -149,7 +150,6 @@ const photoBase = `/images/products/${product.imageFolder}/`;
         </a>
       </div>
 
-      </div> {/* end controls col */}
     </div>
   </div>
 </section>
