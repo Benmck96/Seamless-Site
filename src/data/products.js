@@ -40,7 +40,7 @@ export const products = {
     headlineAccent: 'back in stock.',
     description:
       'Coastal Western Red Cedar with the appearance of old-growth stock — engineered from responsibly sourced second-growth fiber. Hollow-core construction for stability, weight, and the cleanest face cedar can give you.',
-    sizes: ['6x6', '8x8'],
+    sizes: ['4x4', '6x6', '8x8'],
     finishes: ['S4S', 'Rougher Head'],
     colors: ['Natural WRC'],
     lengths: '6\u2032, 8\u2032, 10\u2032, 12\u2032',
