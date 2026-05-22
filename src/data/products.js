@@ -16,6 +16,12 @@ export const products = {
     colors: ['Grey', 'LagerTone'],
     lengths: '8\u2032, 10\u2032, 12\u2032',
     warranty: '25-year limited',
+    heroImages: [
+      '/images/products/fascia-post/hero_1.png',
+      '/images/products/fascia-post/hero_2.png',
+      '/images/products/fascia-post/hero_3.png',
+      '/images/products/fascia-post/hero_4.png',
+    ],
     fiber: 'Second-growth engineered composite',
     valueProps: [
       { title: 'No site-wrapping', body: 'Arrives finished. Skip the miters, the trim, the callbacks.' },
@@ -43,6 +49,12 @@ export const products = {
     colors: ['Natural WRC'],
     lengths: '6\u2032, 8\u2032, 10\u2032, 12\u2032',
     warranty: '25-year limited',
+    heroImages: [
+      '/images/products/cedar-timbers/hero_1.png',
+      '/images/products/cedar-timbers/hero_2.png',
+      '/images/products/cedar-timbers/hero_3.png',
+      '/images/products/cedar-timbers/hero_4.png',
+    ],
     fiber: 'Second-growth Coastal WRC',
     valueProps: [
       { title: 'Real cedar faces', body: 'Coastal Western Red Cedar grain and tone, not a print or a wrap.' },

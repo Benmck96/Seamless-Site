@@ -1,0 +1,43 @@
+---
+/**
+ * Full-bleed hero image strip with slow crossfade between shots.
+ *
+ * All images are rendered in HTML (no JS needed to show the first one).
+ * The fade cycle starts after a 5-second pause on the first image.
+ * If only one image is provided it just sits there — no cycle.
+ */
+export interface Props {
+  images: string[];
+  name: string;
+}
+
+const { images, name } = Astro.props;
+---
+
+<div class="relative w-full overflow-hidden aspect-[4/3] md:aspect-[16/7]">
+  {images.map((src, i) => (
+    <img
+      src={src}
+      alt={name}
+      class="absolute inset-0 w-full h-full object-cover object-center"
+      style={`opacity: ${i === 0 ? '1' : '0'}; transition: opacity 1.5s ease;`}
+      data-hero-slide={i}
+    />
+  ))}
+</div>
+
+<script>
+  const slides = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-hero-slide]')
+  );
+
+  if (slides.length > 1) {
+    let current = 0;
+
+    setInterval(() => {
+      slides[current].style.opacity = '0';
+      current = (current + 1) % slides.length;
+      slides[current].style.opacity = '1';
+    }, 5000); // hold each shot for 5 s, then 1.5 s crossfade
+  }
+</script>
