@@ -219,16 +219,22 @@ const photoBase = `/images/products/${product.slug}/`;
     });
   }
 
-  /** Build fallback candidates (most specific → least specific, single-image only) */
-  function buildFallbacks(size: string, finish: string, color: string): string[] {
+  /** Try a base path with .jpg then .png; returns whichever loads first, or null */
+  function probeExt(base: string): Promise<string | null> {
+    return Promise.all([probe(base + '.jpg'), probe(base + '.png')])
+      .then(([jpg, png]) => jpg ?? png);
+  }
+
+  /** Build fallback base paths (most specific → least specific, no extension) */
+  function buildFallbackBases(size: string, finish: string, color: string): string[] {
     const s = toFile(size);
     const f = toFile(finish);
     const c = toFile(color);
     const list: string[] = [];
-    if (s && f && c) list.push(`${photoBase}${s}_${f}_${c}.jpg`);
-    if (f && c)      list.push(`${photoBase}${f}_${c}.jpg`);
-    if (c)           list.push(`${photoBase}${c}.jpg`);
-    if (s && f)      list.push(`${photoBase}${s}_${f}.jpg`);
+    if (s && f && c) list.push(`${photoBase}${s}_${f}_${c}`);
+    if (f && c)      list.push(`${photoBase}${f}_${c}`);
+    if (c)           list.push(`${photoBase}${c}`);
+    if (s && f)      list.push(`${photoBase}${s}_${f}`);
     return list;
   }
 
@@ -315,10 +321,11 @@ const photoBase = `/images/products/${product.slug}/`;
     const key = [toFile(size), toFile(finish), toFile(color)].filter(Boolean).join('_');
 
     // ── Phase 1: probe numbered shots in parallel (_1 … _MAX_NUMBERED) ──────
+    // Tries both .jpg and .png for each slot
     if (key) {
       const numberedResults = await Promise.all(
         Array.from({ length: MAX_NUMBERED }, (_, i) =>
-          probe(`${photoBase}${key}_${i + 1}.jpg`)
+          probeExt(`${photoBase}${key}_${i + 1}`)
         )
       );
       if (gen !== loadGeneration) return; // a newer selection already started
@@ -331,8 +338,8 @@ const photoBase = `/images/products/${product.slug}/`;
     }
 
     // ── Phase 2: try single-image fallback chain ───────────────────────────
-    for (const src of buildFallbacks(size, finish, color)) {
-      const result = await probe(src);
+    for (const base of buildFallbackBases(size, finish, color)) {
+      const result = await probeExt(base);
       if (gen !== loadGeneration) return;
       if (result) {
         startCycle([result]);
