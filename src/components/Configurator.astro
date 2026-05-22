@@ -2,6 +2,7 @@
 export interface Props {
   product: {
     slug: string;
+    imageFolder: string;
     name: string;
     sizes: string[];
     finishes: string[];
@@ -17,11 +18,9 @@ const isTimberLite = product.slug === 'timber-lite-doug-fir';
 const accentClass = isTimberLite ? 'text-ink' : 'text-cedar';
 const accentBg = isTimberLite ? 'bg-ink' : 'bg-cedar';
 
-// Photo files live in /images/products/{slug}/
-// Naming convention: Size_Finish_Colour_1.jpg, Size_Finish_Colour_2.jpg, ...
-// Single shot: Size_Finish_Colour.jpg (no number suffix)
-// Fallbacks:   Finish_Colour.jpg → Colour.jpg
-const photoBase = `/images/products/${product.slug}/`;
+// imageFolder is the short folder name (e.g. "fascia-post"), not the full slug.
+// Photo naming: Size_Finish_Colour_1.png, _2.png, ... or Size_Finish_Colour.png
+const photoBase = `/images/products/${product.imageFolder}/`;
 ---
 
 <section class="bg-ink text-bone py-16">
@@ -31,7 +30,14 @@ const photoBase = `/images/products/${product.slug}/`;
       Pick your spec.
     </h2>
 
-    <div id="product-config-data" class="hidden" data-photo-base={photoBase}></div>
+    <div
+      id="product-config-data"
+      class="hidden"
+      data-photo-base={photoBase}
+      data-sizes={JSON.stringify(product.sizes)}
+      data-finishes={JSON.stringify(product.finishes)}
+      data-colors={JSON.stringify(product.colors)}
+    ></div>
 
     <div class="grid md:grid-cols-3 gap-8 items-start">
 
@@ -187,6 +193,9 @@ const photoBase = `/images/products/${product.slug}/`;
 
   const configData       = document.getElementById('product-config-data');
   const photoBase        = configData?.dataset.photoBase ?? '';
+  const allSizes         = JSON.parse(configData?.dataset.sizes    ?? '[]') as string[];
+  const allFinishes      = JSON.parse(configData?.dataset.finishes ?? '[]') as string[];
+  const allColors        = JSON.parse(configData?.dataset.colors   ?? '[]') as string[];
   const photoImg         = document.getElementById('product-photo')      as HTMLImageElement | null;
   const photoPlaceholder = document.getElementById('photo-placeholder')  as HTMLElement | null;
   const dotsEl           = document.getElementById('photo-dots')         as HTMLElement | null;
@@ -347,7 +356,25 @@ const photoBase = `/images/products/${product.slug}/`;
       }
     }
 
-    // ── Nothing found — show placeholder ──────────────────────────────────
+    // ── Phase 3: last resort — try _1 for every possible combo in this product ──
+    // Ensures the photo panel is never blank just because the *default* selection
+    // doesn't have its own photo yet.
+    const allCombos = allSizes.flatMap(sz =>
+      allFinishes.flatMap(fn =>
+        allColors.map(cl => `${toFile(sz)}_${toFile(fn)}_${toFile(cl)}`)
+      )
+    );
+    const anyResults = await Promise.all(
+      allCombos.map(combo => probeExt(`${photoBase}${combo}_1`))
+    );
+    if (gen !== loadGeneration) return;
+    const anyFound = anyResults.find((r): r is string => r !== null);
+    if (anyFound) {
+      startCycle([anyFound]);
+      return;
+    }
+
+    // ── Nothing at all — show placeholder ─────────────────────────────────
     if (gen !== loadGeneration) return;
     buildDots(0);
     if (photoPlaceholder) photoPlaceholder.style.display = '';

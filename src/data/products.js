@@ -4,6 +4,7 @@
 export const products = {
   'seamless-fascia-post': {
     slug: 'seamless-fascia-post',
+    imageFolder: 'fascia-post',
     name: 'Seamless Fascia Post',
     species: 'Engineered Composite',
     tagline: 'Quit site-wrapping columns. Deliver a superior look in one piece.',
@@ -16,12 +17,6 @@ export const products = {
     colors: ['Grey', 'LagerTone'],
     lengths: '8\u2032, 10\u2032, 12\u2032',
     warranty: '25-year limited',
-    heroImages: [
-      '/images/products/fascia-post/hero_1.png',
-      '/images/products/fascia-post/hero_2.png',
-      '/images/products/fascia-post/hero_3.png',
-      '/images/products/fascia-post/hero_4.png',
-    ],
     fiber: 'Second-growth engineered composite',
     valueProps: [
       { title: 'No site-wrapping', body: 'Arrives finished. Skip the miters, the trim, the callbacks.' },
@@ -37,6 +32,7 @@ export const products = {
 
   'seamless-cedar-timbers': {
     slug: 'seamless-cedar-timbers',
+    imageFolder: 'cedar-timbers',
     name: 'Seamless Cedar Timbers',
     species: 'Coastal Western Red Cedar',
     tagline: 'Full-sawn cedar. Hollow-core engineering. Old-growth on demand.',
@@ -49,12 +45,6 @@ export const products = {
     colors: ['Natural WRC'],
     lengths: '6\u2032, 8\u2032, 10\u2032, 12\u2032',
     warranty: '25-year limited',
-    heroImages: [
-      '/images/products/cedar-timbers/hero_1.png',
-      '/images/products/cedar-timbers/hero_2.png',
-      '/images/products/cedar-timbers/hero_3.png',
-      '/images/products/cedar-timbers/hero_4.png',
-    ],
     fiber: 'Second-growth Coastal WRC',
     valueProps: [
       { title: 'Real cedar faces', body: 'Coastal Western Red Cedar grain and tone, not a print or a wrap.' },
@@ -70,6 +60,7 @@ export const products = {
 
   'seamless-treated': {
     slug: 'seamless-treated',
+    imageFolder: 'treated',
     name: 'Seamless Treated',
     species: 'Pressure-Treated Composite',
     tagline: 'Built for ground contact. Looks like it wasn\u2019t.',
@@ -97,6 +88,7 @@ export const products = {
 
   'seamless-cypress': {
     slug: 'seamless-cypress',
+    imageFolder: 'cypress',
     name: 'Seamless Cypress',
     species: 'Cypress',
     tagline: 'Naturally rot-resistant. Engineered to last.',
@@ -124,6 +116,7 @@ export const products = {
 
   'timber-lite-doug-fir': {
     slug: 'timber-lite-doug-fir',
+    imageFolder: 'timber-lite',
     name: 'Timber-Lite Doug Fir',
     species: 'Douglas Fir',
     tagline: 'Structural look. Engineered weight.',
