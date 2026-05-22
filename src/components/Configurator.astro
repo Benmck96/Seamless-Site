@@ -43,7 +43,7 @@ const photoBase = `/images/products/${product.imageFolder}/`;
 
       {/* ── Photo panel ── */}
       <div class="order-2 md:order-1">
-        <div class="relative overflow-hidden bg-[#ede9e2]" style="aspect-ratio: 3 / 4;">
+        <div class="relative overflow-hidden bg-[#ede9e2]" style="aspect-ratio: 4 / 3;">
           {/* Placeholder — visible until a photo loads */}
           <div id="photo-placeholder" class="absolute inset-0 flex items-center justify-center">
             <span class="text-[#a89f93] text-[10px] eyebrow tracking-widest">Photo coming soon</span>
@@ -406,6 +406,13 @@ const photoBase = `/images/products/${product.imageFolder}/`;
       });
     });
   });
+
+  // For products where a group has no rendered buttons (e.g. single-color products
+  // where the color selector is hidden), the selections object never gets seeded for
+  // that group. Fill in the first value from the data arrays as a fallback.
+  if (!selections.color  && allColors.length  > 0) selections.color  = allColors[0];
+  if (!selections.finish && allFinishes.length > 0) selections.finish = allFinishes[0];
+  if (!selections.size   && allSizes.length   > 0) selections.size   = allSizes[0];
 
   // Kick off the initial photo load
   loadPhotosForSelection();
