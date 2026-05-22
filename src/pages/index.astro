@@ -3,95 +3,34 @@ import Base from '../layouts/Base.astro';
 import { products, productOrder } from '../data/products.js';
 
 const productList = productOrder.map((slug) => products[slug]);
-
-// All hero images cycle in the background — field shots first, then product shots
-const heroImages = [
-  '/images/products/fascia-post/hero_1.png',
-  '/images/products/fascia-post/hero_2.png',
-  '/images/products/fascia-post/hero_3.png',
-  '/images/products/cedar-timbers/hero_1.png',
-  '/images/products/cedar-timbers/hero_2.png',
-  '/images/products/cedar-timbers/hero_3.png',
-  '/images/products/cedar-timbers/hero_4.png',
-];
 ---
 
 <Base title="Seamless™ — Engineered Timbers by CureWood">
 
   <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
-  <section class="relative overflow-hidden bg-ink" style="height: 88vh; min-height: 560px;">
-
-    {/* Crossfading background images — object-contain keeps full image visible */}
-    {heroImages.map((src, i) => (
-      <img
-        src={src}
-        alt="Seamless engineered timbers in the field"
-        class="absolute inset-0 w-full h-full object-contain"
-        style={`opacity: ${i === 0 ? '1' : '0'}; transition: opacity 1.8s ease;`}
-        data-hero-slide={i}
-      />
-    ))}
-
-    {/* Gradient — darkens bottom so text is readable over any photo */}
-    <div
-      class="absolute inset-0"
-      style="background: linear-gradient(to top, rgba(20,18,16,0.92) 0%, rgba(20,18,16,0.4) 40%, rgba(20,18,16,0.1) 75%, transparent 100%);"
-    ></div>
-
-    {/* Hero content — pinned to bottom-left */}
-    <div class="absolute bottom-0 left-0 right-0">
-      <div class="max-w-7xl mx-auto px-6 pb-14">
-        <div class="flex items-center gap-2 mb-5">
-          <span class="w-1.5 h-1.5 rounded-full bg-cedar"></span>
-          <span class="eyebrow" style="color: rgba(240,234,224,0.65);">
-            In production · Vancouver · 2026 batch shipping
-          </span>
-        </div>
-        <h1 class="text-bone text-6xl md:text-8xl font-medium leading-[0.93] tracking-tightest">
-          A timber.
-        </h1>
-        <h1 class="text-cedar text-6xl md:text-8xl font-medium leading-[0.93] tracking-tightest italic mb-6">
-          Just better.
-        </h1>
-        <p class="text-lg leading-snug max-w-xl mb-9" style="color: rgba(240,234,224,0.72);">
-          Hollow-core engineered posts and timbers. The look of old-growth,
-          without cutting any. Five species. One warranty that outlasts the trim crew.
-        </p>
-        <div class="flex flex-wrap gap-3">
-          <a href="/products" class="btn-primary">Browse products →</a>
-          <a href="/contact" class="btn-secondary">Request samples</a>
-        </div>
-      </div>
+  <section class="max-w-7xl mx-auto px-6 pt-16 pb-20">
+    <div class="flex items-center gap-2 mb-6">
+      <span class="w-1.5 h-1.5 rounded-full bg-cedar"></span>
+      <span class="eyebrow">In production · Vancouver · 2026 batch shipping</span>
     </div>
-
-    {/* Slide counter dots */}
-    <div class="absolute bottom-6 right-6 flex gap-1.5" id="hero-dots">
-      {heroImages.map((_, i) => (
-        <div
-          class="hero-dot"
-          style={`width:5px;height:5px;border-radius:50%;background:${i===0 ? 'rgba(240,234,224,0.85)' : 'rgba(240,234,224,0.3)'};transition:background 0.4s;`}
-        ></div>
-      ))}
+    <h1 class="text-6xl md:text-8xl font-medium leading-[0.93] tracking-tightest">
+      A timber.
+    </h1>
+    <h1 class="text-6xl md:text-8xl font-medium leading-[0.93] tracking-tightest text-cedar italic mb-8">
+      Just better.
+    </h1>
+    <p class="text-lg md:text-xl text-smoke leading-snug max-w-2xl mb-10">
+      Hollow-core engineered posts and timbers. The look of old-growth, without
+      cutting any. Five species. One warranty that outlasts the trim crew.
+    </p>
+    <div class="flex flex-wrap gap-3">
+      <a href="/products" class="btn-primary">Browse products →</a>
+      <a href="/contact" class="btn-secondary">Request samples</a>
     </div>
   </section>
 
-  <script>
-    const slides = Array.from(document.querySelectorAll<HTMLImageElement>('[data-hero-slide]'));
-    const dots   = Array.from(document.querySelectorAll<HTMLElement>('.hero-dot'));
-    if (slides.length > 1) {
-      let cur = 0;
-      setInterval(() => {
-        slides[cur].style.opacity = '0';
-        dots[cur].style.background = 'rgba(240,234,224,0.3)';
-        cur = (cur + 1) % slides.length;
-        slides[cur].style.opacity = '1';
-        dots[cur].style.background = 'rgba(240,234,224,0.85)';
-      }, 5500);
-    }
-  </script>
-
   <!-- ── PRODUCT STRIP ──────────────────────────────────────────────────── -->
-  <div class="border-b border-ink">
+  <div class="border-t border-b border-ink">
     <div class="max-w-7xl mx-auto px-6">
       <div class="grid grid-cols-2 md:grid-cols-5">
         {productList.map((p, i) => (
@@ -150,7 +89,6 @@ const heroImages = [
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {productList.map((p) => (
         <a href={`/products/${p.slug}`} class="group block border border-line hover:border-ink transition-colors duration-200">
-          {/* Photo */}
           <div class="bg-[#ede9e2] overflow-hidden" style="aspect-ratio: 4/3;">
             {p.featuredImage ? (
               <img
@@ -164,7 +102,6 @@ const heroImages = [
               </div>
             )}
           </div>
-          {/* Info */}
           <div class="p-5 border-t border-line">
             <div class="eyebrow text-ash mb-1">{p.species}</div>
             <div class="font-medium text-lg mb-1.5 group-hover:text-cedar transition-colors duration-200">
@@ -216,7 +153,7 @@ const heroImages = [
       <h2 class="text-4xl md:text-6xl font-medium tracking-tighter-2 mb-4">
         Spec it. Sample it. <span class="italic text-cedar">Ship it.</span>
       </h2>
-      <p class="text-lg max-w-xl mb-9" style="color: rgba(240,234,224,0.65);">
+      <p class="text-lg text-ash max-w-xl mb-9">
         Talk to our team about pricing, lead times, samples, or technical questions.
         We answer the phone.
       </p>
