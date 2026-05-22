@@ -19,14 +19,14 @@ const heroImages = [
 <Base title="Seamless™ — Engineered Timbers by CureWood">
 
   <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
-  <section class="relative overflow-hidden" style="height: 88vh; min-height: 560px;">
+  <section class="relative overflow-hidden bg-ink" style="height: 88vh; min-height: 560px;">
 
-    {/* Crossfading background images */}
+    {/* Crossfading background images — object-contain keeps full image visible */}
     {heroImages.map((src, i) => (
       <img
         src={src}
         alt="Seamless engineered timbers in the field"
-        class="absolute inset-0 w-full h-full object-cover object-center"
+        class="absolute inset-0 w-full h-full object-contain"
         style={`opacity: ${i === 0 ? '1' : '0'}; transition: opacity 1.8s ease;`}
         data-hero-slide={i}
       />
@@ -35,7 +35,7 @@ const heroImages = [
     {/* Gradient — darkens bottom so text is readable over any photo */}
     <div
       class="absolute inset-0"
-      style="background: linear-gradient(to top, rgba(20,18,16,0.88) 0%, rgba(20,18,16,0.35) 45%, rgba(20,18,16,0.08) 100%);"
+      style="background: linear-gradient(to top, rgba(20,18,16,0.92) 0%, rgba(20,18,16,0.4) 40%, rgba(20,18,16,0.1) 75%, transparent 100%);"
     ></div>
 
     {/* Hero content — pinned to bottom-left */}
