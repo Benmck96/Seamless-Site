@@ -45,6 +45,29 @@ const isTimberLite = product.slug === 'timber-lite-doug-fir';
     </p>
   </section>
 
+  <!-- IN THE FIELD -->
+  {product.fieldImages?.length > 0 && (
+    <section class="relative overflow-hidden" style="height: 58vh; min-height: 420px;">
+      <img
+        src={product.fieldImages[0]}
+        alt={`${product.name} installed`}
+        class="absolute inset-0 w-full h-full object-cover object-center"
+      />
+      {/* Top fade: blends from page background into the photo */}
+      <div
+        class="absolute inset-0"
+        style="background: linear-gradient(to bottom, var(--bone) 0%, transparent 18%, transparent 55%, rgba(20,18,16,0.92) 100%);"
+      ></div>
+      {/* Label pinned to bottom-left */}
+      <div class="absolute bottom-0 left-0 right-0 max-w-7xl mx-auto px-6 pb-10">
+        <div class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-cedar flex-shrink-0"></span>
+          <span class="eyebrow" style="color: rgba(240,234,224,0.65);">Installed · Residential</span>
+        </div>
+      </div>
+    </section>
+  )}
+
   <!-- CONFIGURATOR -->
   <Configurator product={product} />
 
