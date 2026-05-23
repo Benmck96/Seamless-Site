@@ -5,13 +5,10 @@ import { products, productOrder } from '../data/products.js';
 const productList = productOrder.map((slug) => products[slug]);
 
 const heroImages = [
-  '/images/products/fascia-post/hero_1.png',
-  '/images/products/fascia-post/hero_2.png',
-  '/images/products/fascia-post/hero_3.png',
-  '/images/products/cedar-timbers/hero_1.png',
-  '/images/products/cedar-timbers/hero_2.png',
-  '/images/products/cedar-timbers/hero_3.png',
-  '/images/products/cedar-timbers/hero_4.png',
+  '/images/hero/hero_1.png',
+  '/images/hero/hero_2.png',
+  '/images/hero/hero_3.png',
+  '/images/hero/hero_4.png',
 ];
 ---
 
@@ -58,7 +55,7 @@ const heroImages = [
           {/* Gradient: blends left edge of photo into the page background */}
           <div
             class="absolute inset-0 pointer-events-none z-10"
-            style="background: linear-gradient(to right, var(--bone) 0%, rgba(250,247,242,0.75) 18%, rgba(250,247,242,0.15) 38%, transparent 52%);"
+            style="background: linear-gradient(to right, var(--bone) 0%, var(--bone) 8%, rgba(250,247,242,0.55) 38%, transparent 65%);"
           ></div>
         </div>
 
