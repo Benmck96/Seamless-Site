@@ -23,48 +23,69 @@ const isTimberLite = product.slug === 'timber-lite-doug-fir';
 
 <Base title={`${product.name} — Seamless™ by CureWood`} description={product.tagline}>
   <!-- HERO -->
-  <section class="max-w-7xl mx-auto px-6 pt-12 pb-16">
-    <a href="/products" class="eyebrow hover:text-cedar transition-colors inline-flex items-center gap-2 mb-8">
-      ← All products
-    </a>
-
-    <div class="flex items-center gap-2 mb-4">
-      <span class={`w-1.5 h-1.5 rounded-full ${isTimberLite ? 'bg-ink' : 'bg-cedar'}`}></span>
-      <span class="eyebrow">{isTimberLite ? 'Sibling line' : 'Seamless family'} · {product.species}</span>
-    </div>
-
-    <h1 class="text-5xl md:text-7xl font-medium leading-[0.95] tracking-tightest">
-      {product.headline}
-    </h1>
-    <h1 class={`text-5xl md:text-7xl font-medium leading-[0.95] tracking-tightest italic mb-6 ${isTimberLite ? 'text-ink' : 'text-cedar'}`}>
-      {product.headlineAccent}
-    </h1>
-
-    <p class="text-lg md:text-xl text-smoke leading-snug max-w-2xl">
-      {product.description}
-    </p>
-  </section>
-
-  <!-- IN THE FIELD -->
-  {product.fieldImages?.length > 0 && (
-    <section class="relative overflow-hidden" style="height: 58vh; min-height: 420px;">
+  {product.fieldImages?.length > 0 ? (
+    <section class="relative overflow-hidden" style="min-height: 600px;">
       <img
         src={product.fieldImages[0]}
         alt={`${product.name} installed`}
         class="absolute inset-0 w-full h-full object-cover object-center"
       />
-      {/* Top fade: blends from page background into the photo */}
+      {/* Lux gradient: warm bone from left, fades out before centre */}
       <div
         class="absolute inset-0"
-        style="background: linear-gradient(to bottom, var(--bone) 0%, transparent 18%, transparent 55%, rgba(20,18,16,0.92) 100%);"
+        style="background: linear-gradient(100deg, rgba(250,247,242,0.98) 0%, rgba(250,247,242,0.95) 22%, rgba(250,247,242,0.78) 40%, rgba(250,247,242,0.3) 58%, transparent 70%);"
       ></div>
+      {/* Text content */}
+      <div class="relative z-10 max-w-7xl mx-auto px-6 pt-12 pb-28">
+        <a href="/products" class="eyebrow hover:text-cedar transition-colors inline-flex items-center gap-2 mb-8">
+          ← All products
+        </a>
+        <div class="flex items-center gap-2 mb-4">
+          <span class={`w-1.5 h-1.5 rounded-full ${isTimberLite ? 'bg-ink' : 'bg-cedar'}`}></span>
+          <span class="eyebrow">{isTimberLite ? 'Sibling line' : 'Seamless family'} · {product.species}</span>
+        </div>
+        <h1 class="text-5xl md:text-7xl font-medium leading-[0.95] tracking-tightest">
+          {product.headline}
+        </h1>
+        <h1 class={`text-5xl md:text-7xl font-medium leading-[0.95] tracking-tightest italic mb-6 ${isTimberLite ? 'text-ink' : 'text-cedar'}`}>
+          {product.headlineAccent}
+        </h1>
+        {Array.isArray(product.description)
+          ? product.description.map((line) => (
+              <p class="text-lg md:text-xl text-smoke leading-snug max-w-lg mb-2 last:mb-0">{line}</p>
+            ))
+          : <p class="text-lg md:text-xl text-smoke leading-snug max-w-lg">{product.description}</p>
+        }
+      </div>
       {/* Label pinned to bottom-left */}
-      <div class="absolute bottom-0 left-0 right-0 max-w-7xl mx-auto px-6 pb-10">
+      <div class="absolute bottom-0 left-0 right-0 max-w-7xl mx-auto px-6 pb-8">
         <div class="flex items-center gap-2">
           <span class="w-1.5 h-1.5 rounded-full bg-cedar flex-shrink-0"></span>
-          <span class="eyebrow" style="color: rgba(240,234,224,0.65);">Installed · Residential</span>
+          <span class="eyebrow text-ash">Installed · Residential</span>
         </div>
       </div>
+    </section>
+  ) : (
+    <section class="max-w-7xl mx-auto px-6 pt-12 pb-16">
+      <a href="/products" class="eyebrow hover:text-cedar transition-colors inline-flex items-center gap-2 mb-8">
+        ← All products
+      </a>
+      <div class="flex items-center gap-2 mb-4">
+        <span class={`w-1.5 h-1.5 rounded-full ${isTimberLite ? 'bg-ink' : 'bg-cedar'}`}></span>
+        <span class="eyebrow">{isTimberLite ? 'Sibling line' : 'Seamless family'} · {product.species}</span>
+      </div>
+      <h1 class="text-5xl md:text-7xl font-medium leading-[0.95] tracking-tightest">
+        {product.headline}
+      </h1>
+      <h1 class={`text-5xl md:text-7xl font-medium leading-[0.95] tracking-tightest italic mb-6 ${isTimberLite ? 'text-ink' : 'text-cedar'}`}>
+        {product.headlineAccent}
+      </h1>
+      {Array.isArray(product.description)
+        ? product.description.map((line) => (
+            <p class="text-lg md:text-xl text-smoke leading-snug max-w-2xl mb-2 last:mb-0">{line}</p>
+          ))
+        : <p class="text-lg md:text-xl text-smoke leading-snug max-w-2xl">{product.description}</p>
+      }
     </section>
   )}
 
@@ -88,6 +109,46 @@ const isTimberLite = product.slug === 'timber-lite-doug-fir';
       ))}
     </div>
   </section>
+
+  <!-- TREATMENT DETAILS (treated products only) -->
+  {product.treatmentDetails && (
+    <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
+      <div class="eyebrow mb-4">Treatment</div>
+      <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-12">
+        What's in the wood.
+      </h2>
+      <div class="border-t border-ink">
+        <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-start pt-6">
+
+          <!-- Left: body + uses -->
+          <div>
+            <p class="text-smoke leading-relaxed mb-6">{product.treatmentDetails.body}</p>
+            <p class="text-smoke leading-relaxed">{product.treatmentDetails.uses}</p>
+          </div>
+
+          <!-- Right: type/color rows + applications -->
+          <div>
+            <div class="flex justify-between border-b border-line pb-4 mb-4">
+              <span class="eyebrow text-ash">Treatment type</span>
+              <span class="text-sm font-medium">{product.treatmentDetails.type}</span>
+            </div>
+            <div class="flex justify-between border-b border-line pb-4 mb-8">
+              <span class="eyebrow text-ash">Color additive</span>
+              <span class="text-sm font-medium">{product.treatmentDetails.color}</span>
+            </div>
+            <div class="eyebrow text-ash mb-5">Common applications</div>
+            {product.treatmentDetails.applications.map((app) => (
+              <div class="flex items-center gap-3 border-b border-line py-4">
+                <span class="w-1.5 h-1.5 rounded-full bg-cedar flex-shrink-0"></span>
+                <span class="text-sm">{app}</span>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- SPEC TABLE -->
   <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
@@ -134,6 +195,7 @@ const isTimberLite = product.slug === 'timber-lite-doug-fir';
   </section>
 
   <!-- DOCUMENTS -->
+  {product.documents.length > 0 && (
   <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
     <div class="eyebrow mb-4">Documents</div>
     <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-8">
@@ -141,21 +203,16 @@ const isTimberLite = product.slug === 'timber-lite-doug-fir';
     </h2>
     <div class="grid md:grid-cols-3 gap-4">
       {product.documents.map((doc) => (
-        <a href={doc.href} class="block border border-line p-6 hover:border-ink transition-colors group">
+        <a href={doc.href} target="_blank" rel="noopener" class="block border border-line p-6 hover:border-ink transition-colors group">
           <div class="eyebrow mb-2">PDF</div>
           <div class="text-lg font-medium group-hover:text-cedar transition-colors">
             {doc.label} →
           </div>
         </a>
       ))}
-      <a href="/warranty" class="block border border-line p-6 hover:border-ink transition-colors group">
-        <div class="eyebrow mb-2">Warranty</div>
-        <div class="text-lg font-medium group-hover:text-cedar transition-colors">
-          25-Year Limited Warranty →
-        </div>
-      </a>
     </div>
   </section>
+  )}
 
   <!-- CROSS-SELL -->
   <CrossSell products={otherProducts} />
