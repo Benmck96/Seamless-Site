@@ -9,7 +9,7 @@ export const prerender = false;
 
 import { products } from '../../data/products.js';
 
-const FROM = import.meta.env.SUBSTITUTION_FROM || 'CureWood Seamless <substitutions@curewood.co>';
+const FROM = import.meta.env.SUBSTITUTION_FROM || 'CureWood Seamless <substitutions@technical.curewood.co>';
 // Internal inboxes that get a copy + summary of every request. Comma-separate to add more.
 const NOTIFY = (import.meta.env.SUBSTITUTION_NOTIFY || 'bmckinnon@curewood.co')
   .split(',').map((s) => s.trim()).filter(Boolean);
