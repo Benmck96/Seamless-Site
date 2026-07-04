@@ -24,8 +24,8 @@ const productList = productOrder.map((slug) => ({ slug, name: products[slug].nam
           <path d="M180 55 L180 130 L100 165 L100 90 Z" fill="#141414"/>
           <!-- tape -->
           <path d="M60 37 L140 72 L140 148 L60 113 Z" fill="#D4451F" opacity="0.92"/>
-          <!-- label -->
-          <rect x="78" y="78" width="44" height="30" rx="2" fill="#FAFAF7" transform="skewY(23) translate(0 -34)"/>
+          <!-- label — centered on the orange face, hard corners -->
+          <polygon points="78,68 122,87 122,117 78,98" fill="#FAFAF7"/>
         </svg>
         <p class="text-sm text-smoke leading-relaxed">
           A ready-to-send package of spec sheets, structural data, and code evaluation
