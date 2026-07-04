@@ -194,7 +194,7 @@ export async function POST({ request }) {
     if (!res.ok) {
       const detail = await res.text();
       console.error('Resend send failed:', res.status, detail);
-      return json(502, { error: 'We could not send the package right now. Please try again shortly.' });
+      return json(502, { error: 'We could not send the package right now. Please try again shortly.', _debug: detail });
     }
 
     // Separate internal notification email so the lead capture is its own record.
