@@ -1,0 +1,196 @@
+---
+import Base from '../layouts/Base.astro';
+import { products, productOrder } from '../data/products.js';
+
+const roles = ['Engineer', 'Architect', 'Home-Owner', 'Builder', 'Other'];
+const productList = productOrder.map((slug) => ({ slug, name: products[slug].name }));
+---
+
+<Base
+  title="Request Substitution — Seamless™ by CureWood"
+  description="Send a CureWood Seamless product substitution package — spec sheets, structural data, and code evaluation — to an engineer, architect, builder, or homeowner in seconds."
+>
+  <section class="max-w-5xl mx-auto px-6 pt-16 pb-24">
+    <div class="grid md:grid-cols-[280px_1fr] gap-12 md:gap-16 items-start">
+
+      <!-- LEFT: the "package" -->
+      <div class="md:sticky md:top-16">
+        <div class="eyebrow mb-4">Product Substitution Request</div>
+        <!-- Parcel graphic -->
+        <svg viewBox="0 0 200 180" class="w-full max-w-[220px] mb-6" aria-hidden="true">
+          <!-- box body -->
+          <path d="M20 55 L100 20 L180 55 L100 90 Z" fill="#0A0A0A"/>
+          <path d="M20 55 L20 130 L100 165 L100 90 Z" fill="#1c1c1c"/>
+          <path d="M180 55 L180 130 L100 165 L100 90 Z" fill="#141414"/>
+          <!-- tape -->
+          <path d="M60 37 L140 72 L140 148 L60 113 Z" fill="#D4451F" opacity="0.92"/>
+          <!-- label -->
+          <rect x="78" y="78" width="44" height="30" rx="2" fill="#FAFAF7" transform="skewY(23) translate(0 -34)"/>
+        </svg>
+        <p class="text-sm text-smoke leading-relaxed">
+          A ready-to-send package of spec sheets, structural data, and code evaluation
+          for the product on the label you just scanned. Fill in who it's for and hit send —
+          we'll deliver it and copy you.
+        </p>
+      </div>
+
+      <!-- RIGHT: the form -->
+      <div>
+        <h1 class="text-4xl md:text-5xl font-medium tracking-tighter-2 leading-[1.0] mb-3">
+          Who should get <span class="italic text-cedar">the package?</span>
+        </h1>
+        <p class="text-smoke mb-10 max-w-lg">
+          Send our product information straight to the person evaluating the substitution.
+          Fast, no account, no follow-up spam.
+        </p>
+
+        <form id="sub-form" class="space-y-6" novalidate>
+          <!-- honeypot: hidden from humans, tempting to bots -->
+          <input type="text" name="company_url" tabindex="-1" autocomplete="off"
+            class="hidden" aria-hidden="true" />
+
+          <div class="space-y-1">
+            <label class="eyebrow text-ash block mb-2" for="recipient">Send to — their email *</label>
+            <input id="recipient" name="recipient" type="email" required inputmode="email" autocomplete="email"
+              placeholder="engineer@firm.com"
+              class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors" />
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="eyebrow text-ash block mb-2" for="recipientName">Their name (optional)</label>
+              <input id="recipientName" name="recipientName" type="text" autocomplete="off"
+                placeholder="Jordan Lee"
+                class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors" />
+            </div>
+            <div>
+              <label class="eyebrow text-ash block mb-2" for="role">Their role *</label>
+              <select id="role" name="role" required
+                class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors">
+                <option value="" disabled selected>Choose one…</option>
+                {roles.map((r) => <option value={r}>{r}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="eyebrow text-ash block mb-2" for="product">Product *</label>
+            <select id="product" name="product" required
+              class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors">
+              {productList.map((p) => <option value={p.slug}>{p.name}</option>)}
+            </select>
+          </div>
+
+          <div class="border-t border-line pt-6 grid sm:grid-cols-2 gap-5">
+            <div>
+              <label class="eyebrow text-ash block mb-2" for="senderName">Your name *</label>
+              <input id="senderName" name="senderName" type="text" required autocomplete="name"
+                placeholder="Your name"
+                class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors" />
+            </div>
+            <div>
+              <label class="eyebrow text-ash block mb-2" for="sender">Your email *</label>
+              <input id="sender" name="sender" type="email" required inputmode="email" autocomplete="email"
+                placeholder="you@email.com"
+                class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors" />
+            </div>
+          </div>
+
+          <div>
+            <label class="eyebrow text-ash block mb-2" for="senderCompany">Your company (optional)</label>
+            <input id="senderCompany" name="senderCompany" type="text" autocomplete="organization"
+              placeholder="Your company"
+              class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors" />
+          </div>
+
+          <div id="sub-status" class="hidden text-sm"></div>
+
+          <button id="sub-btn" type="submit" class="btn-primary w-full justify-center text-base py-4">
+            Send the package →
+          </button>
+
+          <p class="text-[11px] text-ash leading-relaxed">
+            By sending, you confirm you have permission to share these product documents with the
+            recipient. We use the email addresses only to deliver this package and follow up on the request.
+          </p>
+        </form>
+
+        <!-- success state (revealed after send) -->
+        <div id="sub-success" class="hidden text-center py-16">
+          <div class="w-14 h-14 rounded-full bg-cedar/10 text-cedar flex items-center justify-center mx-auto mb-6 text-2xl">✓</div>
+          <h2 class="text-3xl font-medium tracking-tighter-2 mb-3">Package sent.</h2>
+          <p class="text-smoke max-w-sm mx-auto mb-8" id="sub-success-msg"></p>
+          <button id="sub-again" class="btn-secondary">Send another →</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.getElementById('sub-form') as HTMLFormElement;
+  const btn = document.getElementById('sub-btn') as HTMLButtonElement;
+  const status = document.getElementById('sub-status') as HTMLElement;
+  const success = document.getElementById('sub-success') as HTMLElement;
+  const successMsg = document.getElementById('sub-success-msg') as HTMLElement;
+  const again = document.getElementById('sub-again') as HTMLButtonElement;
+
+  // Pre-select the product from the QR link, e.g. /substitution?product=seamless-fascia-post
+  const params = new URLSearchParams(location.search);
+  const preProduct = params.get('product');
+  if (preProduct) {
+    const sel = document.getElementById('product') as HTMLSelectElement;
+    if (sel && [...sel.options].some((o) => o.value === preProduct)) sel.value = preProduct;
+  }
+
+  function showStatus(msg: string) {
+    status.textContent = msg;
+    status.className = 'text-sm text-cedar';
+    status.classList.remove('hidden');
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.classList.add('hidden');
+    if (!form.reportValidity()) return;
+
+    const data = Object.fromEntries(new FormData(form).entries());
+    btn.disabled = true;
+    const original = btn.textContent;
+    btn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch('/api/substitution', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const body = await res.json().catch(() => ({}));
+
+      if (res.ok && body.ok) {
+        form.classList.add('hidden');
+        successMsg.textContent =
+          `We emailed the package to ${data.recipient} and copied you at ${data.sender}.`;
+        success.classList.remove('hidden');
+      } else {
+        showStatus(body.error || 'Something went wrong. Please try again.');
+      }
+    } catch {
+      showStatus('Network error — please try again.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = original;
+    }
+  });
+
+  again?.addEventListener('click', () => {
+    form.reset();
+    if (preProduct) {
+      const sel = document.getElementById('product') as HTMLSelectElement;
+      if (sel) sel.value = preProduct;
+    }
+    success.classList.add('hidden');
+    form.classList.remove('hidden');
+  });
+</script>
