@@ -11,6 +11,8 @@ export const products = {
     species: 'SPF Spruce Pine Fir',
     // One-sentence descriptor used in the product-substitution email (after "The Seamless Fascia Post is ").
     substitutionSummary: 'a one-piece, engineered hollow-core SPF (Spruce-Pine-Fir) member, that comes pre-primed and ready to install',
+    // Carries the QAI CERUS-1064 code evaluation — may reference it in the substitution email.
+    qaiCertified: true,
     tagline: 'Quit site-wrapping columns. Deliver a superior look in one piece.',
     headline: 'The post that finishes itself.',
     headlineAccent: 'In one piece.',
@@ -90,6 +92,8 @@ export const products = {
     fieldImages: [],
     name: 'Seamless Treated',
     species: 'Pressure Treated SPF',
+    // Covered by the same QAI CERUS-1064 code evaluation as the Fascia Post.
+    qaiCertified: true,
     tagline: 'Built for ground contact. Looks like it wasn\u2019t.',
     headline: 'Treated for the dirt.',
     headlineAccent: 'Dressed for the deck.',

@@ -63,7 +63,13 @@ function recipientEmail({ product, recipientName, senderName, senderCompany, rol
     : `${esc(senderName)}`;
   const docLinks = docs.length
     ? docs.map((d) => `<li style="margin:0 0 8px"><a href="${SITE}${d.href}" style="color:#D4451F;text-decoration:none">${esc(d.label)} &rarr;</a></li>`).join('')
-    : `<li style="margin:0 0 8px"><a href="${SITE}/technical" style="color:#D4451F;text-decoration:none">Technical data &amp; structural certification &rarr;</a></li>`;
+    : `<li style="margin:0 0 8px"><a href="${SITE}/technical" style="color:#D4451F;text-decoration:none">Technical data &rarr;</a></li>`;
+
+  const summary = p.substitutionSummary || `a one-piece, engineered hollow-core ${esc(p.species)} member`;
+  // Only QAI-certified products (Fascia Post & Treated Post — CERUS-1064) may reference code evaluation.
+  const review = p.qaiCertified
+    ? 'For load-bearing vertical applications, please review the enclosed structural data and code evaluation (QAI Report CERUS-1064, NDS 2024) to confirm suitability for your design.'
+    : 'Please review the enclosed product information, installation guidance, and warranty to evaluate it for your application.';
 
   return `<!doctype html><html><body style="margin:0;background:#FAFAF7;font-family:Inter,Helvetica,Arial,sans-serif;color:#0A0A0A">
   <div style="max-width:600px;margin:0 auto;padding:32px 24px">
@@ -81,9 +87,7 @@ function recipientEmail({ product, recipientName, senderName, senderCompany, rol
       of the specified material.
     </p>
     <p style="font-size:15px;line-height:1.65;color:#222;margin:0 0 16px">
-      The ${esc(p.name)} is ${esc(p.substitutionSummary) || `a one-piece, engineered hollow-core ${esc(p.species)} member`}.
-      For load-bearing vertical applications, please review the enclosed structural data and code
-      evaluation (QAI Report CERUS-1064, NDS 2024) to confirm suitability for your design.
+      The ${esc(p.name)} is ${summary}. ${review}
     </p>
 
     <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:#888;margin:24px 0 10px">Enclosed &amp; linked</div>
