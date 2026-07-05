@@ -9,6 +9,8 @@ export const products = {
     fieldImages: ['/images/products/fascia-post/field_1.jpg'],
     name: 'Seamless Fascia Post',
     species: 'SPF Spruce Pine Fir',
+    // One-sentence descriptor used in the product-substitution email (after "The Seamless Fascia Post is ").
+    substitutionSummary: 'a one-piece, engineered hollow-core SPF (Spruce-Pine-Fir) member, that comes pre-primed and ready to install',
     tagline: 'Quit site-wrapping columns. Deliver a superior look in one piece.',
     headline: 'The post that finishes itself.',
     headlineAccent: 'In one piece.',

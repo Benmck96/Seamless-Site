@@ -75,13 +75,13 @@ function recipientEmail({ product, recipientName, senderName, senderCompany, rol
     <p style="font-size:16px;line-height:1.6;margin:0 0 16px">${greeting}</p>
     <p style="font-size:15px;line-height:1.65;color:#222;margin:0 0 16px">
       Attached is a product information package to support a request to substitute the
-      <strong>${esc(p.name)}</strong> by CureWood Seamless into your current or upcoming project.
-      ${senderLine} has identified this engineered timber product as a way to increase speed of
-      construction and reduce installed cost, while meeting the structural and aesthetic intent
+      <strong>${esc(p.name)}</strong> by CureWood into your current or upcoming project.
+      ${senderLine} has identified this engineered wood product as a way to increase speed of
+      construction and reduce cost, while meeting the structural and aesthetic intent
       of the specified material.
     </p>
     <p style="font-size:15px;line-height:1.65;color:#222;margin:0 0 16px">
-      The ${esc(p.name)} is a one-piece, engineered hollow-core ${esc(p.species)} member.
+      The ${esc(p.name)} is ${esc(p.substitutionSummary) || `a one-piece, engineered hollow-core ${esc(p.species)} member`}.
       For load-bearing vertical applications, please review the enclosed structural data and code
       evaluation (QAI Report CERUS-1064, NDS 2024) to confirm suitability for your design.
     </p>
