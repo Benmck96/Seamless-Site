@@ -81,7 +81,7 @@ function recipientEmail({ product, recipientName, senderName, senderCompany, rol
     <p style="font-size:16px;line-height:1.6;margin:0 0 16px">${greeting}</p>
     <p style="font-size:15px;line-height:1.65;color:#222;margin:0 0 16px">
       Attached is a product information package to support a request to substitute the
-      <strong>${esc(p.name)}</strong> by CureWood into your current or upcoming project.
+      <strong>${esc(p.name)}</strong> by CureWood into a current or upcoming project.
       ${senderLine} has identified this engineered wood product as a way to increase speed of
       construction and reduce cost, while meeting the structural and aesthetic intent
       of the specified material.
