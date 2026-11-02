@@ -49,6 +49,8 @@ const specRows = [
   ...(product.hardware === null ? [] : [{ label: 'Hardware', labelJa: '金物', en: 'Simpson Strong-Tie compatible', ja: 'シンプソン・ストロングタイ対応' }]),
 ].filter((row) => row.en);
 const fieldLabel = product.fieldLabel ?? { en: 'Installed · Residential', ja: '施工例 · 住宅' };
+// Documents row: one column per document (up to 4) on wide screens
+const docCols = ['lg:grid-cols-1', 'lg:grid-cols-2', 'lg:grid-cols-3', 'lg:grid-cols-4'][Math.max(1, Math.min(product.documents.length, 4)) - 1];
 const descJa = ja.description ? (Array.isArray(ja.description) ? ja.description : [ja.description]) : [];
 const treatJa = ja.treatmentDetails ?? {};
 ---
@@ -224,7 +226,7 @@ const treatJa = ja.treatmentDetails ?? {};
     <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-8">
       <T en="Everything you need to spec it." ja="仕様決定に必要な資料をすべて。" />
     </h2>
-    <div class="grid md:grid-cols-3 gap-4">
+    <div class={`grid md:grid-cols-2 ${docCols} gap-4`}>
       {product.documents.map((doc) => (
         <a href={doc.href} target="_blank" rel="noopener" class="block border border-line p-6 hover:border-ink transition-colors group">
           <div class="eyebrow mb-2"><T en="PDF" ja="PDF（英語）" /></div>

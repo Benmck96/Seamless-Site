@@ -41,7 +41,8 @@ export const products = {
     documents: [
       { label: 'Installation & Handling Guide', href: '/docs/fascia-post-install-guide.pdf' },
       { label: '15-Year Limited Warranty', href: '/docs/fascia-post-warranty.pdf' },
-      { label: 'Structural Certification', href: '/docs/fascia-post-structural-cert.pdf' },
+      { label: 'Code Evaluation Report — CERUS-1064 (USA)', href: '/docs/fascia-post-structural-cert.pdf' },
+      { label: 'Code Evaluation Report — CERcan-1065 (Canada)', href: '/docs/fascia-post-cercan-1065.pdf' },
     ],
   },
 

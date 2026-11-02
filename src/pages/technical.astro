@@ -44,7 +44,8 @@ const docs = [
     files: [
       { label: 'Installation & Handling Guide',       type: 'Install Guide',  href: '/docs/fascia-post-install-guide.pdf' },
       { label: '15-Year Limited Warranty',            type: 'Warranty',       href: '/docs/fascia-post-warranty.pdf' },
-      { label: 'Code Evaluation Report — CERUS-1064', type: 'Cert Report',    href: '/docs/fascia-post-structural-cert.pdf' },
+      { label: 'Code Evaluation Report — CERUS-1064 (USA)', type: 'Cert Report', href: '/docs/fascia-post-structural-cert.pdf' },
+      { label: 'Code Evaluation Report — CERcan-1065 (Canada)', type: 'Cert Report', href: '/docs/fascia-post-cercan-1065.pdf' },
     ],
   },
   {
@@ -85,7 +86,7 @@ const docs = [
       <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-line">
         <div class="py-6 px-4 first:pl-0">
           <div class="eyebrow text-ash mb-1"><T en="Report No." ja="報告書番号" /></div>
-          <div class="font-medium text-sm">CERUS-1064</div>
+          <div class="font-medium text-sm">CERUS-1064 <span class="text-ash">(USA)</span><br />CERcan-1065 <span class="text-ash">(Canada)</span></div>
         </div>
         <div class="py-6 px-4">
           <div class="eyebrow text-ash mb-1"><T en="Issued by" ja="発行機関" /></div>
@@ -93,7 +94,7 @@ const docs = [
         </div>
         <div class="py-6 px-4">
           <div class="eyebrow text-ash mb-1"><T en="Applicable Codes" ja="適用基準" /></div>
-          <div class="font-medium text-sm"><T en="2024 / 2021 / 2018 IBC · IRC" ja="2024 / 2021 / 2018 年版 IBC · IRC（米国）" /></div>
+          <div class="font-medium text-sm"><T en="USA: 2024 / 2021 / 2018 IBC · IRC<br />Canada: 2020 NBC · 2024 BCBC · 2023 NBC(AE)" ja="米国：2024 / 2021 / 2018 年版 IBC · IRC<br />カナダ：2020 年版 NBC · 2024 年版 BCBC · 2023 年版 NBC(AE)" /></div>
         </div>
         <div class="py-6 px-4">
           <div class="eyebrow text-ash mb-1"><T en="CSI Section" ja="CSI 分類" /></div>
@@ -191,7 +192,7 @@ const docs = [
     </div>
 
     <!-- Fascia Post documents -->
-    <div class="mt-12 grid md:grid-cols-3 gap-4">
+    <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-4">
       {docs[0].files.map((doc) => (
         <a href={doc.href} target="_blank" rel="noopener"
           class="flex flex-col border border-line p-6 hover:border-ink transition-colors group">

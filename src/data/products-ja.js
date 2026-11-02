@@ -37,6 +37,8 @@ export const docLabelJa = {
   'Vertical-Use Spec Sheet': '柱材用途 仕様書',
   'Info Sheet': '製品情報シート',
   'Code Evaluation Report — CERUS-1064': '基準適合評価報告書 — CERUS-1064',
+  'Code Evaluation Report — CERUS-1064 (USA)': '基準適合評価報告書 — CERUS-1064（米国）',
+  'Code Evaluation Report — CERcan-1065 (Canada)': '基準適合評価報告書 — CERcan-1065（カナダ）',
 };
 
 const treatmentJa = {
