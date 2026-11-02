@@ -125,8 +125,33 @@ const treatJa = ja.treatmentDetails ?? {};
     </section>
   )}
 
-  <!-- CONFIGURATOR -->
-  <Configurator product={product} />
+  <!-- CONFIGURATOR — boards show their profiles here instead -->
+  {product.profiles ? (
+    <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
+      <div class="eyebrow mb-4"><T en="Profiles" ja="プロファイル" /></div>
+      <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-12">
+        <T en="Pick your profile." ja="プロファイルを選ぶ。" />
+      </h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {product.profiles.map((pr) => (
+          <div class="border border-line">
+            <div class="bg-white" style="aspect-ratio: 4/3;">
+              <img src={pr.image} alt={`${product.name} — ${pr.name}`} class="w-full h-full object-contain" />
+            </div>
+            <div class="p-6 border-t border-line">
+              <div class="flex justify-between items-baseline gap-4 mb-2">
+                <div class="text-xl font-medium tracking-tighter-2"><T en={pr.name} ja={pr.nameJa} /></div>
+                <div class="text-sm text-smoke">{pr.widths}</div>
+              </div>
+              <p class="text-sm text-smoke"><T en={pr.note} ja={pr.noteJa} /></p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  ) : (
+    <Configurator product={product} />
+  )}
 
   <!-- WHY THIS LINE -->
   <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
@@ -145,32 +170,6 @@ const treatJa = ja.treatmentDetails ?? {};
       ))}
     </div>
   </section>
-
-  <!-- PROFILES (boards only) -->
-  {product.profiles && (
-    <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
-      <div class="eyebrow mb-4"><T en="Profiles" ja="プロファイル" /></div>
-      <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-12">
-        <T en="Pick your profile." ja="プロファイルを選ぶ。" />
-      </h2>
-      <div class="grid md:grid-cols-3 gap-6">
-        {product.profiles.map((pr) => (
-          <div class="border border-line">
-            <div class="bg-white" style="aspect-ratio: 4/3;">
-              <img src={pr.image} alt={`${product.name} — ${pr.name}`} class="w-full h-full object-contain" loading="lazy" />
-            </div>
-            <div class="p-6 border-t border-line">
-              <div class="flex justify-between items-baseline gap-4 mb-2">
-                <div class="text-xl font-medium tracking-tighter-2"><T en={pr.name} ja={pr.nameJa} /></div>
-                <div class="text-sm text-smoke">{pr.widths}</div>
-              </div>
-              <p class="text-sm text-smoke"><T en={pr.note} ja={pr.noteJa} /></p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  )}
 
   <!-- TREATMENT DETAILS (treated products only) -->
   {product.treatmentDetails && (
