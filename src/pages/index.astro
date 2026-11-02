@@ -18,6 +18,11 @@ const stripSizes = {
 const stripColor = {
   'seamless-fascia-post': { en: 'Primed', ja: 'プライマー塗装' },
 };
+// Douglas-fir (the dark tile) sits at the right-hand end of the strip
+const stripList = [
+  ...productList.filter((p) => p.slug !== 'timber-lite-doug-fir'),
+  ...productList.filter((p) => p.slug === 'timber-lite-doug-fir'),
+];
 
 const heroImages = [
   '/images/hero/hero_1.png',
@@ -46,8 +51,8 @@ const heroImages = [
           </h1>
           <p class="text-lg md:text-xl text-smoke leading-snug max-w-xl mb-10">
             <T
-              en="Hollow-core engineered posts and timbers. Premium timber aesthetics, responsibly sourced, multiple species. A strong warranty that outlasts the trim crew."
-              ja="中空構造のエンジニアード柱材・角材。上質な木材の意匠、責任ある原木調達、豊富な樹種。そして、長く安心できる保証。"
+              en="Hollow-core and solid laminated engineered posts and timbers. Premium timber aesthetics, responsibly sourced, multiple species. A strong warranty that outlasts the trim crew."
+              ja="中空構造とソリッド積層のエンジニアード柱材・角材。上質な木材の意匠、責任ある原木調達、豊富な樹種。そして、長く安心できる保証。"
             />
           </p>
           <div class="flex flex-wrap gap-3">
@@ -95,7 +100,7 @@ const heroImages = [
   <div class="border-t border-b border-ink">
     <div class="max-w-7xl mx-auto px-6">
       <div class="grid grid-cols-2 md:grid-cols-5">
-        {productList.map((p) => {
+        {stripList.map((p) => {
           // Timber-Lite is the sibling line, so its tile stays dark
           const dark = p.slug === 'timber-lite-doug-fir';
           const color = stripColor[p.slug] ?? { en: p.colors[0], ja: optionJa[p.colors[0]] };

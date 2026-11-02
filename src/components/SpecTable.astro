@@ -1,0 +1,35 @@
+---
+// "Specifications" section on a product page.
+import T from './T.astro';
+
+export interface Props {
+  rows: Array<{ label: string; labelJa: string; en: string; ja?: string }>;
+  // Optional callout under the table (e.g. the Fascia Post finishing note)
+  note?: { en: string; ja?: string };
+}
+
+const { rows, note } = Astro.props;
+---
+
+<section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
+  <div class="eyebrow mb-4"><T en="Specifications" ja="仕様" /></div>
+  <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-8">
+    <T en="The numbers, all of them." ja="すべての数値を、ここに。" />
+  </h2>
+  <div class="border-t border-ink">
+    <div class="grid grid-cols-1 md:grid-cols-2">
+      {rows.map((row, i) => (
+        <div class={`border-b border-line py-4 flex justify-between gap-4 ${i % 2 === 0 ? 'md:border-r md:pr-6' : 'md:pl-6'}`}>
+          <span class="eyebrow"><T en={row.label} ja={row.labelJa} /></span>
+          <span class="text-sm text-right"><T en={row.en} ja={row.ja ?? row.en} /></span>
+        </div>
+      ))}
+    </div>
+  </div>
+  {note && (
+    <div class="mt-8 border-l-2 border-cedar bg-[#f5f0e8] px-6 py-5 max-w-3xl">
+      <div class="eyebrow text-cedar mb-2"><T en="Finishing note" ja="仕上げに関するご注意" /></div>
+      <p class="text-sm text-smoke leading-relaxed"><T en={note.en} ja={note.ja} /></p>
+    </div>
+  )}
+</section>

@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Configurator from '../../components/Configurator.astro';
 import CrossSell from '../../components/CrossSell.astro';
 import ConstructionSwitch from '../../components/ConstructionSwitch.astro';
+import SpecTable from '../../components/SpecTable.astro';
 import T from '../../components/T.astro';
 import { products, productOrder } from '../../data/products.js';
 import { productsJa, optionJa, docLabelJa } from '../../data/products-ja.js';
@@ -153,6 +154,8 @@ const treatJa = ja.treatmentDetails ?? {};
     <Configurator product={product} />
   )}
 
+  {product.profiles && <SpecTable rows={specRows} />}
+
   <!-- WHY THIS LINE -->
   <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
     <div class="eyebrow mb-4"><T en={`Why ${product.name}`} ja={`${product.name} を選ぶ理由`} /></div>
@@ -211,23 +214,8 @@ const treatJa = ja.treatmentDetails ?? {};
     </section>
   )}
 
-  <!-- SPEC TABLE -->
-  <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
-    <div class="eyebrow mb-4"><T en="Specifications" ja="仕様" /></div>
-    <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-8">
-      <T en="The numbers, all of them." ja="すべての数値を、ここに。" />
-    </h2>
-    <div class="border-t border-ink">
-      <div class="grid grid-cols-1 md:grid-cols-2">
-        {specRows.map((row, i) => (
-          <div class={`border-b border-line py-4 flex justify-between gap-4 ${i % 2 === 0 ? 'md:border-r md:pr-6' : 'md:pl-6'}`}>
-            <span class="eyebrow"><T en={row.label} ja={row.labelJa} /></span>
-            <span class="text-sm text-right"><T en={row.en} ja={row.ja ?? row.en} /></span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+  <!-- SPEC TABLE (boards show it higher up, after the profiles) -->
+  {!product.profiles && <SpecTable rows={specRows} note={product.finishNote ? { en: product.finishNote, ja: ja.finishNote } : undefined} />}
 
   <!-- DOCUMENTS -->
   {product.documents.length > 0 && (
