@@ -24,6 +24,28 @@ body {
   margin: 0;
 }
 
+/* ── English / Japanese toggle (see components/T.astro) ── */
+.i18n-ja { display: none; }
+html[lang="ja"] .i18n-en { display: none; }
+html[lang="ja"] .i18n-ja { display: inline; }
+html[lang="ja"] p.i18n-ja,
+html[lang="ja"] div.i18n-ja { display: block; }
+
+/* Japanese type: Inter has no kana/kanji, so fall back to native Japanese
+   fonts; undo the tight Latin letter-spacing, the fake italic, and the very
+   tight headline leading, which collide on wrapped Japanese lines. */
+html[lang="ja"] {
+  font-family: 'Inter', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', 'Noto Sans JP', system-ui, sans-serif;
+  word-break: auto-phrase;
+}
+html[lang="ja"] h1,
+html[lang="ja"] h2 {
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+html[lang="ja"] .italic { font-style: normal; }
+html[lang="ja"] .eyebrow { letter-spacing: 0.05em; }
+
 @layer components {
   .eyebrow {
     @apply text-[11px] uppercase tracking-wider-2 text-ash font-medium;

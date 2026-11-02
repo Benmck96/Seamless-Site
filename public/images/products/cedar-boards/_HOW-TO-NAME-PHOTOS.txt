@@ -1,0 +1,47 @@
+PHOTOS FOR: Seamless Cedar Boards
+
+Drop photos in this folder named like this (same as the other products):
+
+  Size_Finish_Colour_1.png   (first photo)
+  Size_Finish_Colour_2.png   (second photo, and so on up to _8)
+
+Use dashes instead of spaces. .png or .jpg both work.
+
+Filenames the page will look for:
+
+  1x4_S4S_Natural-WRC_1.png
+  1x4_S4S_Primed_1.png
+  1x4_Rougher-Head_Natural-WRC_1.png
+  1x4_Rougher-Head_Primed_1.png
+  1x4_Resawn_Natural-WRC_1.png
+  1x4_Resawn_Primed_1.png
+  1x6_S4S_Natural-WRC_1.png
+  1x6_S4S_Primed_1.png
+  1x6_Rougher-Head_Natural-WRC_1.png
+  1x6_Rougher-Head_Primed_1.png
+  1x6_Resawn_Natural-WRC_1.png
+  1x6_Resawn_Primed_1.png
+  1x8_S4S_Natural-WRC_1.png
+  1x8_S4S_Primed_1.png
+  1x8_Rougher-Head_Natural-WRC_1.png
+  1x8_Rougher-Head_Primed_1.png
+  1x8_Resawn_Natural-WRC_1.png
+  1x8_Resawn_Primed_1.png
+  1x10_S4S_Natural-WRC_1.png
+  1x10_S4S_Primed_1.png
+  1x10_Rougher-Head_Natural-WRC_1.png
+  1x10_Rougher-Head_Primed_1.png
+  1x10_Resawn_Natural-WRC_1.png
+  1x10_Resawn_Primed_1.png
+  1x16_S4S_Natural-WRC_1.png
+  1x16_S4S_Primed_1.png
+  1x16_Rougher-Head_Natural-WRC_1.png
+  1x16_Rougher-Head_Primed_1.png
+  1x16_Resawn_Natural-WRC_1.png
+  1x16_Resawn_Primed_1.png
+
+You don't need every one. If a combo has no photo, the page shows default.jpg (the catalogue shot).
+
+Also in this folder:
+  field_1.jpg              = the big banner at the top of the page
+  profile-boards.jpg, profile-bevel.jpg, profile-channel.jpg = the Profiles section

@@ -1,0 +1,32 @@
+---
+// Hollow / Solid switch shown at the top of a product page.
+// The current version is filled in; the other one links to its twin page.
+import T from './T.astro';
+import { optionJa } from '../data/products-ja.js';
+
+export interface Props {
+  current: string; // slug of the page we're on
+  versions: Array<{ slug: string; construction: string }>;
+}
+
+const { current, versions } = Astro.props;
+---
+
+{versions.length > 1 && (
+  <div class="inline-flex border border-ink" role="group" aria-label="Construction">
+    {versions.map((v) =>
+      v.slug === current ? (
+        <span class="px-5 py-2 text-sm font-medium bg-ink text-bone" aria-current="page">
+          <T en={v.construction} ja={optionJa[v.construction]} />
+        </span>
+      ) : (
+        <a
+          href={`/products/${v.slug}`}
+          class="px-5 py-2 text-sm font-medium text-ink hover:bg-ink hover:text-bone transition-colors"
+        >
+          <T en={v.construction} ja={optionJa[v.construction]} /> →
+        </a>
+      )
+    )}
+  </div>
+)}

@@ -1,0 +1,14 @@
+---
+// Bilingual text. Renders both languages; CSS shows the one picked with the
+// header toggle (html[lang="ja"] shows Japanese, anything else English).
+// Usage: <T en="Products" ja="製品" />  — HTML allowed in either string.
+// If `ja` is missing the English shows in both modes.
+export interface Props {
+  en: string;
+  ja?: string;
+}
+
+const { en, ja } = Astro.props;
+---
+
+<span class="i18n-en" set:html={en} /><span class="i18n-ja" lang="ja" set:html={ja ?? en} />

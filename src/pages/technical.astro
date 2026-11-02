@@ -1,5 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
+import T from '../components/T.astro';
+import { docLabelJa } from '../data/products-ja.js';
 
 // NDS 2024 Allowable Axial Loads — 6' to 12' only
 // Source: QAI Code Evaluation Report CERUS-1064, Table 2
@@ -17,6 +19,23 @@ const asdRows = [
   { span: "8'",  m: '2.4 m', s66_lbs: '30,300', s66_kg: '13,700', s88_lbs: '51,000', s88_kg: '23,100' },
   { span: "10'", m: '3.0 m', s66_lbs: '22,900', s66_kg: '10,400', s88_lbs: '45,500', s88_kg: '20,600' },
   { span: "12'", m: '3.7 m', s66_lbs: '16,800', s66_kg: '7,600',  s88_lbs: '37,600', s88_kg: '17,100' },
+];
+
+const docTypeJa = {
+  'Install Guide': '施工ガイド',
+  'Warranty': '保証書',
+  'Cert Report': '評価報告書',
+  'Spec Sheet': '仕様書',
+};
+
+// From the catalogue's "Designed to Connect" page
+const connections = [
+  { name: 'Notched beam',   nameJa: '切り欠き梁',     image: '/images/connect/notched-beam.jpg',   body: 'Field-notched connection to beam',                   bodyJa: '現場で切り欠いた梁との接合' },
+  { name: 'Post cap',       nameJa: '柱頭キャップ',   image: '/images/connect/post-cap.jpg',       body: 'Surface-mounted post-to-beam hardware',              bodyJa: '柱と梁を表面から留める金物' },
+  { name: 'Corner cap',     nameJa: 'コーナーキャップ', image: '/images/connect/corner-cap.jpg',   body: 'Corner condition, multi-directional load transfer',  bodyJa: '出隅部・多方向の荷重伝達' },
+  { name: 'Elevated base',  nameJa: '高床式柱脚',     image: '/images/connect/elevated-base.jpg',  body: 'Raised post base for drainage clearance',            bodyJa: '排水のための高床式の柱脚' },
+  { name: 'Concealed base', nameJa: '隠し柱脚',       image: '/images/connect/concealed-base.jpg', body: 'Hidden hardware with uplift resistance',             bodyJa: '浮き上がりに抵抗する隠し金物' },
+  { name: 'Knife plate',    nameJa: 'ナイフプレート', image: '/images/connect/knife-plate.jpg',    body: 'Embedded steel plate with concealed fasteners',      bodyJa: '隠しファスナー付きの埋込み鋼板' },
 ];
 
 const docs = [
@@ -41,19 +60,22 @@ const docs = [
 
 <Base
   title="Technical — Seamless™ Engineered Timbers"
+  titleJa="技術情報 — Seamless™ エンジニアード木材"
   description="Third-party tested, code-evaluated structural data for Seamless engineered timber posts. NDS 2024 compliant. CERUS-1064 by QAI Laboratories."
 >
 
   <!-- HEADER -->
   <section class="max-w-7xl mx-auto px-6 pt-16 pb-14 border-b border-line">
-    <div class="eyebrow mb-4">Technical Resources</div>
+    <div class="eyebrow mb-4"><T en="Technical Resources" ja="技術資料" /></div>
     <h1 class="text-5xl md:text-6xl font-medium tracking-tighter-2 leading-[0.95] max-w-2xl mb-6">
-      Structural data.<br />
-      <span class="italic text-cedar">No asterisks.</span>
+      <T en="Structural data.<br />" ja="構造データ。<br />" />
+      <span class="italic text-cedar"><T en="No asterisks." ja="但し書きなし。" /></span>
     </h1>
     <p class="text-lg text-smoke max-w-2xl">
-      Third-party tested and code-evaluated by QAI Laboratories. Everything your engineer,
-      architect, or building official needs to spec Seamless into a project with confidence.
+      <T
+        en="Third-party tested and code-evaluated by QAI Laboratories. Everything your engineer, architect, or building official needs to spec Seamless into a project with confidence."
+        ja="第三者機関 QAI Laboratories による試験・基準適合評価済み。構造設計者、建築家、建築確認担当者が安心して Seamless を採用するために必要な情報をすべて掲載しています。"
+      />
     </p>
   </section>
 
@@ -62,20 +84,20 @@ const docs = [
     <div class="max-w-7xl mx-auto px-6">
       <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-line">
         <div class="py-6 px-4 first:pl-0">
-          <div class="eyebrow text-ash mb-1">Report No.</div>
+          <div class="eyebrow text-ash mb-1"><T en="Report No." ja="報告書番号" /></div>
           <div class="font-medium text-sm">CERUS-1064</div>
         </div>
         <div class="py-6 px-4">
-          <div class="eyebrow text-ash mb-1">Issued by</div>
+          <div class="eyebrow text-ash mb-1"><T en="Issued by" ja="発行機関" /></div>
           <div class="font-medium text-sm">QAI Laboratories</div>
         </div>
         <div class="py-6 px-4">
-          <div class="eyebrow text-ash mb-1">Applicable Codes</div>
-          <div class="font-medium text-sm">2024 / 2021 / 2018 IBC · IRC</div>
+          <div class="eyebrow text-ash mb-1"><T en="Applicable Codes" ja="適用基準" /></div>
+          <div class="font-medium text-sm"><T en="2024 / 2021 / 2018 IBC · IRC" ja="2024 / 2021 / 2018 年版 IBC · IRC（米国）" /></div>
         </div>
         <div class="py-6 px-4">
-          <div class="eyebrow text-ash mb-1">CSI Section</div>
-          <div class="font-medium text-sm">06 11 13 — Engineered Wood Products</div>
+          <div class="eyebrow text-ash mb-1"><T en="CSI Section" ja="CSI 分類" /></div>
+          <div class="font-medium text-sm"><T en="06 11 13 — Engineered Wood Products" ja="06 11 13 — エンジニアードウッド製品" /></div>
         </div>
       </div>
     </div>
@@ -83,13 +105,15 @@ const docs = [
 
   <!-- LOAD TABLE -->
   <section class="max-w-7xl mx-auto px-6 py-20 border-b border-line">
-    <div class="eyebrow mb-4">Allowable Axial Loads</div>
+    <div class="eyebrow mb-4"><T en="Allowable Axial Loads" ja="許容軸方向荷重" /></div>
     <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-3">
       Seamless Fascia Post — SPF
     </h2>
     <p class="text-smoke mb-12 max-w-2xl">
-      NDS 2024. Uniform concentric loading. Pin connections top and bottom.
-      6×6 and 8×8 cross-sections. Spans 6′–12′.
+      <T
+        en="NDS 2024. Uniform concentric loading. Pin connections top and bottom. 6×6 and 8×8 cross-sections. Spans 6′–12′."
+        ja="NDS 2024 準拠。等分布の中心圧縮荷重。上下端ピン接合。断面 6×6・8×8。スパン 6′〜12′（約 1.8〜3.7 m）。"
+      />
     </p>
 
     <div class="grid md:grid-cols-2 gap-10 md:gap-16">
@@ -98,11 +122,11 @@ const docs = [
       <div>
         <div class="flex items-center gap-2 mb-5">
           <span class="w-1.5 h-1.5 rounded-full bg-cedar flex-shrink-0"></span>
-          <span class="eyebrow">LRFD — Load Resistance Factor Design</span>
+          <span class="eyebrow"><T en="LRFD — Load Resistance Factor Design" ja="LRFD — 荷重抵抗係数設計法" /></span>
         </div>
         <div class="border-t border-ink">
           <div class="grid grid-cols-3 py-3 border-b border-line">
-            <div class="eyebrow text-ash">Span</div>
+            <div class="eyebrow text-ash"><T en="Span" ja="スパン" /></div>
             <div class="eyebrow text-ash text-right">6×6</div>
             <div class="eyebrow text-ash text-right">8×8</div>
           </div>
@@ -129,11 +153,11 @@ const docs = [
       <div>
         <div class="flex items-center gap-2 mb-5">
           <span class="w-1.5 h-1.5 rounded-full bg-cedar flex-shrink-0"></span>
-          <span class="eyebrow">ASD — Allowable Stress Design</span>
+          <span class="eyebrow"><T en="ASD — Allowable Stress Design" ja="ASD — 許容応力度設計法" /></span>
         </div>
         <div class="border-t border-ink">
           <div class="grid grid-cols-3 py-3 border-b border-line">
-            <div class="eyebrow text-ash">Span</div>
+            <div class="eyebrow text-ash"><T en="Span" ja="スパン" /></div>
             <div class="eyebrow text-ash text-right">6×6</div>
             <div class="eyebrow text-ash text-right">8×8</div>
           </div>
@@ -160,10 +184,10 @@ const docs = [
 
     <!-- Source note -->
     <div class="mt-10 pt-6 border-t border-line text-[11px] text-ash leading-relaxed max-w-3xl">
-      Source: QAI Laboratories Code Evaluation Report CERUS-1064 · Seamless Post by CureWood Engineered Building Products Ltd. ·
-      Published January 2026. Evaluated per ASTM D5456 and ANSI/AWC National Design Specification (NDS) for Wood Construction.
-      Factors applied: C<sub>D</sub> = 1.0 · C<sub>M</sub> = 1.0 · C<sub>t</sub> = 1.0 · c = 0.9.
-      Conditions outside these parameters require Engineering Design per the authority having jurisdiction.
+      <T
+        en="Source: QAI Laboratories Code Evaluation Report CERUS-1064 · Seamless Post by CureWood Engineered Building Products Ltd. · Published January 2026. Evaluated per ASTM D5456 and ANSI/AWC National Design Specification (NDS) for Wood Construction. Factors applied: C<sub>D</sub> = 1.0 · C<sub>M</sub> = 1.0 · C<sub>t</sub> = 1.0 · c = 0.9. Conditions outside these parameters require Engineering Design per the authority having jurisdiction."
+        ja="出典：QAI Laboratories 基準適合評価報告書 CERUS-1064 · Seamless Post（CureWood Engineered Building Products Ltd.）· 2026年1月発行。ASTM D5456 および ANSI/AWC 木構造設計基準（NDS）に基づき評価。適用係数：C<sub>D</sub> = 1.0 · C<sub>M</sub> = 1.0 · C<sub>t</sub> = 1.0 · c = 0.9。これらの条件を外れる場合は、所轄の行政機関の定めに従い構造設計が必要です。"
+      />
     </div>
 
     <!-- Fascia Post documents -->
@@ -171,8 +195,8 @@ const docs = [
       {docs[0].files.map((doc) => (
         <a href={doc.href} target="_blank" rel="noopener"
           class="flex flex-col border border-line p-6 hover:border-ink transition-colors group">
-          <div class="eyebrow text-ash mb-3">{doc.type}</div>
-          <div class="text-lg font-medium group-hover:text-cedar transition-colors">{doc.label} →</div>
+          <div class="eyebrow text-ash mb-3"><T en={doc.type} ja={`${docTypeJa[doc.type]}（英語・PDF）`} /></div>
+          <div class="text-lg font-medium group-hover:text-cedar transition-colors"><T en={doc.label} ja={docLabelJa[doc.label]} /> →</div>
         </a>
       ))}
     </div>
@@ -180,59 +204,70 @@ const docs = [
 
   <!-- CEDAR VERTICAL-USE TABLE -->
   <section class="max-w-7xl mx-auto px-6 py-20 border-b border-line">
-    <div class="eyebrow mb-4">Vertical-Use Performance</div>
+    <div class="eyebrow mb-4"><T en="Vertical-Use Performance" ja="柱材としての性能" /></div>
     <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-3">
-      Seamless Cedar Timbers — Western Red Cedar
+      <T en="Seamless Cedar Timbers — Western Red Cedar" ja="Seamless Cedar Timbers — ウエスタンレッドシーダー" />
     </h2>
     <p class="text-smoke mb-12 max-w-2xl">
-      Section-area estimates for vertical-use applications using net Western Red Cedar area
-      and conservative No.2 WRC timber design values.
+      <T
+        en="Section-area estimates for vertical-use applications using net Western Red Cedar area and conservative No.2 WRC timber design values."
+        ja="ウエスタンレッドシーダーの正味断面積と、安全側の No.2 WRC 設計値を用いた、柱用途向けの断面積による推定値です。"
+      />
     </p>
 
     <div class="border-t border-ink mb-4">
       <div class="grid grid-cols-4 py-3 border-b border-line">
-        <div class="eyebrow text-ash">Size</div>
-        <div class="eyebrow text-ash">Net size</div>
-        <div class="eyebrow text-ash">Net WRC area</div>
-        <div class="eyebrow text-ash text-right">Vertical-use indication</div>
+        <div class="eyebrow text-ash"><T en="Size" ja="サイズ" /></div>
+        <div class="eyebrow text-ash"><T en="Net size" ja="実寸" /></div>
+        <div class="eyebrow text-ash"><T en="Net WRC area" ja="WRC 正味断面積" /></div>
+        <div class="eyebrow text-ash text-right"><T en="Vertical-use indication" ja="柱用途の目安" /></div>
       </div>
       <div class="grid grid-cols-4 py-4 border-b border-line">
         <div class="font-medium text-sm">4×4</div>
         <div class="text-sm text-smoke">3-1/2″ × 3-1/2″</div>
         <div class="text-sm text-smoke">12.25 in²</div>
-        <div class="text-sm font-medium text-right">Approx. 6,700 lb</div>
+        <div class="text-sm font-medium text-right"><T en="Approx. 6,700 lb" ja="約 6,700 lb" /></div>
       </div>
       <div class="grid grid-cols-4 py-4 border-b border-line">
         <div class="font-medium text-sm">6×6</div>
         <div class="text-sm text-smoke">5-1/2″ × 5-1/2″</div>
         <div class="text-sm text-smoke">24.00 in²</div>
-        <div class="text-sm font-medium text-right">Approx. 13,200 lb</div>
+        <div class="text-sm font-medium text-right"><T en="Approx. 13,200 lb" ja="約 13,200 lb" /></div>
       </div>
       <div class="grid grid-cols-4 py-4">
         <div class="font-medium text-sm">8×8</div>
         <div class="text-sm text-smoke">7-1/4″ × 7-1/4″</div>
         <div class="text-sm text-smoke">34.50 in²</div>
-        <div class="text-sm font-medium text-right">Approx. 19,000 lb</div>
+        <div class="text-sm font-medium text-right"><T en="Approx. 19,000 lb" ja="約 19,000 lb" /></div>
       </div>
     </div>
 
     <div class="mt-4 pt-6 border-t border-line text-[11px] text-ash leading-relaxed max-w-3xl">
-      Vertical-use indication is a section-area estimate using net Western Red Cedar area and a conservative No.2 WRC
-      compression-parallel value of 550 psi. Final use is subject to project-specific design, connection details,
-      installation conditions, and local code requirements.
-      Vertical use indications not provided by QAI.
+      <T
+        en="Vertical-use indication is a section-area estimate using net Western Red Cedar area and a conservative No.2 WRC compression-parallel value of 550 psi. Final use is subject to project-specific design, connection details, installation conditions, and local code requirements. Vertical use indications not provided by QAI."
+        ja="柱用途の目安は、ウエスタンレッドシーダーの正味断面積と、安全側の No.2 WRC 繊維方向圧縮値 550 psi を用いた断面積による推定値です。最終的な使用可否は、プロジェクトごとの設計、接合部の詳細、施工条件、および各地域の法規要件によります。柱用途の目安は QAI によるものではありません。"
+      />
     </div>
 
     <!-- Quality / manufacturing confidence -->
     <div class="mt-12 pt-10 border-t border-line">
       <div class="flex items-center gap-4 mb-8">
-        <div class="eyebrow">Quality System &amp; Manufacturing Confidence</div>
-        <div class="text-[11px] text-ash">· Audited and inspected by QAI Laboratories</div>
+        <div class="eyebrow"><T en="Quality System &amp; Manufacturing Confidence" ja="品質システムと製造の信頼性" /></div>
+        <div class="text-[11px] text-ash"><T en="· Audited and inspected by QAI Laboratories" ja="· QAI Laboratories による監査・検査" /></div>
       </div>
       <div class="space-y-5 text-smoke leading-relaxed">
-        <p>Each Seamless™ Cedar Timber is manufactured using the same disciplined production approach developed through CureWood's QAI-evaluated Seamless™ structural post program. This includes controlled adhesive application, adhesive performance checks, dimensional verification, routine quality checks, and ongoing manufacturing oversight.</p>
-        <p>For the Seamless™ Cedar Timber product line, that means the laminated seams, bonded faces, and assembled post geometry are produced under a controlled and repeatable manufacturing process designed to support long-term bond integrity and dimensional consistency. Builders, designers, and end users can have confidence that the product is not simply a decorative wrap, but an engineered cedar post manufactured with verified process controls and third-party quality oversight.</p>
-        <p>For vertical-use applications, the substantial net Western Red Cedar section provides a rational engineering basis for estimating compression performance using recognized #2/Btr Western Red Cedar timber design values. Final use, connection details, and project-specific loading should be reviewed by the project designer, engineer of record, or local authority having jurisdiction.</p>
+        <p><T
+          en="Each Seamless™ Cedar Timber is manufactured using the same disciplined production approach developed through CureWood's QAI-evaluated Seamless™ structural post program. This includes controlled adhesive application, adhesive performance checks, dimensional verification, routine quality checks, and ongoing manufacturing oversight."
+          ja="Seamless™ Cedar Timber は一本一本、QAI の評価を受けた CureWood の Seamless™ 構造用柱プログラムで培われた、厳格な生産手法で製造されています。これには、管理された接着剤の塗布、接着性能の確認、寸法検証、定期的な品質検査、そして継続的な製造管理が含まれます。"
+        /></p>
+        <p><T
+          en="For the Seamless™ Cedar Timber product line, that means the laminated seams, bonded faces, and assembled post geometry are produced under a controlled and repeatable manufacturing process designed to support long-term bond integrity and dimensional consistency. Builders, designers, and end users can have confidence that the product is not simply a decorative wrap, but an engineered cedar post manufactured with verified process controls and third-party quality oversight."
+          ja="Seamless™ Cedar Timber 製品ラインでは、積層の継ぎ目、接着面、組み上げた柱の形状が、長期的な接着の健全性と寸法の安定性を支えるよう設計された、管理された再現性のある製造工程で生産されます。施工者、設計者、エンドユーザーの皆様には、本製品が単なる化粧巻きではなく、検証済みの工程管理と第三者による品質監督のもとで製造されたエンジニアード・シーダー柱であることを、安心してご確認いただけます。"
+        /></p>
+        <p><T
+          en="For vertical-use applications, the substantial net Western Red Cedar section provides a rational engineering basis for estimating compression performance using recognized #2/Btr Western Red Cedar timber design values. Final use, connection details, and project-specific loading should be reviewed by the project designer, engineer of record, or local authority having jurisdiction."
+          ja="柱用途においては、十分なウエスタンレッドシーダーの正味断面により、公認の #2/Btr ウエスタンレッドシーダー設計値を用いて圧縮性能を推定する合理的な工学的根拠が得られます。最終的な使用、接合部の詳細、プロジェクト固有の荷重については、設計者、担当構造技術者、または所轄の行政機関による確認が必要です。"
+        /></p>
       </div>
     </div>
 
@@ -241,23 +276,61 @@ const docs = [
       {docs[1].files.map((doc) => (
         <a href={doc.href} target="_blank" rel="noopener"
           class="flex flex-col border border-line p-6 hover:border-ink transition-colors group">
-          <div class="eyebrow text-ash mb-3">{doc.type}</div>
-          <div class="text-lg font-medium group-hover:text-cedar transition-colors">{doc.label} →</div>
+          <div class="eyebrow text-ash mb-3"><T en={doc.type} ja={`${docTypeJa[doc.type]}（英語・PDF）`} /></div>
+          <div class="text-lg font-medium group-hover:text-cedar transition-colors"><T en={doc.label} ja={docLabelJa[doc.label]} /> →</div>
         </a>
       ))}
+    </div>
+  </section>
+
+  <!-- DESIGNED TO CONNECT -->
+  <section class="max-w-7xl mx-auto px-6 py-20 border-b border-line">
+    <div class="eyebrow mb-4"><T en="Connections" ja="接合部" /></div>
+    <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-3">
+      <T en='Designed to <span class="italic text-cedar">connect.</span>' ja='<span class="italic text-cedar">つながる</span>ように設計。' />
+    </h2>
+    <p class="text-smoke mb-12 max-w-2xl">
+      <T
+        en="Seamless Posts are engineered building components designed to integrate cleanly with a wide range of common post-to-structure and post-to-foundation connections. These typical applications show how Seamless Posts can be detailed using widely available structural hardware."
+        ja="Seamless の柱は、柱と構造体、柱と基礎をつなぐ一般的な多くの接合方法にすっきりと納まるよう設計されたエンジニアード建築部材です。以下は、広く流通している構造金物を使った代表的な納まりの例です。"
+      />
+    </p>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      {connections.map((c) => (
+        <div class="border border-line">
+          <div class="bg-white" style="aspect-ratio: 1/1;">
+            <img src={c.image} alt={c.name} class="w-full h-full object-contain p-4" loading="lazy" />
+          </div>
+          <div class="p-4 md:p-5 border-t border-line">
+            <div class="font-medium mb-1"><T en={c.name} ja={c.nameJa} /></div>
+            <p class="text-sm text-smoke leading-snug"><T en={c.body} ja={c.bodyJa} /></p>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="mt-8 pt-6 border-t border-line text-[11px] text-ash leading-relaxed max-w-3xl">
+      <T
+        en="Proper handling, moisture management, fastening, and finishing are required to achieve long-term performance and maintain warranty coverage. See each product's installation guide for complete requirements."
+        ja="長期的な性能と保証の維持には、適切な取扱い、湿気対策、留め付け、仕上げが必要です。詳しい要件は各製品の施工ガイドをご確認ください。"
+      />
     </div>
   </section>
 
   <!-- CTA -->
   <section class="max-w-7xl mx-auto px-6 py-20">
     <h2 class="text-4xl md:text-5xl font-medium tracking-tighter-2 mb-4">
-      Need more? <span class="italic text-cedar">Talk to us.</span>
+      <T en='Need more? <span class="italic text-cedar">Talk to us.</span>' ja='さらに詳しく知りたい方は、<span class="italic text-cedar">ご相談ください。</span>' />
     </h2>
     <p class="text-lg text-smoke max-w-xl mb-8">
-      Additional engineering data, project-specific questions, or samples —
-      our team answers the phone.
+      <T
+        en="Additional engineering data, project-specific questions, or samples — our team answers the phone."
+        ja="追加の技術データ、プロジェクト固有のご質問、サンプルのご依頼など、当社チームがお電話でも対応します。"
+      />
     </p>
-    <a href="/contact" class="btn-primary">Contact us →</a>
+    <div class="flex flex-wrap gap-3">
+      <a href="/contact" class="btn-primary"><T en="Contact us →" ja="お問い合わせ →" /></a>
+      <a href="/docs/seamless-catalogue-oct2026.pdf" target="_blank" rel="noopener" class="btn-secondary"><T en="Download the catalogue (PDF)" ja="カタログをダウンロード（英語・PDF）" /></a>
+    </div>
   </section>
 
 </Base>

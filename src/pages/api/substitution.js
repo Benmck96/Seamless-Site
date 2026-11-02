@@ -66,7 +66,7 @@ function recipientEmail({ product, recipientName, senderName, senderCompany, rol
     : `<li style="margin:0 0 8px"><a href="${SITE}/technical" style="color:#D4451F;text-decoration:none">Technical data &rarr;</a></li>`;
 
   const summary = p.substitutionSummary || `a one-piece, engineered hollow-core ${esc(p.species)} member`;
-  // Only QAI-certified products (Fascia Post & Treated Post — CERUS-1064) may reference code evaluation.
+  // Only QAI-certified products (Fascia Post — CERUS-1064) may reference code evaluation.
   const review = p.qaiCertified
     ? 'For load-bearing vertical applications, please review the enclosed structural data and code evaluation (QAI Report CERUS-1064, NDS 2024) to confirm suitability for your design.'
     : 'Please review the enclosed product information, installation guidance, and warranty to evaluate it for your application.';

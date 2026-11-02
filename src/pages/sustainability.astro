@@ -1,18 +1,20 @@
 ---
 import Base from '../layouts/Base.astro';
+import T from '../components/T.astro';
 ---
 
 <Base
   title="Sustainability — Seamless™ Engineered Timbers"
+  titleJa="サステナビリティ — Seamless™ エンジニアード木材"
   description="Locally sourced, carbon-negative, plant-based, biodegradable. Seamless timbers come from responsibly managed forests in British Columbia."
 >
 
   <!-- HEADER -->
   <section class="max-w-7xl mx-auto px-6 border-b border-line" style="padding-top: 6rem; padding-bottom: 6rem;">
-    <div class="eyebrow mb-6">Sustainability</div>
+    <div class="eyebrow mb-6"><T en="Sustainability" ja="サステナビリティ" /></div>
     <h1 class="text-5xl md:text-6xl font-medium tracking-tighter-2 leading-[0.95] max-w-3xl">
-      Wood has always been<br />
-      <span class="italic text-cedar">the right answer.</span>
+      <T en="Wood has always been<br />" ja="木は、いつの時代も<br />" />
+      <span class="italic text-cedar"><T en="the right answer." ja="正しい答えでした。" /></span>
     </h1>
   </section>
 
@@ -21,49 +23,73 @@ import Base from '../layouts/Base.astro';
     <div class="max-w-7xl mx-auto px-6">
       <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-line">
         <div class="py-6 px-4 first:pl-0">
-          <div class="eyebrow text-ash mb-1">Fiber source</div>
-          <div class="font-medium text-sm">British Columbia</div>
+          <div class="eyebrow text-ash mb-1"><T en="Fiber source" ja="原木の産地" /></div>
+          <div class="font-medium text-sm"><T en="British Columbia" ja="ブリティッシュコロンビア州" /></div>
         </div>
         <div class="py-6 px-4">
-          <div class="eyebrow text-ash mb-1">Carbon profile</div>
-          <div class="font-medium text-sm">Carbon negative</div>
+          <div class="eyebrow text-ash mb-1"><T en="Carbon profile" ja="炭素収支" /></div>
+          <div class="font-medium text-sm"><T en="Carbon negative" ja="カーボンネガティブ" /></div>
         </div>
         <div class="py-6 px-4">
-          <div class="eyebrow text-ash mb-1">Material type</div>
-          <div class="font-medium text-sm">Plant-based · Renewable</div>
+          <div class="eyebrow text-ash mb-1"><T en="Material type" ja="素材" /></div>
+          <div class="font-medium text-sm"><T en="Plant-based · Renewable" ja="植物由来 · 再生可能" /></div>
         </div>
         <div class="py-6 px-4">
-          <div class="eyebrow text-ash mb-1">End of life</div>
-          <div class="font-medium text-sm">Biodegradable</div>
+          <div class="eyebrow text-ash mb-1"><T en="End of life" ja="廃棄時" /></div>
+          <div class="font-medium text-sm"><T en="Biodegradable" ja="生分解性" /></div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- OUR PURPOSE -->
+  <section class="max-w-7xl mx-auto px-6 py-20 border-b border-line">
+    <div class="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+      <img src="/images/about/mill.jpg" alt="CureWood mill floor" data-ja-alt="CureWood の製造現場" class="w-full object-cover" style="aspect-ratio: 3/2;" loading="lazy" />
+      <div>
+        <div class="eyebrow mb-4"><T en="Our purpose" ja="私たちの目的" /></div>
+        <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 leading-[1.05] mb-6">
+          <T en="Solid-timber appearance.<br />" ja="無垢材の外観。<br />" />
+          <span class="italic text-cedar"><T en="Engineered consistency." ja="エンジニアリングによる均一さ。" /></span>
+        </h2>
+        <div class="space-y-4 text-smoke leading-relaxed">
+          <p><T en="At CureWood, we believe the future of construction is in complete solutions — not just raw materials." ja="CureWood は、これからの建築に必要なのは原材料だけではなく、完成されたソリューションだと考えています。" /></p>
+          <p><T en="We develop engineered wood products that preserve the beauty, warmth and presence of solid timber, while improving the consistency, performance and efficiency behind it." ja="私たちは、無垢材の美しさ、温かみ、存在感を保ちながら、その裏側にある品質の均一さ、性能、効率を高めるエンジニアードウッド製品を開発しています。" /></p>
+          <p><T en="Our goal is simple: turn the fibre available to us into the products and solutions the market needs — thoughtful building systems designed to make better use of wood and perform for generations." ja="目指すことはシンプルです。手に入る原木を、市場が必要とする製品とソリューションに変えること。木をより有効に使い、何世代にもわたって性能を発揮する、考え抜かれた建築システムです。" /></p>
+        </div>
+        <p class="mt-6 text-sm font-medium"><T en="Ben McKinnon, President, CureWood" ja="Ben McKinnon（CureWood 代表）" /></p>
+      </div>
+    </div>
+  </section>
+
   <!-- THE ARGUMENT -->
   <section class="max-w-7xl mx-auto px-6 py-20 border-b border-line">
     <div class="grid md:grid-cols-2 gap-12 md:gap-20 items-start">
       <div>
-        <div class="eyebrow mb-4">The case for wood</div>
+        <div class="eyebrow mb-4"><T en="The case for wood" ja="木を選ぶ理由" /></div>
         <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 leading-[1.05] mb-6">
-          The same logic applies<br />
-          <span class="italic text-cedar">at every scale.</span>
+          <T en="The same logic applies<br />" ja="同じ考え方は、<br />" />
+          <span class="italic text-cedar"><T en="at every scale." ja="どんな規模にも当てはまります。" /></span>
         </h2>
       </div>
       <div class="space-y-5 text-smoke leading-relaxed">
         <p>
-          When you choose a paper bag over plastic, or a paper straw instead of a plastic one,
-          you're making a conscious decision about the kind of future you want to support.
-          Building and remodeling are no different.
+          <T
+            en="When you choose a paper bag over plastic, or a paper straw instead of a plastic one, you're making a conscious decision about the kind of future you want to support. Building and remodeling are no different."
+            ja="レジ袋の代わりに紙袋を、プラスチックストローの代わりに紙ストローを選ぶとき、私たちはどんな未来を支えたいかを意識して選んでいます。建築やリフォームも同じです。"
+          />
         </p>
         <p>
-          Every post, every beam, every timber is a choice between renewable and non-renewable —
-          between a material that sequesters carbon throughout its service life and one that
-          emitted carbon getting there. We think that choice should be easy to make.
+          <T
+            en="Every post, every beam, every timber is a choice between renewable and non-renewable — between a material that sequesters carbon throughout its service life and one that emitted carbon getting there. We think that choice should be easy to make."
+            ja="柱一本、梁一本、木材一本ごとに、再生可能か否かの選択があります。使用期間を通じて炭素を固定し続ける素材か、製造の段階で炭素を排出してきた素材か。私たちは、その選択がもっと簡単であるべきだと考えています。"
+          />
         </p>
         <p>
-          Extending your commitment to renewable materials from the grocery store to the
-          job site isn't idealism. It's consistency.
+          <T
+            en="Extending your commitment to renewable materials from the grocery store to the job site isn't idealism. It's consistency."
+            ja="再生可能な素材へのこだわりを、スーパーマーケットから建築現場へと広げること。それは理想論ではなく、一貫性です。"
+          />
         </p>
       </div>
     </div>
@@ -71,39 +97,45 @@ import Base from '../layouts/Base.astro';
 
   <!-- WHY WOOD -->
   <section class="max-w-7xl mx-auto px-6 py-20 border-b border-line">
-    <div class="eyebrow mb-4">Why wood</div>
+    <div class="eyebrow mb-4"><T en="Why wood" ja="なぜ木なのか" /></div>
     <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-12">
-      Four reasons it's the right call.
+      <T en="Four reasons it's the right call." ja="正しい選択である、4つの理由。" />
     </h2>
     <div class="grid md:grid-cols-2 gap-x-12 gap-y-8">
       <div class="border-t border-line pt-4">
-        <div class="text-sm font-medium text-cedar mb-2">01 / Plant-based</div>
+        <div class="text-sm font-medium text-cedar mb-2">01 / <T en="Plant-based" ja="植物由来" /></div>
         <p class="text-smoke leading-relaxed">
-          Wood is grown, not mined or synthesized. It's a renewable resource on a human timescale —
-          the same species we harvest today will be standing again within a generation.
+          <T
+            en="Wood is grown, not mined or synthesized. It's a renewable resource on a human timescale — the same species we harvest today will be standing again within a generation."
+            ja="木は、採掘や合成ではなく、育つものです。人の一生のうちに再生できる資源であり、今日伐採した樹種は、一世代のうちに再び森に立ちます。"
+          />
         </p>
       </div>
       <div class="border-t border-line pt-4">
-        <div class="text-sm font-medium text-cedar mb-2">02 / Carbon negative</div>
+        <div class="text-sm font-medium text-cedar mb-2">02 / <T en="Carbon negative" ja="カーボンネガティブ" /></div>
         <p class="text-smoke leading-relaxed">
-          Trees absorb CO₂ as they grow and lock it into the fiber. A wood post stores that carbon
-          for the life of the building. Steel and concrete can't say the same — they emit carbon
-          to produce.
+          <T
+            en="Trees absorb CO₂ as they grow and lock it into the fiber. A wood post stores that carbon for the life of the building. Steel and concrete can't say the same — they emit carbon to produce."
+            ja="樹木は成長しながら CO₂ を吸収し、木の繊維に閉じ込めます。木の柱は、建物が使われる限りその炭素を蓄え続けます。鉄やコンクリートはそうはいきません。製造時に炭素を排出するからです。"
+          />
         </p>
       </div>
       <div class="border-t border-line pt-4">
-        <div class="text-sm font-medium text-cedar mb-2">03 / Responsibly managed</div>
+        <div class="text-sm font-medium text-cedar mb-2">03 / <T en="Responsibly managed" ja="責任ある森林管理" /></div>
         <p class="text-smoke leading-relaxed">
-          Our fiber comes from British Columbia's managed forest system — one of the most
-          regulated in the world. Harvest is paired with replanting. The forest doesn't disappear;
-          it cycles.
+          <T
+            en="Our fiber comes from British Columbia's managed forest system — one of the most regulated in the world. Harvest is paired with replanting. The forest doesn't disappear; it cycles."
+            ja="当社の原木は、世界でも最も厳しく規制された森林管理制度のひとつである、ブリティッシュコロンビア州の管理森林から調達しています。伐採には必ず植林が伴います。森は消えるのではなく、循環するのです。"
+          />
         </p>
       </div>
       <div class="border-t border-line pt-4">
-        <div class="text-sm font-medium text-cedar mb-2">04 / Biodegradable</div>
+        <div class="text-sm font-medium text-cedar mb-2">04 / <T en="Biodegradable" ja="生分解性" /></div>
         <p class="text-smoke leading-relaxed">
-          At the end of its service life, wood returns to the earth. No microplastics,
-          no inert landfill mass, no toxic leachate. It came from the ground; it goes back.
+          <T
+            en="At the end of its service life, wood returns to the earth. No microplastics, no inert landfill mass, no toxic leachate. It came from the ground; it goes back."
+            ja="役目を終えた木は、土に還ります。マイクロプラスチックも、分解されない埋立ごみも、有害な浸出水もありません。大地から生まれ、大地へ還るのです。"
+          />
         </p>
       </div>
     </div>
@@ -111,37 +143,41 @@ import Base from '../layouts/Base.astro';
 
   <!-- OUR FIBER -->
   <section class="max-w-7xl mx-auto px-6 py-20 border-b border-line">
-    <div class="eyebrow mb-4">Our fiber</div>
+    <div class="eyebrow mb-4"><T en="Our fiber" ja="当社の原木" /></div>
     <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-3">
-      BC wood. Managed forests.
+      <T en="BC wood. Managed forests." ja="BC州の木材。管理された森林。" />
     </h2>
     <p class="text-smoke mb-12 max-w-2xl">
-      Every Seamless product traces back to a specific region of British Columbia.
-      We know where the fiber comes from because that's the only way to stand behind what we build.
+      <T
+        en="Every Seamless product traces back to a specific region of British Columbia. We know where the fiber comes from because that's the only way to stand behind what we build."
+        ja="すべての Seamless 製品は、ブリティッシュコロンビア州の特定の地域までさかのぼることができます。原木の出どころを把握していることこそが、自社製品に責任を持つ唯一の方法だからです。"
+      />
     </p>
     <div class="grid md:grid-cols-2 gap-6">
       <div class="border border-line p-8">
         <div class="eyebrow text-ash mb-2">Seamless Fascia Post</div>
-        <div class="text-xl font-medium mb-3">Northern &amp; Interior British Columbia</div>
+        <div class="text-xl font-medium mb-3"><T en="Northern &amp; Interior British Columbia" ja="ブリティッシュコロンビア州 北部・内陸部" /></div>
         <p class="text-smoke leading-relaxed">
-          SPF — Spruce Pine Fir — sourced from Northern and Interior BC managed forest systems.
-          Dense, consistent grain. Engineered into a hollow-core profile that carries structural
-          loads with less fiber than solid stock.
+          <T
+            en="SPF — Spruce Pine Fir — sourced from Northern and Interior BC managed forest systems. Dense, consistent grain. Engineered into a hollow-core profile that carries structural loads with less fiber than solid stock."
+            ja="SPF（スプルース・パイン・ファー）を、BC州北部・内陸部の管理森林から調達。緻密で均一な木目。無垢材より少ない原木で構造荷重を支える、中空構造のプロファイルに仕上げています。"
+          />
         </p>
         <a href="/products/seamless-fascia-post" class="inline-block mt-6 eyebrow hover:text-cedar transition-colors">
-          View product →
+          <T en="View product →" ja="製品を見る →" />
         </a>
       </div>
       <div class="border border-line p-8">
         <div class="eyebrow text-ash mb-2">Seamless Cedar Timbers</div>
-        <div class="text-xl font-medium mb-3">Coastal British Columbia</div>
+        <div class="text-xl font-medium mb-3"><T en="Coastal British Columbia" ja="ブリティッシュコロンビア州 沿岸部" /></div>
         <p class="text-smoke leading-relaxed">
-          Coastal Western Red Cedar from BC's coastal managed forests. Naturally rot-resistant,
-          harvested responsibly, and engineered to reduce surface checking — so nothing goes to
-          waste on site.
+          <T
+            en="Coastal Western Red Cedar from BC's coastal managed forests. Naturally rot-resistant, harvested responsibly, and engineered to reduce surface checking — so nothing goes to waste on site."
+            ja="BC州沿岸部の管理森林で育った沿岸産ウエスタンレッドシーダー。天然の耐朽性を持ち、責任ある方法で伐採され、表面の干割れを抑えるよう設計されているため、現場で無駄が出ません。"
+          />
         </p>
         <a href="/products/seamless-cedar-timbers" class="inline-block mt-6 eyebrow hover:text-cedar transition-colors">
-          View product →
+          <T en="View product →" ja="製品を見る →" />
         </a>
       </div>
     </div>
@@ -151,22 +187,24 @@ import Base from '../layouts/Base.astro';
   <section class="max-w-7xl mx-auto px-6 py-20 border-b border-line">
     <div class="grid md:grid-cols-2 gap-12 md:gap-20 items-start">
       <div>
-        <div class="eyebrow mb-4">Engineered efficiency</div>
+        <div class="eyebrow mb-4"><T en="Engineered efficiency" ja="設計による効率" /></div>
         <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 leading-[1.05]">
-          Less fiber.<br />
-          <span class="italic text-cedar">More product.</span>
+          <T en="Less fiber.<br />" ja="より少ない原木で、<br />" />
+          <span class="italic text-cedar"><T en="More product." ja="より多くの製品を。" /></span>
         </h2>
       </div>
       <div class="space-y-5 text-smoke leading-relaxed">
         <p>
-          The hollow-core construction at the center of every Seamless timber isn't just
-          a weight advantage — it's a materials story. Each cubic foot of BC fiber goes further
-          than it would in a solid-sawn post.
+          <T
+            en="The hollow-core construction at the center of every Seamless timber isn't just a weight advantage — it's a materials story. Each cubic foot of BC fiber goes further than it would in a solid-sawn post."
+            ja="すべての Seamless 木材の中心にある中空構造は、軽さだけの利点ではありません。素材の使い方そのものの話です。BC州産の原木を、無垢の製材品よりも無駄なく活かせます。"
+          />
         </p>
         <p>
-          You get full-sawn dimensions, structural performance, and a finished appearance
-          without the volume of fiber that solid stock requires. That's better for your build
-          schedule and better for the forest.
+          <T
+            en="You get full-sawn dimensions, structural performance, and a finished appearance without the volume of fiber that solid stock requires. That's better for your build schedule and better for the forest."
+            ja="無垢材ほどの原木量を使わずに、フルソーンの寸法、構造性能、そして完成された外観が手に入ります。工期にとっても、森にとっても、より良い選択です。"
+          />
         </p>
       </div>
     </div>
@@ -175,15 +213,17 @@ import Base from '../layouts/Base.astro';
   <!-- CTA -->
   <section class="max-w-7xl mx-auto px-6 py-20">
     <h2 class="text-4xl md:text-5xl font-medium tracking-tighter-2 mb-4">
-      Spec something you can <span class="italic text-cedar">stand behind.</span>
+      <T en='Spec something you can <span class="italic text-cedar">stand behind.</span>' ja='<span class="italic text-cedar">自信を持って</span>勧められるものを。' />
     </h2>
     <p class="text-lg text-smoke max-w-xl mb-8">
-      Renewable material, responsible sourcing, engineered to last.
-      Talk to our team about putting Seamless into your next project.
+      <T
+        en="Renewable material, responsible sourcing, engineered to last. Talk to our team about putting Seamless into your next project."
+        ja="再生可能な素材、責任ある調達、長く使えるエンジニアリング。次のプロジェクトへの Seamless の採用について、当社チームにご相談ください。"
+      />
     </p>
     <div class="flex flex-wrap gap-3">
-      <a href="/products" class="btn-primary">See the products →</a>
-      <a href="/contact" class="btn-secondary">Talk to us</a>
+      <a href="/products" class="btn-primary"><T en="See the products →" ja="製品を見る →" /></a>
+      <a href="/contact" class="btn-secondary"><T en="Talk to us" ja="相談する" /></a>
     </div>
   </section>
 

@@ -1,80 +1,222 @@
 ---
 import Base from '../../layouts/Base.astro';
+import T from '../../components/T.astro';
+import { optionJa } from '../../data/products-ja.js';
 
 const products = [
   {
     name: 'Seamless Fascia Post',
+    construction: 'Hollow',
     tag: 'Most popular',
+    tagJa: '一番人気',
     href: '/products/seamless-fascia-post',
-    sizes: '4×4 · 6×6 · 8×8',
-    finishes: 'S4S · Rougher Head',
-    colors: 'Grey · LagerTone',
+    sizes: '6×6 · 8×8',
+    finishes: 'S4S · Combed · Resawn',
+    colors: 'Grey · Cedar-Brown',
+    colorsJa: 'グレー · シダーブラウン',
     blurb: 'Quit site-wrapping columns. Deliver a superior look in one piece.',
+    blurbJa: '現場での柱の化粧巻きは、もう要りません。一本で、上質な仕上がりを。',
+  },
+  {
+    name: 'Seamless-Solid Fascia Post',
+    construction: 'Solid',
+    tag: 'Solid laminated',
+    tagJa: 'ソリッド積層',
+    href: '/products/seamless-solid-fascia-post',
+    sizes: '4×4 · 4×6 · 6×6 · 8×8',
+    finishes: 'S4S · Combed · Resawn',
+    colors: 'Grey · Cedar-Brown',
+    colorsJa: 'グレー · シダーブラウン',
+    blurb: 'The factory-finished Fascia Post, solid all the way through.',
+    blurbJa: '工場仕上げの Fascia Post を、芯までソリッドで。',
   },
   {
     name: 'Seamless Cedar Timbers',
+    construction: 'Hollow',
     tag: 'Full-sawn cedar',
+    tagJa: 'フルソーン・シーダー',
     href: '/products/seamless-cedar-timbers',
-    sizes: '4×4 · 6×6 · 8×8',
-    finishes: 'S4S · Rougher Head',
+    sizes: '6×6 · 8×8',
+    finishes: 'S4S · Rougher Head · Resawn',
     colors: 'Natural WRC',
+    colorsJa: 'ナチュラル WRC',
     blurb: 'Coastal Western Red Cedar appearance with hollow-core stability.',
+    blurbJa: '沿岸産ウエスタンレッドシーダーの外観と、中空構造の安定性。',
+  },
+  {
+    name: 'Seamless-Solid Cedar Timbers',
+    construction: 'Solid',
+    tag: 'Solid laminated',
+    tagJa: 'ソリッド積層',
+    href: '/products/seamless-solid-cedar-timbers',
+    sizes: '4×4 · 6×6 · 8×8',
+    finishes: 'S4S · Rougher Head · Resawn',
+    colors: 'Natural WRC',
+    colorsJa: 'ナチュラル WRC',
+    blurb: 'Coastal Western Red Cedar faces on a full solid section.',
+    blurbJa: '沿岸産ウエスタンレッドシーダーの表面を、芯まで詰まったソリッド断面で。',
   },
   {
     name: 'Seamless Treated',
+    construction: 'Hollow',
     tag: 'Ground-contact',
+    tagJa: '地面接触用',
     href: '/products/seamless-treated',
     sizes: '6×6 · 8×8',
-    finishes: 'S4S · Rougher Head',
+    finishes: 'S4S · Rougher Head · Resawn',
     colors: 'Treated',
+    colorsJa: '防腐処理色',
     blurb: 'Pressure-treated for ground contact and exterior longevity.',
+    blurbJa: '地面接触用途と屋外での耐久性のための加圧注入処理。',
   },
   {
-    name: 'Timber-Lite Doug Fir',
+    name: 'Seamless-Solid Treated',
+    construction: 'Solid',
+    tag: 'Solid laminated',
+    tagJa: 'ソリッド積層',
+    href: '/products/seamless-solid-treated',
+    sizes: '4×4 · 4×6 · 6×6 · 4×8 · 8×8',
+    finishes: 'S4S · Rougher Head · Resawn',
+    colors: 'Treated',
+    colorsJa: '防腐処理色',
+    blurb: 'Pressure-treated for ground contact, built as a solid section.',
+    blurbJa: '地面接触用の加圧注入処理を、ソリッド断面で。',
+  },
+  {
+    name: 'Timber-Lite Douglas-fir',
+    construction: 'Hollow',
     tag: 'Sibling line',
+    tagJa: '姉妹ライン',
     href: '/products/timber-lite-doug-fir',
     sizes: '6×6 · 8×8',
-    finishes: 'S4S',
-    colors: 'Natural Doug Fir',
-    blurb: 'Doug fir engineered timbers for structural-look applications.',
+    finishes: 'S4S · Resawn · Rougher Head',
+    colors: 'Natural Douglas-fir',
+    colorsJa: 'ナチュラル ダグラスファー',
+    blurb: 'Douglas-fir engineered timbers for structural-look applications.',
+    blurbJa: '構造材の見た目を活かす用途向けの、ダグラスファーのエンジニアード材。',
+  },
+  {
+    name: 'Seamless-Solid KD Douglas-fir',
+    construction: 'Solid',
+    tag: 'Kiln dried',
+    tagJa: '人工乾燥',
+    href: '/products/seamless-solid-kd-doug-fir',
+    sizes: '4×4 · 6×6 · 8×8',
+    finishes: 'S4S · Resawn · Rougher Head',
+    colors: 'Natural Douglas-fir · Grey',
+    colorsJa: 'ナチュラル ダグラスファー · グレー',
+    blurb: 'Kiln dried deeper. Solid laminated and built to stay straight.',
+    blurbJa: '芯まで人工乾燥。真っすぐを保つソリッド積層材。',
+  },
+  {
+    name: 'Seamless Cedar Boards',
+    construction: 'FJ Edge-Glued',
+    tag: 'New',
+    tagJa: '新製品',
+    href: '/products/seamless-cedar-boards',
+    sizes: '1×4 – 1×16',
+    finishes: 'S4S · Rougher Head · Resawn',
+    colors: 'Natural WRC · Primed',
+    colorsJa: 'ナチュラル WRC · プライマー塗装',
+    blurb: 'Finger-jointed, edge-glued cedar boards, bevel and channel siding in 16′ and 20′ lengths.',
+    blurbJa: 'フィンガージョイント・幅はぎのシーダーボード、ベベル・チャンネルサイディング。16・20フィート。',
+  },
+];
+
+// From the catalogue's "One collection. Three constructions." page
+const constructions = [
+  {
+    n: '01', name: 'Hollow-Core', nameJa: '中空構造', image: '/images/constructions/hollow-core.jpg',
+    body: 'The look and strength of a solid sawn timber with less weight, improved stability, and a seamless finished appearance.',
+    bodyJa: '無垢の製材品の見た目と強度を、より軽く、より安定した、継ぎ目のない仕上がりで。',
+    use: 'Structural and appearance posts for vertical applications',
+    useJa: '柱用途の構造材・化粧柱',
+  },
+  {
+    n: '02', name: 'Solid Laminated', nameJa: 'ソリッド積層', image: '/images/constructions/solid-laminated.jpg',
+    body: 'Solid wood performance with engineered stability — built to be stable and more consistent than conventional solid-sawn posts.',
+    bodyJa: '無垢材の性能に、エンジニアリングによる安定性を。一般的な無垢の製材柱より安定し、品質が揃います。',
+    use: 'Structural and appearance posts where a solid section or enhanced fire performance is preferred',
+    useJa: 'ソリッド断面や高い耐火性能が求められる構造材・化粧柱',
+  },
+  {
+    n: '03', name: 'FJ Edge-Glued', nameJa: 'FJ 幅はぎ材', image: '/images/constructions/fj-edge-glued.jpg',
+    body: 'Long, straight boards engineered for a consistent appearance, reliable dimensions and efficient installation.',
+    bodyJa: '均一な外観、確かな寸法、効率的な施工のために設計された、長く真っすぐなボード。',
+    use: 'Fascia, trim, siding and beam wraps',
+    useJa: '鼻隠し、トリム、サイディング、梁の化粧巻き',
   },
 ];
 ---
 
-<Base title="Products — Seamless™ Engineered Timbers">
+<Base title="Products — Seamless™ Engineered Timbers" titleJa="製品一覧 — Seamless™ エンジニアード木材">
   <section class="max-w-7xl mx-auto px-6 pt-16 pb-12">
-    <div class="eyebrow mb-4">Products</div>
+    <div class="eyebrow mb-4"><T en="Products" ja="製品" /></div>
     <h1 class="text-5xl md:text-6xl font-medium tracking-tighter-2 max-w-3xl mb-6">
-      Three species. Multiple finishes. <span class="italic text-cedar">One timber that doesn't lie.</span>
+      <T
+        en='One collection. <span class="italic text-cedar">Three constructions.</span>'
+        ja='ひとつのコレクション。<span class="italic text-cedar">3つの構造。</span>'
+      />
     </h1>
-    <p class="text-lg text-smoke max-w-2xl">
-      Every Seamless product shares the same hollow-core engineering and
-      full-sawn appearance. Pick the species and finish your project demands.
+    <p class="text-lg text-smoke max-w-2xl mb-8">
+      <T
+        en="Three engineered constructions, each designed to deliver the right balance of strength, stability, appearance and value for the application."
+        ja="強度、安定性、外観、価格のバランスを用途に合わせて最適化した、3つのエンジニアード構造。"
+      />
     </p>
+    <a href="/docs/seamless-catalogue-oct2026.pdf" target="_blank" rel="noopener" class="btn-secondary">
+      <T en="Download the catalogue (PDF, 3 MB) →" ja="カタログをダウンロード（英語・PDF 3MB）→" />
+    </a>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-6 pb-16 grid md:grid-cols-3 gap-6">
+    {constructions.map((c) => (
+      <div class="border border-line flex flex-col">
+        <div class="bg-white border-b border-line" style="aspect-ratio: 1/1;">
+          <img src={c.image} alt={c.name} class="w-full h-full object-contain" loading="lazy" />
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <div class="eyebrow text-cedar mb-2"><T en={`Construction ${c.n}`} ja={`構造 ${c.n}`} /></div>
+          <h2 class="text-2xl font-medium tracking-tighter-2 mb-3"><T en={c.name} ja={c.nameJa} /></h2>
+          <p class="text-smoke leading-relaxed mb-6"><T en={c.body} ja={c.bodyJa} /></p>
+          <div class="mt-auto border-t border-line pt-4">
+            <div class="eyebrow text-ash mb-1"><T en="Use for" ja="主な用途" /></div>
+            <p class="text-sm"><T en={c.use} ja={c.useJa} /></p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <section class="max-w-7xl mx-auto px-6 pb-6">
+    <div class="eyebrow"><T en="All products" ja="すべての製品" /></div>
   </section>
 
   <section class="max-w-7xl mx-auto px-6 pb-24 grid md:grid-cols-2 gap-6">
     {products.map((p) => (
       <a href={p.href} class="block border border-line p-8 hover:border-ink transition-colors group">
-        <div class="flex justify-between items-start mb-6">
-          <h2 class="text-2xl font-medium tracking-tighter-2 group-hover:text-cedar transition-colors">
-            {p.name}
-          </h2>
-          <span class="eyebrow">{p.tag}</span>
+        <div class="flex justify-between items-start gap-4 mb-6">
+          <div>
+            <div class="eyebrow text-ash mb-1"><T en={p.construction} ja={optionJa[p.construction]} /></div>
+            <h2 class="text-2xl font-medium tracking-tighter-2 group-hover:text-cedar transition-colors">
+              {p.name}
+            </h2>
+          </div>
+          <span class="eyebrow text-right"><T en={p.tag} ja={p.tagJa} /></span>
         </div>
-        <p class="text-smoke mb-8 leading-relaxed">{p.blurb}</p>
+        <p class="text-smoke mb-8 leading-relaxed"><T en={p.blurb} ja={p.blurbJa} /></p>
         <div class="grid grid-cols-3 gap-4 text-sm border-t border-line pt-4">
           <div>
-            <div class="eyebrow mb-1">Sizes</div>
+            <div class="eyebrow mb-1"><T en="Sizes" ja="サイズ" /></div>
             <div>{p.sizes}</div>
           </div>
           <div>
-            <div class="eyebrow mb-1">Finishes</div>
+            <div class="eyebrow mb-1"><T en="Finishes" ja="仕上げ" /></div>
             <div>{p.finishes}</div>
           </div>
           <div>
-            <div class="eyebrow mb-1">Colors</div>
-            <div>{p.colors}</div>
+            <div class="eyebrow mb-1"><T en="Colors" ja="カラー" /></div>
+            <div><T en={p.colors} ja={p.colorsJa} /></div>
           </div>
         </div>
       </a>

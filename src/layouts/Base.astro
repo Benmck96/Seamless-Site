@@ -6,12 +6,14 @@ import Analytics from '@vercel/analytics/astro';
 
 export interface Props {
   title: string;
+  titleJa?: string;
   description?: string;
 }
 
 const {
   title,
-  description = 'Seamless engineered timbers by CureWood. Hollow-core posts and timbers in cedar, treated, cypress, and Doug fir. Premium timber aesthetics, responsibly sourced.',
+  titleJa,
+  description = 'Seamless engineered timbers by CureWood. Hollow-core posts and timbers in cedar, treated, cypress, and Douglas-fir. Premium timber aesthetics, responsibly sourced.',
 } = Astro.props;
 ---
 
@@ -22,11 +24,24 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <title data-title-en={title} data-title-ja={titleJa ?? title}>{title}</title>
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <!-- Language: ?lang=ja / ?lang=en in the URL wins, then the visitor's last
+         choice. Runs before the page paints so there's no flash of English. -->
+    <script is:inline>
+      (function () {
+        var lang = 'en';
+        try {
+          var q = new URLSearchParams(location.search).get('lang');
+          if (q === 'ja' || q === 'en') localStorage.setItem('lang', q);
+          lang = localStorage.getItem('lang') === 'ja' ? 'ja' : 'en';
+        } catch (e) {}
+        document.documentElement.lang = lang;
+      })();
+    </script>
   </head>
   <body class="bg-bone text-ink">
     <Header />
@@ -35,5 +50,35 @@ const {
     </main>
     <Footer />
     <Analytics />
+    <script is:inline>
+      // Swaps the bits CSS can't reach (page title, placeholders, alt text)
+      // and wires up the header toggle. Page scripts that build text in JS
+      // listen for the 'langchange' event.
+      (function () {
+        var root = document.documentElement;
+        function swapAttr(attr, lang) {
+          document.querySelectorAll('[data-ja-' + attr + ']').forEach(function (el) {
+            if (!el.hasAttribute('data-en-' + attr)) el.setAttribute('data-en-' + attr, el.getAttribute(attr) || '');
+            el.setAttribute(attr, el.getAttribute('data-' + lang + '-' + attr));
+          });
+        }
+        function apply(lang) {
+          root.lang = lang;
+          var t = document.querySelector('title');
+          if (t) document.title = t.getAttribute('data-title-' + lang) || document.title;
+          swapAttr('placeholder', lang);
+          swapAttr('alt', lang);
+          document.dispatchEvent(new CustomEvent('langchange', { detail: lang }));
+        }
+        apply(root.lang === 'ja' ? 'ja' : 'en');
+        document.querySelectorAll('[data-lang-toggle]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var next = root.lang === 'ja' ? 'en' : 'ja';
+            try { localStorage.setItem('lang', next); } catch (e) {}
+            apply(next);
+          });
+        });
+      })();
+    </script>
   </body>
 </html>

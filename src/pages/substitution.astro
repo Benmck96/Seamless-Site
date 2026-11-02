@@ -1,13 +1,22 @@
 ---
 import Base from '../layouts/Base.astro';
+import T from '../components/T.astro';
 import { products, productOrder } from '../data/products.js';
 
-const roles = ['Engineer', 'Architect', 'Home-Owner', 'Builder', 'Other'];
+// value stays English — it's what the email API receives
+const roles = [
+  { value: 'Engineer', ja: '構造技術者' },
+  { value: 'Architect', ja: '建築家・設計者' },
+  { value: 'Home-Owner', ja: '施主' },
+  { value: 'Builder', ja: '施工者' },
+  { value: 'Other', ja: 'その他' },
+];
 const productList = productOrder.map((slug) => ({ slug, name: products[slug].name }));
 ---
 
 <Base
   title="Request Substitution — Seamless™ by CureWood"
+  titleJa="製品代替のご依頼 — Seamless™ by CureWood"
   description="Send a CureWood Seamless product substitution package — spec sheets, structural data, and code evaluation — to an engineer, architect, builder, or homeowner in seconds."
 >
   <section class="max-w-5xl mx-auto px-6 pt-16 pb-24">
@@ -15,7 +24,7 @@ const productList = productOrder.map((slug) => ({ slug, name: products[slug].nam
 
       <!-- LEFT: the "package" -->
       <div class="md:sticky md:top-16">
-        <div class="eyebrow mb-4">Product Substitution Request</div>
+        <div class="eyebrow mb-4"><T en="Product Substitution Request" ja="製品代替のご依頼" /></div>
         <!-- Parcel graphic -->
         <svg viewBox="0 0 200 180" class="w-full max-w-[220px] mb-6" aria-hidden="true">
           <!-- box body -->
@@ -28,20 +37,26 @@ const productList = productOrder.map((slug) => ({ slug, name: products[slug].nam
           <polygon points="78,68 122,87 122,117 78,98" fill="#FAFAF7"/>
         </svg>
         <p class="text-sm text-smoke leading-relaxed">
-          A ready-to-send package of spec sheets, structural data, and code evaluation
-          for the product on the label you just scanned. Fill in who it's for and hit send —
-          we'll deliver it and copy you.
+          <T
+            en="A ready-to-send package of spec sheets, structural data, and code evaluation for the product on the label you just scanned. Fill in who it's for and hit send — we'll deliver it and copy you."
+            ja="読み取ったラベルの製品について、仕様書・構造データ・基準適合評価をまとめた、すぐに送れる資料パッケージです。送り先を入力して送信するだけで、当社からお届けし、あなたにも控えをお送りします。"
+          />
         </p>
       </div>
 
       <!-- RIGHT: the form -->
       <div>
         <h1 class="text-4xl md:text-5xl font-medium tracking-tighter-2 leading-[1.0] mb-3">
-          Who should get <span class="italic text-cedar">the package?</span>
+          <T en='Who should get <span class="italic text-cedar">the package?</span>' ja='<span class="italic text-cedar">資料パッケージ</span>の送り先は？' />
         </h1>
         <p class="text-smoke mb-10 max-w-lg">
-          Send our product information straight to the person evaluating the substitution.
-          Fast, no account, no follow-up spam.
+          <T
+            en="Send our product information straight to the person evaluating the substitution. Fast, no account, no follow-up spam."
+            ja="代替品を検討している方へ、製品情報を直接お送りします。すぐに届き、アカウント登録も、しつこい営業メールもありません。"
+          />
+        </p>
+        <p class="i18n-ja text-[11px] text-ash -mt-6 mb-10 max-w-lg" lang="ja">
+          ※ 送信されるメールと添付資料は英語です。
         </p>
 
         <form id="sub-form" class="space-y-6" novalidate>
@@ -50,7 +65,7 @@ const productList = productOrder.map((slug) => ({ slug, name: products[slug].nam
             class="hidden" aria-hidden="true" />
 
           <div class="space-y-1">
-            <label class="eyebrow text-ash block mb-2" for="recipient">Send to — their email *</label>
+            <label class="eyebrow text-ash block mb-2" for="recipient"><T en="Send to — their email *" ja="送り先のメールアドレス *" /></label>
             <input id="recipient" name="recipient" type="email" required inputmode="email" autocomplete="email"
               placeholder="engineer@firm.com"
               class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors" />
@@ -58,23 +73,24 @@ const productList = productOrder.map((slug) => ({ slug, name: products[slug].nam
 
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
-              <label class="eyebrow text-ash block mb-2" for="recipientName">Their name (optional)</label>
+              <label class="eyebrow text-ash block mb-2" for="recipientName"><T en="Their name (optional)" ja="送り先のお名前（任意）" /></label>
               <input id="recipientName" name="recipientName" type="text" autocomplete="off"
                 placeholder="Jordan Lee"
+                data-ja-placeholder="佐藤 太郎"
                 class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors" />
             </div>
             <div>
-              <label class="eyebrow text-ash block mb-2" for="role">Their role *</label>
+              <label class="eyebrow text-ash block mb-2" for="role"><T en="Their role *" ja="送り先のお立場 *" /></label>
               <select id="role" name="role" required
                 class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors">
-                <option value="" disabled selected>Choose one…</option>
-                {roles.map((r) => <option value={r}>{r}</option>)}
+                <option value="" disabled selected data-en="Choose one…" data-ja="選択してください…">Choose one…</option>
+                {roles.map((r) => <option value={r.value} data-en={r.value} data-ja={r.ja}>{r.value}</option>)}
               </select>
             </div>
           </div>
 
           <div>
-            <label class="eyebrow text-ash block mb-2" for="product">Product *</label>
+            <label class="eyebrow text-ash block mb-2" for="product"><T en="Product *" ja="製品 *" /></label>
             <select id="product" name="product" required
               class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors">
               {productList.map((p) => <option value={p.slug}>{p.name}</option>)}
@@ -83,13 +99,14 @@ const productList = productOrder.map((slug) => ({ slug, name: products[slug].nam
 
           <div class="border-t border-line pt-6 grid sm:grid-cols-2 gap-5">
             <div>
-              <label class="eyebrow text-ash block mb-2" for="senderName">Your name *</label>
+              <label class="eyebrow text-ash block mb-2" for="senderName"><T en="Your name *" ja="あなたのお名前 *" /></label>
               <input id="senderName" name="senderName" type="text" required autocomplete="name"
                 placeholder="Your name"
+                data-ja-placeholder="お名前"
                 class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors" />
             </div>
             <div>
-              <label class="eyebrow text-ash block mb-2" for="sender">Your email *</label>
+              <label class="eyebrow text-ash block mb-2" for="sender"><T en="Your email *" ja="あなたのメールアドレス *" /></label>
               <input id="sender" name="sender" type="email" required inputmode="email" autocomplete="email"
                 placeholder="you@email.com"
                 class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors" />
@@ -97,30 +114,33 @@ const productList = productOrder.map((slug) => ({ slug, name: products[slug].nam
           </div>
 
           <div>
-            <label class="eyebrow text-ash block mb-2" for="senderCompany">Your company (optional)</label>
+            <label class="eyebrow text-ash block mb-2" for="senderCompany"><T en="Your company (optional)" ja="会社名（任意）" /></label>
             <input id="senderCompany" name="senderCompany" type="text" autocomplete="organization"
               placeholder="Your company"
+              data-ja-placeholder="会社名"
               class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors" />
           </div>
 
           <div id="sub-status" class="hidden text-sm"></div>
 
           <button id="sub-btn" type="submit" class="btn-primary w-full justify-center text-base py-4">
-            Send the package →
+            <T en="Send the package →" ja="資料パッケージを送る →" />
           </button>
 
           <p class="text-[11px] text-ash leading-relaxed">
-            By sending, you confirm you have permission to share these product documents with the
-            recipient. We use the email addresses only to deliver this package and follow up on the request.
+            <T
+              en="By sending, you confirm you have permission to share these product documents with the recipient. We use the email addresses only to deliver this package and follow up on the request."
+              ja="送信することで、これらの製品資料を送り先と共有する許可があることを確認したものとみなします。メールアドレスは、本パッケージの送付とご依頼へのフォローアップにのみ使用します。"
+            />
           </p>
         </form>
 
         <!-- success state (revealed after send) -->
         <div id="sub-success" class="hidden text-center py-16">
           <div class="w-14 h-14 rounded-full bg-cedar/10 text-cedar flex items-center justify-center mx-auto mb-6 text-2xl">✓</div>
-          <h2 class="text-3xl font-medium tracking-tighter-2 mb-3">Package sent.</h2>
+          <h2 class="text-3xl font-medium tracking-tighter-2 mb-3"><T en="Package sent." ja="送信しました。" /></h2>
           <p class="text-smoke max-w-sm mx-auto mb-8" id="sub-success-msg"></p>
-          <button id="sub-again" class="btn-secondary">Send another →</button>
+          <button id="sub-again" class="btn-secondary"><T en="Send another →" ja="別の方にも送る →" /></button>
         </div>
       </div>
 
@@ -135,6 +155,17 @@ const productList = productOrder.map((slug) => ({ slug, name: products[slug].nam
   const success = document.getElementById('sub-success') as HTMLElement;
   const successMsg = document.getElementById('sub-success-msg') as HTMLElement;
   const again = document.getElementById('sub-again') as HTMLButtonElement;
+  const isJa = () => document.documentElement.lang === 'ja';
+
+  // <option> can't hold the two-language spans, so swap its text directly
+  function translateOptions() {
+    const lang = isJa() ? 'ja' : 'en';
+    document.querySelectorAll<HTMLOptionElement>('option[data-ja]').forEach((o) => {
+      o.textContent = o.dataset[lang] ?? o.textContent;
+    });
+  }
+  translateOptions();
+  document.addEventListener('langchange', translateOptions);
 
   // Pre-select the product from the QR link, e.g. /substitution?product=seamless-fascia-post
   const params = new URLSearchParams(location.search);
@@ -157,8 +188,8 @@ const productList = productOrder.map((slug) => ({ slug, name: products[slug].nam
 
     const data = Object.fromEntries(new FormData(form).entries());
     btn.disabled = true;
-    const original = btn.textContent;
-    btn.textContent = 'Sending…';
+    const original = btn.innerHTML;
+    btn.textContent = isJa() ? '送信中…' : 'Sending…';
 
     try {
       const res = await fetch('/api/substitution', {
@@ -170,22 +201,27 @@ const productList = productOrder.map((slug) => ({ slug, name: products[slug].nam
 
       if (res.ok && body.ok) {
         form.classList.add('hidden');
-        successMsg.textContent =
-          `We emailed the package to ${data.recipient} and copied you at ${data.sender}.`;
+        successMsg.textContent = isJa()
+          ? `${data.recipient} 宛てに資料パッケージをお送りし、${data.sender} にも控えをお送りしました。`
+          : `We emailed the package to ${data.recipient} and copied you at ${data.sender}.`;
         success.classList.remove('hidden');
       } else {
-        showStatus(body.error || 'Something went wrong. Please try again.');
+        // Server errors come back in English; show a Japanese fallback instead
+        showStatus(isJa()
+          ? '送信できませんでした。もう一度お試しいただくか、technical@curewood.co までご連絡ください。'
+          : (body.error || 'Something went wrong. Please try again.'));
       }
     } catch {
-      showStatus('Network error — please try again.');
+      showStatus(isJa() ? '通信エラーが発生しました。もう一度お試しください。' : 'Network error — please try again.');
     } finally {
       btn.disabled = false;
-      btn.textContent = original;
+      btn.innerHTML = original;
     }
   });
 
   again?.addEventListener('click', () => {
     form.reset();
+    translateOptions();
     if (preProduct) {
       const sel = document.getElementById('product') as HTMLSelectElement;
       if (sel) sel.value = preProduct;

@@ -1,4 +1,7 @@
 ---
+import T from './T.astro';
+import { productsJa } from '../data/products-ja.js';
+
 export interface Props {
   products: Array<{
     slug: string;
@@ -12,19 +15,19 @@ const { products } = Astro.props;
 ---
 
 <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
-  <div class="eyebrow mb-4">Also in the family</div>
+  <div class="eyebrow mb-4"><T en="Also in the family" ja="同じファミリーの製品" /></div>
   <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-10">
-    Same engineering. <span class="italic text-cedar">Different species.</span>
+    <T en='Same engineering. <span class="italic text-cedar">Different species.</span>' ja='同じエンジニアリング。<span class="italic text-cedar">異なる樹種。</span>' />
   </h2>
 
   <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
     {products.map((p) => (
       <a href={`/products/${p.slug}`} class="block border border-line p-6 hover:border-ink hover:bg-bone transition-colors group">
-        <div class="eyebrow mb-3">{p.species}</div>
+        <div class="eyebrow mb-3"><T en={p.species} ja={productsJa[p.slug]?.species} /></div>
         <div class="text-xl font-medium tracking-tighter-2 mb-3 group-hover:text-cedar transition-colors">
           {p.name}
         </div>
-        <p class="text-sm text-smoke leading-snug">{p.tagline}</p>
+        <p class="text-sm text-smoke leading-snug"><T en={p.tagline} ja={productsJa[p.slug]?.tagline} /></p>
       </a>
     ))}
   </div>

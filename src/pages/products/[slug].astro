@@ -2,7 +2,10 @@
 import Base from '../../layouts/Base.astro';
 import Configurator from '../../components/Configurator.astro';
 import CrossSell from '../../components/CrossSell.astro';
+import ConstructionSwitch from '../../components/ConstructionSwitch.astro';
+import T from '../../components/T.astro';
 import { products, productOrder } from '../../data/products.js';
+import { productsJa, optionJa, docLabelJa } from '../../data/products-ja.js';
 
 export function getStaticPaths() {
   return productOrder.map((slug) => ({
@@ -12,22 +15,51 @@ export function getStaticPaths() {
 }
 
 const { product } = Astro.props;
+const ja = productsJa[product.slug] ?? {};
+const opt = (v) => optionJa[v] ?? v;
 
-// Build the cross-sell list — everything except current product
+// Build the cross-sell list — the other species in the same construction
+// (the Hollow/Solid twin is already one click away via the switch)
 const otherProducts = productOrder
-  .filter((s) => s !== product.slug)
+  .filter((s) => s !== product.slug && products[s].construction === product.construction)
   .map((s) => products[s]);
 
 const isTimberLite = product.slug === 'timber-lite-doug-fir';
+
+// Hollow/Solid switch: [hollow product, solid product]
+const twin = product.pair ? products[product.pair] : null;
+const versions = !twin ? [] : product.construction === 'Hollow' ? [product, twin] : [twin, product];
+
+// Description can be one paragraph or a list of lines, in either language.
+const descEn = Array.isArray(product.description) ? product.description : [product.description];
+
+// Spec table rows. Optional rows (moisture, warranty, fiber, hardware, extras)
+// drop out when a product doesn't list them.
+const specRows = [
+  { label: 'Sizes', labelJa: 'サイズ', en: product.sizes.map((s) => s.replace('x', '×')).join(' · ') },
+  { label: 'Lengths', labelJa: '長さ', en: product.lengths },
+  { label: 'Finishes', labelJa: '仕上げ', en: product.finishes.join(' · '), ja: product.finishes.map(opt).join(' · ') },
+  { label: 'Colors', labelJa: 'カラー', en: product.colors.join(' · '), ja: product.colors.map(opt).join(' · ') },
+  { label: 'Species', labelJa: '樹種', en: product.species, ja: ja.species },
+  { label: 'Fiber source', labelJa: '原木の産地', en: product.fiber, ja: ja.fiber },
+  ...(product.moisture ? [{ label: 'Moisture', labelJa: '含水率', en: product.moisture, ja: ja.moisture }] : []),
+  ...(product.extraSpecs ?? []),
+  { label: 'Warranty', labelJa: '保証', en: product.warranty, ja: ja.warranty },
+  ...(product.hardware === null ? [] : [{ label: 'Hardware', labelJa: '金物', en: 'Simpson Strong-Tie compatible', ja: 'シンプソン・ストロングタイ対応' }]),
+].filter((row) => row.en);
+const fieldLabel = product.fieldLabel ?? { en: 'Installed · Residential', ja: '施工例 · 住宅' };
+const descJa = ja.description ? (Array.isArray(ja.description) ? ja.description : [ja.description]) : [];
+const treatJa = ja.treatmentDetails ?? {};
 ---
 
-<Base title={`${product.name} — Seamless™ by CureWood`} description={product.tagline}>
+<Base title={`${product.name} — Seamless™ by CureWood`} titleJa={`${product.name} — Seamless™ by CureWood`} description={product.tagline}>
   <!-- HERO -->
   {product.fieldImages?.length > 0 ? (
     <section class="relative overflow-hidden" style="min-height: 600px;">
       <img
         src={product.fieldImages[0]}
         alt={`${product.name} installed`}
+        data-ja-alt={`${product.name} 施工例`}
         class="absolute inset-0 w-full h-full object-cover object-center"
       />
       {/* Lux gradient: warm bone from left, fades out before centre */}
@@ -37,55 +69,59 @@ const isTimberLite = product.slug === 'timber-lite-doug-fir';
       ></div>
       {/* Text content */}
       <div class="relative z-10 max-w-7xl mx-auto px-6 pt-12 pb-28">
-        <a href="/products" class="eyebrow hover:text-cedar transition-colors inline-flex items-center gap-2 mb-8">
-          ← All products
-        </a>
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+          <a href="/products" class="eyebrow hover:text-cedar transition-colors inline-flex items-center gap-2">
+            <T en="← All products" ja="← 製品一覧" />
+          </a>
+          <ConstructionSwitch current={product.slug} versions={versions} />
+        </div>
         <div class="flex items-center gap-2 mb-4">
           <span class={`w-1.5 h-1.5 rounded-full ${isTimberLite ? 'bg-ink' : 'bg-cedar'}`}></span>
-          <span class="eyebrow">{isTimberLite ? 'Sibling line' : 'Seamless family'} · {product.species}</span>
+          <span class="eyebrow">
+            {isTimberLite ? <T en="Sibling line" ja="姉妹ライン" /> : <T en="Seamless family" ja="Seamless ファミリー" />} · <T en={product.species} ja={ja.species} />
+          </span>
         </div>
         <h1 class="text-5xl md:text-7xl font-medium leading-[0.95] tracking-tightest">
-          {product.headline}
+          <T en={product.headline} ja={ja.headline} />
         </h1>
         <h1 class={`text-5xl md:text-7xl font-medium leading-[0.95] tracking-tightest italic mb-6 ${isTimberLite ? 'text-ink' : 'text-cedar'}`}>
-          {product.headlineAccent}
+          <T en={product.headlineAccent} ja={ja.headlineAccent} />
         </h1>
-        {Array.isArray(product.description)
-          ? product.description.map((line) => (
-              <p class="text-lg md:text-xl text-smoke leading-snug max-w-lg mb-2 last:mb-0">{line}</p>
-            ))
-          : <p class="text-lg md:text-xl text-smoke leading-snug max-w-lg">{product.description}</p>
-        }
+        {descEn.map((line, i) => (
+          <p class="text-lg md:text-xl text-smoke leading-snug max-w-lg mb-2 last:mb-0"><T en={line} ja={descJa[i]} /></p>
+        ))}
       </div>
       {/* Label pinned to bottom-left */}
       <div class="absolute bottom-0 left-0 right-0 max-w-7xl mx-auto px-6 pb-8">
         <div class="flex items-center gap-2">
           <span class="w-1.5 h-1.5 rounded-full bg-cedar flex-shrink-0"></span>
-          <span class="eyebrow text-ash">Installed · Residential</span>
+          <span class="eyebrow text-ash"><T en={fieldLabel.en} ja={fieldLabel.ja} /></span>
         </div>
       </div>
     </section>
   ) : (
     <section class="max-w-7xl mx-auto px-6 pt-12 pb-16">
-      <a href="/products" class="eyebrow hover:text-cedar transition-colors inline-flex items-center gap-2 mb-8">
-        ← All products
-      </a>
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+        <a href="/products" class="eyebrow hover:text-cedar transition-colors inline-flex items-center gap-2">
+          <T en="← All products" ja="← 製品一覧" />
+        </a>
+        <ConstructionSwitch current={product.slug} versions={versions} />
+      </div>
       <div class="flex items-center gap-2 mb-4">
         <span class={`w-1.5 h-1.5 rounded-full ${isTimberLite ? 'bg-ink' : 'bg-cedar'}`}></span>
-        <span class="eyebrow">{isTimberLite ? 'Sibling line' : 'Seamless family'} · {product.species}</span>
+        <span class="eyebrow">
+          {isTimberLite ? <T en="Sibling line" ja="姉妹ライン" /> : <T en="Seamless family" ja="Seamless ファミリー" />} · <T en={product.species} ja={ja.species} />
+        </span>
       </div>
       <h1 class="text-5xl md:text-7xl font-medium leading-[0.95] tracking-tightest">
-        {product.headline}
+        <T en={product.headline} ja={ja.headline} />
       </h1>
       <h1 class={`text-5xl md:text-7xl font-medium leading-[0.95] tracking-tightest italic mb-6 ${isTimberLite ? 'text-ink' : 'text-cedar'}`}>
-        {product.headlineAccent}
+        <T en={product.headlineAccent} ja={ja.headlineAccent} />
       </h1>
-      {Array.isArray(product.description)
-        ? product.description.map((line) => (
-            <p class="text-lg md:text-xl text-smoke leading-snug max-w-2xl mb-2 last:mb-0">{line}</p>
-          ))
-        : <p class="text-lg md:text-xl text-smoke leading-snug max-w-2xl">{product.description}</p>
-      }
+      {descEn.map((line, i) => (
+        <p class="text-lg md:text-xl text-smoke leading-snug max-w-2xl mb-2 last:mb-0"><T en={line} ja={descJa[i]} /></p>
+      ))}
     </section>
   )}
 
@@ -94,53 +130,79 @@ const isTimberLite = product.slug === 'timber-lite-doug-fir';
 
   <!-- WHY THIS LINE -->
   <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
-    <div class="eyebrow mb-4">Why {product.name}</div>
+    <div class="eyebrow mb-4"><T en={`Why ${product.name}`} ja={`${product.name} を選ぶ理由`} /></div>
     <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 max-w-2xl mb-12">
-      {product.tagline}
+      <T en={product.tagline} ja={ja.tagline} />
     </h2>
     <div class="grid md:grid-cols-2 gap-x-12 gap-y-8">
       {product.valueProps.map((vp, i) => (
         <div class="border-t border-line pt-4">
           <div class={`text-sm font-medium mb-2 ${isTimberLite ? 'text-ink' : 'text-cedar'}`}>
-            {String(i + 1).padStart(2, '0')} / {vp.title}
+            {String(i + 1).padStart(2, '0')} / <T en={vp.title} ja={ja.valueProps?.[i]?.title} />
           </div>
-          <p class="text-smoke leading-relaxed">{vp.body}</p>
+          <p class="text-smoke leading-relaxed"><T en={vp.body} ja={ja.valueProps?.[i]?.body} /></p>
         </div>
       ))}
     </div>
   </section>
 
+  <!-- PROFILES (boards only) -->
+  {product.profiles && (
+    <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
+      <div class="eyebrow mb-4"><T en="Profiles" ja="プロファイル" /></div>
+      <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-12">
+        <T en="Pick your profile." ja="プロファイルを選ぶ。" />
+      </h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {product.profiles.map((pr) => (
+          <div class="border border-line">
+            <div class="bg-white" style="aspect-ratio: 4/3;">
+              <img src={pr.image} alt={`${product.name} — ${pr.name}`} class="w-full h-full object-contain" loading="lazy" />
+            </div>
+            <div class="p-6 border-t border-line">
+              <div class="flex justify-between items-baseline gap-4 mb-2">
+                <div class="text-xl font-medium tracking-tighter-2"><T en={pr.name} ja={pr.nameJa} /></div>
+                <div class="text-sm text-smoke">{pr.widths}</div>
+              </div>
+              <p class="text-sm text-smoke"><T en={pr.note} ja={pr.noteJa} /></p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
   <!-- TREATMENT DETAILS (treated products only) -->
   {product.treatmentDetails && (
     <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
-      <div class="eyebrow mb-4">Treatment</div>
+      <div class="eyebrow mb-4"><T en="Treatment" ja="防腐処理" /></div>
       <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-12">
-        What's in the wood.
+        <T en="What's in the wood." ja="木材に含まれているもの。" />
       </h2>
       <div class="border-t border-ink">
         <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-start pt-6">
 
           <!-- Left: body + uses -->
           <div>
-            <p class="text-smoke leading-relaxed mb-6">{product.treatmentDetails.body}</p>
-            <p class="text-smoke leading-relaxed">{product.treatmentDetails.uses}</p>
+            <p class="text-smoke leading-relaxed mb-6"><T en={product.treatmentDetails.body} ja={treatJa.body} /></p>
+            <p class="text-smoke leading-relaxed"><T en={product.treatmentDetails.uses} ja={treatJa.uses} /></p>
           </div>
 
           <!-- Right: type/color rows + applications -->
           <div>
             <div class="flex justify-between border-b border-line pb-4 mb-4">
-              <span class="eyebrow text-ash">Treatment type</span>
-              <span class="text-sm font-medium">{product.treatmentDetails.type}</span>
+              <span class="eyebrow text-ash"><T en="Treatment type" ja="処理の種類" /></span>
+              <span class="text-sm font-medium"><T en={product.treatmentDetails.type} ja={treatJa.type} /></span>
             </div>
             <div class="flex justify-between border-b border-line pb-4 mb-8">
-              <span class="eyebrow text-ash">Color additive</span>
-              <span class="text-sm font-medium">{product.treatmentDetails.color}</span>
+              <span class="eyebrow text-ash"><T en="Color additive" ja="着色剤" /></span>
+              <span class="text-sm font-medium"><T en={product.treatmentDetails.color} ja={treatJa.color} /></span>
             </div>
-            <div class="eyebrow text-ash mb-5">Common applications</div>
-            {product.treatmentDetails.applications.map((app) => (
+            <div class="eyebrow text-ash mb-5"><T en="Common applications" ja="主な用途" /></div>
+            {product.treatmentDetails.applications.map((app, i) => (
               <div class="flex items-center gap-3 border-b border-line py-4">
                 <span class="w-1.5 h-1.5 rounded-full bg-cedar flex-shrink-0"></span>
-                <span class="text-sm">{app}</span>
+                <span class="text-sm"><T en={app} ja={treatJa.applications?.[i]} /></span>
               </div>
             ))}
           </div>
@@ -152,44 +214,18 @@ const isTimberLite = product.slug === 'timber-lite-doug-fir';
 
   <!-- SPEC TABLE -->
   <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
-    <div class="eyebrow mb-4">Specifications</div>
+    <div class="eyebrow mb-4"><T en="Specifications" ja="仕様" /></div>
     <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-8">
-      The numbers, all of them.
+      <T en="The numbers, all of them." ja="すべての数値を、ここに。" />
     </h2>
     <div class="border-t border-ink">
       <div class="grid grid-cols-1 md:grid-cols-2">
-        <div class="border-b border-line py-4 flex justify-between md:border-r md:pr-6">
-          <span class="eyebrow">Sizes</span>
-          <span class="text-sm">{product.sizes.map(s => s.replace('x', '×')).join(' · ')}</span>
-        </div>
-        <div class="border-b border-line py-4 flex justify-between md:pl-6">
-          <span class="eyebrow">Lengths</span>
-          <span class="text-sm">{product.lengths}</span>
-        </div>
-        <div class="border-b border-line py-4 flex justify-between md:border-r md:pr-6">
-          <span class="eyebrow">Finishes</span>
-          <span class="text-sm">{product.finishes.join(' · ')}</span>
-        </div>
-        <div class="border-b border-line py-4 flex justify-between md:pl-6">
-          <span class="eyebrow">Colors</span>
-          <span class="text-sm">{product.colors.join(' · ')}</span>
-        </div>
-        <div class="border-b border-line py-4 flex justify-between md:border-r md:pr-6">
-          <span class="eyebrow">Species</span>
-          <span class="text-sm">{product.species}</span>
-        </div>
-        <div class="border-b border-line py-4 flex justify-between md:pl-6">
-          <span class="eyebrow">Fiber source</span>
-          <span class="text-sm">{product.fiber}</span>
-        </div>
-        <div class="border-b border-line py-4 flex justify-between md:border-r md:pr-6">
-          <span class="eyebrow">Warranty</span>
-          <span class="text-sm">{product.warranty}</span>
-        </div>
-        <div class="border-b border-line py-4 flex justify-between md:pl-6">
-          <span class="eyebrow">Hardware</span>
-          <span class="text-sm">Simpson Strong-Tie compatible</span>
-        </div>
+        {specRows.map((row, i) => (
+          <div class={`border-b border-line py-4 flex justify-between gap-4 ${i % 2 === 0 ? 'md:border-r md:pr-6' : 'md:pl-6'}`}>
+            <span class="eyebrow"><T en={row.label} ja={row.labelJa} /></span>
+            <span class="text-sm text-right"><T en={row.en} ja={row.ja ?? row.en} /></span>
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -197,16 +233,16 @@ const isTimberLite = product.slug === 'timber-lite-doug-fir';
   <!-- DOCUMENTS -->
   {product.documents.length > 0 && (
   <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
-    <div class="eyebrow mb-4">Documents</div>
+    <div class="eyebrow mb-4"><T en="Documents" ja="資料" /></div>
     <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-8">
-      Everything you need to spec it.
+      <T en="Everything you need to spec it." ja="仕様決定に必要な資料をすべて。" />
     </h2>
     <div class="grid md:grid-cols-3 gap-4">
       {product.documents.map((doc) => (
         <a href={doc.href} target="_blank" rel="noopener" class="block border border-line p-6 hover:border-ink transition-colors group">
-          <div class="eyebrow mb-2">PDF</div>
+          <div class="eyebrow mb-2"><T en="PDF" ja="PDF（英語）" /></div>
           <div class="text-lg font-medium group-hover:text-cedar transition-colors">
-            {doc.label} →
+            <T en={doc.label} ja={docLabelJa[doc.label]} /> →
           </div>
         </a>
       ))}
@@ -215,20 +251,19 @@ const isTimberLite = product.slug === 'timber-lite-doug-fir';
   )}
 
   <!-- CROSS-SELL -->
-  <CrossSell products={otherProducts} />
+  {otherProducts.length > 0 && <CrossSell products={otherProducts} />}
 
   <!-- CTA -->
   <section class="max-w-7xl mx-auto px-6 py-20 border-t border-line">
     <h2 class="text-4xl md:text-5xl font-medium tracking-tighter-2 mb-4">
-      Spec it. Sample it. <span class="italic text-cedar">Ship it.</span>
+      <T en='Spec it. Sample it. <span class="italic text-cedar">Ship it.</span>' ja='指定して、試して、<span class="italic text-cedar">出荷する。</span>' />
     </h2>
     <p class="text-lg text-smoke max-w-xl mb-8">
-      Talk to our team about pricing, lead times, samples, or technical questions.
-      We answer the phone.
+      <T en="Talk to our team about pricing, lead times, samples, or technical questions. We answer the phone." ja="価格、リードタイム、サンプル、技術的なご質問は、当社チームまでお気軽にご相談ください。お電話にもきちんと対応します。" />
     </p>
     <div class="flex flex-wrap gap-3">
-      <a href="/contact" class="btn-primary">Talk to sales →</a>
-      <a href="/contact" class="btn-secondary">Request samples</a>
+      <a href="/contact" class="btn-primary"><T en="Talk to sales →" ja="営業担当に相談する →" /></a>
+      <a href="/contact" class="btn-secondary"><T en="Request samples" ja="サンプルを依頼する" /></a>
     </div>
   </section>
 </Base>

@@ -1,0 +1,25 @@
+PHOTOS FOR: Seamless-Solid Cedar Timbers
+
+Drop photos in this folder named like this (same as the hollow products):
+
+  Size_Finish_Colour_1.png   (first photo)
+  Size_Finish_Colour_2.png   (second photo, and so on up to _8)
+
+Use dashes instead of spaces. .png or .jpg both work.
+
+Filenames the page will look for:
+
+  4x4_S4S_Natural-WRC_1.png
+  4x4_Rougher-Head_Natural-WRC_1.png
+  4x4_Resawn_Natural-WRC_1.png
+  6x6_S4S_Natural-WRC_1.png
+  6x6_Rougher-Head_Natural-WRC_1.png
+  6x6_Resawn_Natural-WRC_1.png
+  8x8_S4S_Natural-WRC_1.png
+  8x8_Rougher-Head_Natural-WRC_1.png
+  8x8_Resawn_Natural-WRC_1.png
+
+You don't need every one. If a combo has no photo, the page shows another photo of this product.
+
+Optional:
+  field_1.jpg  = an installed/on-site photo. Tell Claude when it's here and it gets used as the big banner at the top of the page.

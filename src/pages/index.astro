@@ -1,8 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
-import { products, productOrder } from '../data/products.js';
+import T from '../components/T.astro';
+import { products, mainLineOrder } from '../data/products.js';
+import { productsJa, optionJa } from '../data/products-ja.js';
 
-const productList = productOrder.map((slug) => products[slug]);
+const productList = mainLineOrder.map((slug) => products[slug]);
+
+// Product strip under the hero: one tile per line, with sizes across the whole
+// line (hollow + solid). Anything not listed falls back to the product's own data.
+const stripSizes = {
+  'seamless-fascia-post': ['4x4', '4x6', '6x6', '8x8'],
+  'seamless-cedar-timbers': ['4x4', '6x6', '8x8'],
+  'seamless-treated': ['4x4', '4x6', '4x8', '6x6', '8x8'],
+  'timber-lite-doug-fir': ['4x4', '6x6', '8x8'],
+  'seamless-cedar-boards': ['1x4 – 1x16'],
+};
+const stripColor = {
+  'seamless-fascia-post': { en: 'Primed', ja: 'プライマー塗装' },
+};
 
 const heroImages = [
   '/images/hero/hero_1.png',
@@ -10,7 +25,7 @@ const heroImages = [
 ];
 ---
 
-<Base title="Seamless™ — Engineered Timbers by CureWood">
+<Base title="Seamless™ — Engineered Timbers by CureWood" titleJa="Seamless™ — CureWood のエンジニアード木材">
 
   <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
   <section class="relative overflow-hidden">
@@ -21,21 +36,23 @@ const heroImages = [
         <div class="relative z-10 py-16 pr-8">
           <div class="flex items-center gap-2 mb-6">
             <span class="w-1.5 h-1.5 rounded-full bg-cedar"></span>
-            <span class="eyebrow">In production · British Columbia · Shipping Constantly</span>
+            <span class="eyebrow"><T en="In production · British Columbia · Shipping Constantly" ja="生産中 · カナダ・ブリティッシュコロンビア州 · 随時出荷" /></span>
           </div>
           <h1 class="text-6xl md:text-8xl font-medium leading-[0.93] tracking-tightest">
-            A timber.
+            <T en="A timber." ja="木材を、" />
           </h1>
           <h1 class="text-6xl md:text-8xl font-medium leading-[0.93] tracking-tightest text-cedar italic mb-8">
-            Just better.
+            <T en="Just better." ja="もっと良く。" />
           </h1>
           <p class="text-lg md:text-xl text-smoke leading-snug max-w-xl mb-10">
-            Hollow-core engineered posts and timbers. Premium timber aesthetics,
-            responsibly sourced, multiple species. A strong warranty that outlasts the trim crew.
+            <T
+              en="Hollow-core engineered posts and timbers. Premium timber aesthetics, responsibly sourced, multiple species. A strong warranty that outlasts the trim crew."
+              ja="中空構造のエンジニアード柱材・角材。上質な木材の意匠、責任ある原木調達、豊富な樹種。そして、長く安心できる保証。"
+            />
           </p>
           <div class="flex flex-wrap gap-3">
-            <a href="/products" class="btn-primary">Browse products →</a>
-            <a href="/contact" class="btn-secondary">Request samples</a>
+            <a href="/products" class="btn-primary"><T en="Browse products →" ja="製品を見る →" /></a>
+            <a href="/contact" class="btn-secondary"><T en="Request samples" ja="サンプルを依頼する" /></a>
           </div>
         </div>
 
@@ -45,6 +62,7 @@ const heroImages = [
             <img
               src={src}
               alt="Seamless engineered timbers"
+              data-ja-alt="Seamless エンジニアード木材"
               class="absolute inset-0 w-full h-full object-cover object-right"
               style={`opacity: ${i === 0 ? '1' : '0'}; transition: opacity 1.8s ease;`}
               data-hero-slide={i}
@@ -76,23 +94,28 @@ const heroImages = [
   <!-- ── PRODUCT STRIP ──────────────────────────────────────────────────── -->
   <div class="border-t border-b border-ink">
     <div class="max-w-7xl mx-auto px-6">
-      <div class="grid grid-cols-2 md:grid-cols-4">
-        {productList.map((p, i) => (
-          <a
-            href={`/products/${p.slug}`}
-            class={`group p-5 border-r border-line last:border-r-0 hover:bg-[#f5f0e8] transition-colors ${i === productList.length - 1 ? 'bg-ink text-bone' : ''}`}
-          >
-            <div class={`eyebrow ${i === productList.length - 1 ? 'text-ash' : ''}`}>
-              {p.name.replace('Seamless ', '').replace('Timber-Lite ', '')}
-            </div>
-            <div class="text-sm mt-1.5">
-              {p.sizes.map((s) => s.replace('x', '×')).join(' · ')}
-            </div>
-            <div class={`text-[11px] mt-0.5 ${i === productList.length - 1 ? 'text-ash' : 'text-smoke'}`}>
-              {p.colors[0]}
-            </div>
-          </a>
-        ))}
+      <div class="grid grid-cols-2 md:grid-cols-5">
+        {productList.map((p) => {
+          // Timber-Lite is the sibling line, so its tile stays dark
+          const dark = p.slug === 'timber-lite-doug-fir';
+          const color = stripColor[p.slug] ?? { en: p.colors[0], ja: optionJa[p.colors[0]] };
+          return (
+            <a
+              href={`/products/${p.slug}`}
+              class={`group p-5 border-r border-line last:border-r-0 transition-colors ${dark ? 'bg-ink text-bone hover:opacity-90' : 'hover:bg-[#f5f0e8]'}`}
+            >
+              <div class={`eyebrow ${dark ? 'text-ash' : ''}`}>
+                {p.name.replace('Seamless ', '').replace('Timber-Lite ', '')}
+              </div>
+              <div class="text-sm mt-1.5">
+                {(stripSizes[p.slug] ?? p.sizes).map((s) => s.replaceAll('x', '×')).join(' · ')}
+              </div>
+              <div class={`text-[11px] mt-0.5 ${dark ? 'text-ash' : 'text-smoke'}`}>
+                <T en={color.en} ja={color.ja} />
+              </div>
+            </a>
+          );
+        })}
       </div>
     </div>
   </div>
@@ -101,9 +124,9 @@ const heroImages = [
   <!-- ── PRODUCTS GRID ──────────────────────────────────────────────────── -->
   <section class="max-w-7xl mx-auto px-6 py-20">
     <div class="mb-12">
-      <div class="eyebrow mb-2">The collection</div>
+      <div class="eyebrow mb-2"><T en="The collection" ja="コレクション" /></div>
       <h2 class="text-4xl md:text-5xl font-medium tracking-tighter-2">
-        Four lines. <span class="italic text-cedar">One warranty.</span>
+        <T en='Five lines. <span class="italic text-cedar">One standard.</span>' ja='5つのライン。<span class="italic text-cedar">ひとつの基準。</span>' />
       </h2>
     </div>
 
@@ -119,16 +142,16 @@ const heroImages = [
               />
             ) : (
               <div class="w-full h-full flex items-center justify-center">
-                <span class="text-[#a89f93] text-[10px] eyebrow tracking-widest">Photo coming soon</span>
+                <span class="text-[#a89f93] text-[10px] eyebrow tracking-widest"><T en="Photo coming soon" ja="写真は近日公開" /></span>
               </div>
             )}
           </div>
           <div class="p-5 border-t border-line">
-            <div class="eyebrow text-ash mb-1">{p.species}</div>
+            <div class="eyebrow text-ash mb-1"><T en={p.species} ja={productsJa[p.slug]?.species} /></div>
             <div class="font-medium text-lg mb-1.5 group-hover:text-cedar transition-colors duration-200">
               {p.name} →
             </div>
-            <div class="text-sm text-smoke leading-snug">{p.tagline}</div>
+            <div class="text-sm text-smoke leading-snug"><T en={p.tagline} ja={productsJa[p.slug]?.tagline} /></div>
           </div>
         </a>
       ))}
@@ -138,30 +161,36 @@ const heroImages = [
   <!-- ── WHY SEAMLESS ───────────────────────────────────────────────────── -->
   <section class="border-t border-line">
     <div class="max-w-7xl mx-auto px-6 py-20">
-      <div class="eyebrow mb-3">Why Seamless</div>
+      <div class="eyebrow mb-3"><T en="Why Seamless" ja="Seamless を選ぶ理由" /></div>
       <h2 class="text-4xl md:text-5xl font-medium tracking-tighter-2 max-w-2xl mb-14">
-        No surprises on delivery. <span class="italic text-cedar">No callbacks on site.</span>
+        <T en='No surprises on delivery. <span class="italic text-cedar">No callbacks on site.</span>' ja='納品時に驚きなし。<span class="italic text-cedar">現場での手直しなし。</span>' />
       </h2>
       <div class="grid md:grid-cols-3 gap-10">
         <div class="border-t-2 border-cedar pt-6">
-          <div class="text-cedar font-medium text-sm mb-3">01 / The look</div>
+          <div class="text-cedar font-medium text-sm mb-3">01 / <T en="The look" ja="見た目" /></div>
           <p class="text-smoke leading-relaxed">
-            Solid faces, and color-matched grain for a near seamless timber.
-            Reads as a single solid post from every angle that matters.
+            <T
+              en="Solid faces, and color-matched grain for a near seamless timber. Reads as a single solid post from every angle that matters."
+              ja="無垢の表面と色を揃えた木目で、継ぎ目をほとんど感じさせない木材に。見る角度を問わず、一本の無垢の柱に見えます。"
+            />
           </p>
         </div>
         <div class="border-t-2 border-cedar pt-6">
-          <div class="text-cedar font-medium text-sm mb-3">02 / The build</div>
+          <div class="text-cedar font-medium text-sm mb-3">02 / <T en="The build" ja="構造" /></div>
           <p class="text-smoke leading-relaxed">
-            Hollow-core construction means stable, lighter, and dimensionally
-            true. Run wires through the middle. Cut it with standard tools.
+            <T
+              en="Hollow-core construction means stable, lighter, and dimensionally true. Run wires through the middle. Cut it with standard tools."
+              ja="中空構造だから、安定していて軽く、寸法も正確。中心に配線を通せて、一般的な工具で切断できます。"
+            />
           </p>
         </div>
         <div class="border-t-2 border-cedar pt-6">
-          <div class="text-cedar font-medium text-sm mb-3">03 / The deal</div>
+          <div class="text-cedar font-medium text-sm mb-3">03 / <T en="The deal" ja="保証と供給" /></div>
           <p class="text-smoke leading-relaxed">
-            Limited warranty against manufacturing defects and joint separation.
-            Responsibly-sourced fiber available in only the lengths you want to build with.
+            <T
+              en="Limited warranty against manufacturing defects and joint separation. Responsibly-sourced fiber available in only the lengths you want to build with."
+              ja="製造上の欠陥と接着部の剥離に対する限定保証付き。責任ある形で調達した原木を、必要な長さだけご用意します。"
+            />
           </p>
         </div>
       </div>
@@ -172,15 +201,17 @@ const heroImages = [
   <section class="bg-ink text-bone py-20">
     <div class="max-w-7xl mx-auto px-6">
       <h2 class="text-4xl md:text-6xl font-medium tracking-tighter-2 mb-4">
-        Spec it. Sample it. <span class="italic text-cedar">Ship it.</span>
+        <T en='Spec it. Sample it. <span class="italic text-cedar">Ship it.</span>' ja='指定して、試して、<span class="italic text-cedar">出荷する。</span>' />
       </h2>
       <p class="text-lg text-ash max-w-xl mb-9">
-        Talk to our team about pricing, lead times, samples, or technical questions.
-        We answer the phone.
+        <T
+          en="Talk to our team about pricing, lead times, samples, or technical questions. We answer the phone."
+          ja="価格、リードタイム、サンプル、技術的なご質問は、当社チームまでお気軽にご相談ください。お電話にもきちんと対応します。"
+        />
       </p>
       <div class="flex flex-wrap gap-3">
-        <a href="/contact" class="btn-primary">Talk to sales →</a>
-        <a href="/contact" class="btn-secondary">Request samples</a>
+        <a href="/contact" class="btn-primary"><T en="Talk to sales →" ja="営業担当に相談する →" /></a>
+        <a href="/contact" class="btn-secondary"><T en="Request samples" ja="サンプルを依頼する" /></a>
       </div>
     </div>
   </section>

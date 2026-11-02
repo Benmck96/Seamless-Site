@@ -1,12 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
+import T from '../components/T.astro';
 ---
 
-<Base title="Contact — Seamless™ by CureWood">
+<Base title="Contact — Seamless™ by CureWood" titleJa="お問い合わせ — Seamless™ by CureWood">
   <section class="max-w-7xl mx-auto px-6 pt-16 pb-24">
-    <div class="eyebrow mb-4">Contact</div>
+    <div class="eyebrow mb-4"><T en="Contact" ja="お問い合わせ" /></div>
     <h1 class="text-5xl md:text-6xl font-medium tracking-tighter-2 max-w-3xl mb-12">
-      Talk to <span class="italic text-cedar">a human.</span>
+      <T en='Talk to <span class="italic text-cedar">a human.</span>' ja='<span class="italic text-cedar">担当者</span>が直接お答えします。' />
     </h1>
 
     <div class="grid md:grid-cols-2 gap-16">
@@ -21,7 +22,7 @@ import Base from '../layouts/Base.astro';
         >
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
-              <label class="eyebrow text-ash block mb-2" for="name">Name</label>
+              <label class="eyebrow text-ash block mb-2" for="name"><T en="Name" ja="お名前" /></label>
               <input
                 id="name"
                 type="text"
@@ -29,33 +30,51 @@ import Base from '../layouts/Base.astro';
                 required
                 class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors"
                 placeholder="Jane Smith"
+                data-ja-placeholder="山田 花子"
               />
             </div>
             <div>
-              <label class="eyebrow text-ash block mb-2" for="company">Company</label>
+              <label class="eyebrow text-ash block mb-2" for="company"><T en="Company" ja="会社名" /></label>
               <input
                 id="company"
                 type="text"
                 name="company"
                 class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors"
                 placeholder="Smith Contracting"
+                data-ja-placeholder="山田工務店"
               />
             </div>
           </div>
 
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
-              <label class="eyebrow text-ash block mb-2" for="phone">Phone</label>
+              <label class="eyebrow text-ash block mb-2" for="email"><T en="Email" ja="メールアドレス" /></label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                required
+                class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors"
+                placeholder="jane@smithcontracting.com"
+                data-ja-placeholder="hanako@example.co.jp"
+              />
+            </div>
+            <div>
+              <label class="eyebrow text-ash block mb-2" for="phone"><T en="Phone" ja="電話番号" /></label>
               <input
                 id="phone"
                 type="tel"
                 name="phone"
                 class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors"
                 placeholder="+1 (604) 555-0100"
+                data-ja-placeholder="+81 3-1234-5678"
               />
             </div>
+          </div>
+
+          <div>
             <div>
-              <label class="eyebrow text-ash block mb-2" for="subject">Subject</label>
+              <label class="eyebrow text-ash block mb-2" for="subject"><T en="Subject" ja="件名" /></label>
               <input
                 id="subject"
                 type="text"
@@ -63,12 +82,13 @@ import Base from '../layouts/Base.astro';
                 required
                 class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors"
                 placeholder="Pricing / Samples / Spec help"
+                data-ja-placeholder="価格 / サンプル / 仕様のご相談"
               />
             </div>
           </div>
 
           <div>
-            <label class="eyebrow text-ash block mb-2" for="message">Message</label>
+            <label class="eyebrow text-ash block mb-2" for="message"><T en="Message" ja="お問い合わせ内容" /></label>
             <textarea
               id="message"
               name="message"
@@ -76,6 +96,7 @@ import Base from '../layouts/Base.astro';
               rows="6"
               class="w-full border border-line bg-transparent px-4 py-3 text-sm focus:outline-none focus:border-ink transition-colors resize-none"
               placeholder="Tell us about your project…"
+              data-ja-placeholder="プロジェクトについてお聞かせください…"
             ></textarea>
           </div>
 
@@ -85,7 +106,7 @@ import Base from '../layouts/Base.astro';
             type="submit"
             class="btn-primary w-full justify-center"
           >
-            Send message →
+            <T en="Send message →" ja="送信する →" />
           </button>
         </form>
       </div>
@@ -93,20 +114,28 @@ import Base from '../layouts/Base.astro';
       <!-- Right: contact info -->
       <div class="space-y-10">
         <div>
-          <div class="eyebrow mb-3">Sales & samples</div>
+          <div class="eyebrow mb-3"><T en="Sales & samples" ja="営業・サンプル" /></div>
           <p class="text-smoke leading-relaxed">
-            For pricing, samples, lead times, or to spec Seamless into a project — fill out the contact form and we'll get back to you within a few hours.
+            <T
+              en="For pricing, samples, lead times, or to spec Seamless into a project — fill out the contact form and we'll get back to you within a few hours."
+              ja="価格、サンプル、リードタイム、またはプロジェクトへの Seamless の採用については、お問い合わせフォームからご連絡ください。数時間以内にご返信します。"
+            />
           </p>
         </div>
 
         <div>
-          <div class="eyebrow mb-3">Location</div>
+          <div class="eyebrow mb-3"><T en="Phone" ja="電話" /></div>
+          <a href="tel:+12507320310" class="text-lg hover:text-cedar transition-colors">(250) 732-0310</a>
+        </div>
+
+        <div>
+          <div class="eyebrow mb-3"><T en="Location" ja="所在地" /></div>
           <p class="text-smoke leading-relaxed mb-4">
-            Designed, engineered, and manufactured on the West Coast.
+            <T en="Designed, engineered, and manufactured on the West Coast." ja="北米西海岸で設計・開発・製造しています。" />
           </p>
           <ul class="space-y-2 text-lg">
-            <li>Vancouver, British Columbia</li>
-            <li>Canada</li>
+            <li><T en="Vancouver, British Columbia" ja="ブリティッシュコロンビア州バンクーバー" /></li>
+            <li><T en="Canada" ja="カナダ" /></li>
           </ul>
         </div>
       </div>
@@ -118,10 +147,14 @@ import Base from '../layouts/Base.astro';
 <script>
   const form = document.getElementById('contact-form') as HTMLFormElement;
   const status = document.getElementById('form-status') as HTMLElement;
+  const isJa = () => document.documentElement.lang === 'ja';
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const data = new FormData(form);
+    const failMsg = isJa()
+      ? '送信できませんでした。お手数ですが technical@curewood.co まで直接メールでご連絡ください。'
+      : 'Something went wrong. Please email us directly at technical@curewood.co.';
 
     try {
       const res = await fetch(form.action, {
@@ -132,16 +165,18 @@ import Base from '../layouts/Base.astro';
 
       if (res.ok) {
         form.reset();
-        status.textContent = 'Message sent — we\'ll be in touch shortly.';
+        status.textContent = isJa()
+          ? '送信しました。担当者より折り返しご連絡いたします。'
+          : 'Message sent — we\'ll be in touch shortly.';
         status.className = 'text-sm text-cedar';
         status.classList.remove('hidden');
       } else {
-        status.textContent = 'Something went wrong. Please email us directly at technical@curewood.co.';
+        status.textContent = failMsg;
         status.className = 'text-sm text-smoke';
         status.classList.remove('hidden');
       }
     } catch {
-      status.textContent = 'Something went wrong. Please email us directly at technical@curewood.co.';
+      status.textContent = failMsg;
       status.className = 'text-sm text-smoke';
       status.classList.remove('hidden');
     }

@@ -1,4 +1,6 @@
 ---
+import T from './T.astro';
+
 const year = new Date().getFullYear();
 ---
 
@@ -7,33 +9,35 @@ const year = new Date().getFullYear();
     <div class="md:col-span-2">
       <div class="text-2xl font-medium tracking-tightest">SEAMLESS<span class="text-cedar">™</span></div>
       <p class="text-sm text-ash mt-3 max-w-xs leading-relaxed">
-        Engineered timber that looks like the real thing — because it is.
-        Manufactured in Vancouver, BC by CureWood Engineered Building Products.
+        <T
+          en="Engineered timber that looks like the real thing — because it is. Manufactured in Vancouver, BC by CureWood Engineered Building Products."
+          ja="本物の木材に見えるエンジニアード材。それは、本物の木だからです。カナダ・ブリティッシュコロンビア州バンクーバーにて、CureWood Engineered Building Products が製造しています。"
+        />
       </p>
     </div>
     <div>
-      <div class="eyebrow mb-4">Explore</div>
+      <div class="eyebrow mb-4"><T en="Explore" ja="サイトマップ" /></div>
       <ul class="space-y-2 text-sm">
-        <li><a href="/products" class="hover:text-cedar transition-colors">Products</a></li>
-        <li><a href="/technical" class="hover:text-cedar transition-colors">Technical</a></li>
-        <li><a href="/substitution" class="hover:text-cedar transition-colors">Substitution</a></li>
-        <li><a href="/sustainability" class="hover:text-cedar transition-colors">Sustainability</a></li>
-        <li><a href="/contact" class="hover:text-cedar transition-colors">Contact</a></li>
+        <li><a href="/products" class="hover:text-cedar transition-colors"><T en="Products" ja="製品" /></a></li>
+        <li><a href="/technical" class="hover:text-cedar transition-colors"><T en="Technical" ja="技術情報" /></a></li>
+        <li><a href="/substitution" class="hover:text-cedar transition-colors"><T en="Substitution" ja="製品代替のご依頼" /></a></li>
+        <li><a href="/sustainability" class="hover:text-cedar transition-colors"><T en="Sustainability" ja="サステナビリティ" /></a></li>
+        <li><a href="/contact" class="hover:text-cedar transition-colors"><T en="Contact" ja="お問い合わせ" /></a></li>
       </ul>
     </div>
     <div>
-      <div class="eyebrow mb-4">Contact</div>
+      <div class="eyebrow mb-4"><T en="Contact" ja="連絡先" /></div>
       <ul class="space-y-2 text-sm">
         <li>+1-250-732-0310</li>
         <li><a href="mailto:technical@curewood.co" class="hover:text-cedar transition-colors">technical@curewood.co</a></li>
-        <li>Vancouver, BC</li>
+        <li><T en="Vancouver, BC" ja="カナダ・BC州バンクーバー" /></li>
       </ul>
     </div>
   </div>
   <div class="border-t border-smoke">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center text-[11px] text-ash uppercase tracking-wider-2">
       <span>© {year} CureWood Engineered Building Products</span>
-      <span>Made in BC</span>
+      <span><T en="Made in BC" ja="カナダ・BC州製" /></span>
     </div>
   </div>
 </footer>
