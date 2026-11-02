@@ -214,7 +214,7 @@ export const products = {
     pair: 'seamless-fascia-post',
     imageFolder: 'fascia-post-solid',
     featuredImage: null,
-    fieldImages: [],
+    fieldImages: ['/images/products/fascia-post/field_1.jpg'], // same banner as the hollow version
     name: 'Seamless-Solid Fascia Post',
     species: 'Tight-Knot SPF (Spruce-Pine-Fir)',
     substitutionSummary: 'a one-piece, engineered solid-laminated SPF (Spruce-Pine-Fir) member, that comes pre-primed and ready to install',
@@ -251,7 +251,7 @@ export const products = {
     pair: 'seamless-cedar-timbers',
     imageFolder: 'cedar-timbers-solid',
     featuredImage: null,
-    fieldImages: [],
+    fieldImages: ['/images/products/cedar-timbers/field_1.png'], // same banner as the hollow version
     name: 'Seamless-Solid Cedar Timbers',
     species: 'Tight-Knot Coastal Western Red Cedar',
     substitutionSummary: 'a one-piece, engineered solid-laminated Western Red Cedar member',
