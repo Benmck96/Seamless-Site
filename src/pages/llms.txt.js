@@ -36,7 +36,7 @@ Key facts:
 - Uses: porch posts and columns, exterior timbers, beam wraps, fascia, trim and siding.
 - Hollow-core posts have a built-in channel for hidden wiring and work with standard Simpson Strong-Tie post bases and caps.
 - The hollow Seamless Fascia Post carries QAI Laboratories code evaluation reports CERUS-1064 (USA) and CERcan-1065 (Canada).
-- Pricing, availability and where to buy: technical@curewood.co, +1-250-732-0310.
+- Pricing, availability and where to buy: contact CureWood through ${base}/contact.
 
 ## Products
 

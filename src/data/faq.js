@@ -73,8 +73,8 @@ export const faqs = [
   {
     q: 'How do I get pricing or buy Seamless?',
     qJa: '価格の確認や購入はどうすればよいですか？',
-    a: 'Contact CureWood at <a href="mailto:technical@curewood.co">technical@curewood.co</a> or +1-250-732-0310, or use the <a href="/contact">contact form</a>. Tell us the product, size, length and quantity and where the project is, and we will get you pricing and supply details.',
-    aJa: '<a href="mailto:technical@curewood.co">technical@curewood.co</a> または +1-250-732-0310 までご連絡いただくか、<a href="/contact">お問い合わせフォーム</a>をご利用ください。製品・サイズ・長さ・数量とプロジェクトの所在地をお知らせいただければ、価格と供給についてご案内します。',
+    a: 'Reach CureWood through the <a href="/contact">contact page</a> (https://www.curewood.co/contact). Tell us the product, size, length and quantity and where the project is, and we will get you pricing and supply details.',
+    aJa: '<a href="/contact">お問い合わせページ</a>（https://www.curewood.co/contact）からご連絡ください。製品・サイズ・長さ・数量とプロジェクトの所在地をお知らせいただければ、価格と供給についてご案内します。',
   },
   {
     q: 'Can I send Seamless specs to my engineer or architect?',
