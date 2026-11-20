@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import T from '../components/T.astro';
+import { faqs, stripHtml } from '../data/faq.js';
+
+// FAQPage schema so search engines and AI assistants can read each answer directly.
+const faqJsonLd = {
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: stripHtml(f.a) },
+  })),
+};
+---
+
+<Base
+  title="FAQ — Seamless™ Engineered Wood Posts & Timbers"
+  titleJa="よくあるご質問 — Seamless™ エンジニアード木材"
+  description="Answers about Seamless engineered wood posts and timbers: real wood, hollow-core vs. solid, structural loads, sizes, finishing, ground contact, wiring, hardware, warranty and how to buy."
+  jsonLd={faqJsonLd}
+>
+  <section class="max-w-7xl mx-auto px-6 border-b border-line" style="padding-top: 6rem; padding-bottom: 6rem;">
+    <div class="eyebrow mb-6"><T en="FAQ" ja="よくあるご質問" /></div>
+    <h1 class="text-5xl md:text-6xl font-medium tracking-tighter-2 leading-[0.95] max-w-3xl">
+      <T en="Questions builders<br />" ja="施工者・設計者から<br />" />
+      <span class="italic text-cedar"><T en="actually ask." ja="よくいただく質問。" /></span>
+    </h1>
+  </section>
+
+  <section class="max-w-4xl mx-auto px-6 py-20">
+    <div class="divide-y divide-line border-y border-line">
+      {faqs.map((f) => (
+        <div class="py-8">
+          <h2 class="text-xl md:text-2xl font-medium tracking-tighter-2 mb-3"><T en={f.q} ja={f.qJa} /></h2>
+          <p class="text-smoke leading-relaxed faq-answer"><T en={f.a} ja={f.aJa} /></p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-6 pb-20">
+    <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-4">
+      <T en='Still have a <span class="italic text-cedar">question?</span>' ja='ほかにも<span class="italic text-cedar">ご質問</span>がありますか？' />
+    </h2>
+    <p class="text-lg text-smoke max-w-xl mb-8">
+      <T en="Engineering data, project questions or samples — our team answers the phone." ja="技術データ、プロジェクトのご相談、サンプルのご依頼など、お気軽にお電話ください。" />
+    </p>
+    <div class="flex flex-wrap gap-3">
+      <a href="/contact" class="btn-primary"><T en="Talk to us →" ja="相談する →" /></a>
+      <a href="/products" class="btn-secondary"><T en="See the products" ja="製品を見る" /></a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .faq-answer :global(a) { text-decoration: underline; text-underline-offset: 3px; }
+  .faq-answer :global(a:hover) { color: #D4451F; }
+</style>

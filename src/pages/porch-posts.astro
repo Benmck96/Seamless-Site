@@ -1,0 +1,160 @@
+---
+import Base from '../layouts/Base.astro';
+import T from '../components/T.astro';
+import { products } from '../data/products.js';
+
+// "Which post for which porch" — each pick links to the product page.
+const picks = [
+  {
+    look: 'Painted', lookJa: '塗装仕上げ',
+    want: 'A crisp painted column that matches the trim.', wantJa: 'トリムと揃えた、すっきりした塗装仕上げの柱。',
+    slug: 'seamless-fascia-post', solid: 'seamless-solid-fascia-post',
+    why: 'Primed SPF in Grey or Cedar-Brown — install, then apply the final coat. The hollow version is code-evaluated by QAI (CERUS-1064 / CERcan-1065).',
+    whyJa: 'グレーまたはシダーブラウンのプライマー塗装済み SPF。取り付けて上塗りするだけです。中空タイプは QAI のコード評価（CERUS-1064 / CERcan-1065）を取得しています。',
+  },
+  {
+    look: 'Natural cedar', lookJa: '天然のシーダー',
+    want: 'Warm, real cedar grain left natural or under a clear finish.', wantJa: '天然のまま、またはクリア仕上げで見せる、温かみのあるシーダーの木目。',
+    slug: 'seamless-cedar-timbers', solid: 'seamless-solid-cedar-timbers',
+    why: 'Tight-knot Coastal Western Red Cedar with colour-matched faces that read as a single solid timber. 25-year limited warranty.',
+    whyJa: '節の締まった沿岸産ウエスタンレッドシーダー。色合わせされた面が一本の無垢材のように見えます。25 年限定保証。',
+  },
+  {
+    look: 'Stained Douglas-fir', lookJa: 'ステイン仕上げのダグラスファー',
+    want: 'A heavy-timber, structural look with a stained finish.', wantJa: 'ステインで仕上げる、重厚な構造材の雰囲気。',
+    slug: 'timber-lite-doug-fir', solid: 'seamless-solid-kd-doug-fir',
+    why: 'Real Douglas-fir grain on every face that takes stain evenly. Hollow-core Timber-Lite is light to handle; Solid KD Douglas-fir is solid all the way through.',
+    whyJa: 'すべての面が本物のダグラスファーで、ステインがむらなく入ります。中空構造の Timber-Lite は軽く扱いやすく、Solid KD Douglas-fir は芯まで木です。',
+  },
+  {
+    look: 'Wet or ground contact', lookJa: '湿気の多い場所・地面に接する場所',
+    want: 'A post for exposed, wet or ground-level locations.', wantJa: '雨ざらし、湿気の多い場所、地面に近い場所向けの柱。',
+    slug: 'seamless-treated', solid: 'seamless-solid-treated',
+    why: 'Copper Azole pressure treatment protects against rot, decay and termites, with a warm Tanatone brown colour.',
+    whyJa: '銅アゾール（CA）の加圧注入処理で腐朽・腐れ・シロアリから守ります。色は温かみのあるタナトーンブラウンです。',
+  },
+].map((p) => ({ ...p, product: products[p.slug], solidProduct: products[p.solid] }));
+
+const steps = [
+  {
+    title: 'Hollow-core or solid', titleJa: '中空構造かソリッドか',
+    body: 'Both look the same once installed. Hollow-core posts are lighter and have a built-in channel for porch lighting wiring. Solid laminated posts are solid wood through and come in more sizes, including 4x4, and some lines run to 20′.',
+    bodyJa: '取り付けてしまえば見た目は同じです。中空構造の柱は軽く、ポーチ照明の配線を通せるチャンネルが内蔵されています。ソリッド集成の柱は芯まで木で、4x4 を含むサイズ展開があり、一部のシリーズは最長 20′ です。',
+  },
+  {
+    title: 'Size: 6x6 or 8x8', titleJa: 'サイズ：6x6 か 8x8 か',
+    body: 'Most Seamless porch posts come in 6x6 and 8x8. An 8x8 gives a heavier, more substantial look and, for the Fascia Post, a higher published load capacity at every height.',
+    bodyJa: 'Seamless のポーチ用の柱は主に 6x6 と 8x8 です。8x8 はより重厚な見た目になり、Fascia Post ではどの高さでも公開されている許容荷重が大きくなります。',
+  },
+  {
+    title: 'Length', titleJa: '長さ',
+    body: 'Hollow-core posts come in 8′, 9′, 10′ and 12′ lengths (lengths vary by line). Order the length that covers the finished post height so you cut once and keep the best end.',
+    bodyJa: '中空構造の柱は 8′、9′、10′、12′ です（シリーズにより異なります）。仕上がりの柱の高さに足りる長さを選べば、切断は一度で済み、きれいな木口を残せます。',
+  },
+  {
+    title: 'Structure and the building official', titleJa: '構造と確認申請',
+    body: 'If the post carries the roof, the hollow Seamless Fascia Post has published allowable axial loads from QAI Laboratories for 6′ to 12′ heights. Send the code evaluation to your designer or building official with the substitution package. For other lines, confirm structural use with the project designer or engineer of record.',
+    bodyJa: '屋根を支える柱の場合、中空構造の Seamless Fascia Post には QAI Laboratories による高さ 6′〜12′ の許容軸荷重が公開されています。製品代替のパッケージで、コード評価を設計者や審査機関へお送りください。その他のシリーズを構造用途に使う場合は、設計者または構造設計責任者にご確認ください。',
+  },
+  {
+    title: 'Bases, caps and installation', titleJa: '柱脚・柱頭と施工',
+    body: 'Seamless posts work with standard Simpson Strong-Tie post bases and caps. Use an elevated base to keep the end grain clear of standing water, and follow the installation guide for moisture management, fastening and finishing.',
+    bodyJa: 'Seamless の柱は、シンプソン・ストロングタイの一般的な柱脚・柱頭キャップに対応しています。木口が水たまりに触れないよう高床式の柱脚を使い、湿気対策・留め付け・仕上げは施工ガイドに従ってください。',
+  },
+];
+---
+
+<Base
+  title="Porch Posts & Columns Guide — Seamless™ Engineered Wood"
+  titleJa="ポーチの柱ガイド — Seamless™ エンジニアード木材"
+  description="How to choose an engineered wood porch post or column: painted, natural cedar, stained Douglas-fir or treated; hollow-core vs. solid; 6x6 vs. 8x8; lengths, structural loads and installation."
+>
+  <!-- HEADER -->
+  <section class="max-w-7xl mx-auto px-6 border-b border-line" style="padding-top: 6rem; padding-bottom: 6rem;">
+    <div class="eyebrow mb-6"><T en="Guide · Porch posts &amp; columns" ja="ガイド · ポーチの柱" /></div>
+    <h1 class="text-5xl md:text-6xl font-medium tracking-tighter-2 leading-[0.95] max-w-3xl mb-8">
+      <T en="The porch column,<br />" ja="ポーチの柱を、<br />" />
+      <span class="italic text-cedar"><T en="in one piece." ja="一本で。" /></span>
+    </h1>
+    <div class="max-w-2xl space-y-4 text-lg text-smoke leading-relaxed">
+      <p>
+        <T
+          en="Porch posts take more weather than almost any other part of a house. Solid sawn timbers twist and check as they dry, and site-wrapped columns take hours of trim work and can open up at the seams."
+          ja="ポーチの柱は、家のどの部分よりも風雨にさらされます。無垢の製材品は乾燥とともにねじれや干割れが起こり、現場で巻く柱は手間のかかるトリム作業が必要なうえ、継ぎ目が開くことがあります。"
+        />
+      </p>
+      <p>
+        <T
+          en="Seamless engineered wood posts arrive as one finished piece of real wood — straighter and more stable than solid sawn stock, and ready to install without wrapping."
+          ja="Seamless のエンジニアードウッドの柱は、本物の木の一本の完成品として届きます。無垢の製材品よりまっすぐで安定し、巻く作業なしでそのまま取り付けられます。"
+        />
+      </p>
+    </div>
+  </section>
+
+  <!-- PICK THE LOOK -->
+  <section class="max-w-7xl mx-auto px-6 py-20 border-b border-line">
+    <div class="eyebrow mb-4"><T en="Step 1" ja="ステップ 1" /></div>
+    <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-12">
+      <T en="Start with the look you want." ja="まず、仕上がりの見た目を決める。" />
+    </h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      {picks.map((p) => (
+        <div class="border border-line flex flex-col">
+          {p.product.featuredImage && (
+            <img src={p.product.featuredImage} alt={p.product.name} class="w-full object-cover bg-white" style="aspect-ratio: 16/9;" loading="lazy" />
+          )}
+          <div class="p-8 flex flex-col flex-1">
+            <div class="eyebrow text-cedar mb-2"><T en={p.look} ja={p.lookJa} /></div>
+            <div class="text-xl font-medium mb-2"><T en={p.want} ja={p.wantJa} /></div>
+            <p class="text-smoke leading-relaxed mb-6">
+              <span class="font-medium text-ink">{p.product.name}.</span> <T en={p.why} ja={p.whyJa} />
+            </p>
+            <div class="mt-auto flex flex-wrap gap-x-6 gap-y-2">
+              <a href={`/products/${p.slug}`} class="eyebrow hover:text-cedar transition-colors">{p.product.name} →</a>
+              <a href={`/products/${p.solid}`} class="eyebrow text-ash hover:text-cedar transition-colors">{p.solidProduct.name} →</a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- STEPS 2-6 -->
+  <section class="max-w-7xl mx-auto px-6 py-20 border-b border-line">
+    <div class="eyebrow mb-4"><T en="Steps 2–6" ja="ステップ 2〜6" /></div>
+    <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-12">
+      <T en="Then settle the details." ja="次に、細部を決める。" />
+    </h2>
+    <div class="grid md:grid-cols-2 gap-x-12 gap-y-8">
+      {steps.map((s, i) => (
+        <div class="border-t border-line pt-4">
+          <h3 class="text-sm font-medium text-cedar mb-2">0{i + 2} / <T en={s.title} ja={s.titleJa} /></h3>
+          <p class="text-smoke leading-relaxed"><T en={s.body} ja={s.bodyJa} /></p>
+        </div>
+      ))}
+    </div>
+    <div class="flex flex-wrap gap-x-8 gap-y-3 mt-12">
+      <a href="/technical" class="eyebrow hover:text-cedar transition-colors"><T en="Load tables &amp; connection details →" ja="荷重表と接合ディテール →" /></a>
+      <a href="/compare" class="eyebrow hover:text-cedar transition-colors"><T en="Seamless vs. other post options →" ja="他の柱材との比較 →" /></a>
+      <a href="/faq" class="eyebrow hover:text-cedar transition-colors"><T en="FAQ →" ja="よくあるご質問 →" /></a>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="max-w-7xl mx-auto px-6 py-20">
+    <h2 class="text-4xl md:text-5xl font-medium tracking-tighter-2 mb-4">
+      <T en='Spec it <span class="italic text-cedar">once.</span>' ja='<span class="italic text-cedar">一度で</span>決まる仕様を。' />
+    </h2>
+    <p class="text-lg text-smoke max-w-xl mb-8">
+      <T
+        en="Send the spec package to your engineer or architect, or tell us about your porch and we'll help you pick the right post."
+        ja="仕様パッケージを設計者や建築家に送るか、ポーチについてお知らせください。最適な柱選びをお手伝いします。"
+      />
+    </p>
+    <div class="flex flex-wrap gap-3">
+      <a href="/substitution" class="btn-primary"><T en="Send the spec package →" ja="仕様パッケージを送る →" /></a>
+      <a href="/contact" class="btn-secondary"><T en="Talk to us" ja="相談する" /></a>
+    </div>
+  </section>
+</Base>

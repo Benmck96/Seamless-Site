@@ -1,0 +1,191 @@
+---
+import Base from '../layouts/Base.astro';
+import T from '../components/T.astro';
+
+const options = [
+  { en: 'Seamless engineered wood', ja: 'Seamless エンジニアードウッド', highlight: true },
+  { en: 'Solid sawn timber', ja: '無垢の製材品' },
+  { en: 'Site-wrapped column', ja: '現場で巻く柱' },
+  { en: 'Fiberglass or PVC column', ja: 'FRP（ガラス繊維）・PVC の柱' },
+];
+
+// One row per question; cells follow the order of `options`.
+const rows = [
+  {
+    label: 'Material', labelJa: '素材',
+    cells: [
+      ['Real wood — cedar, SPF, Douglas-fir or treated', '本物の木（シーダー、SPF、ダグラスファー、防腐処理材）'],
+      ['Real wood', '本物の木'],
+      ['Boards and trim around a structural post', '構造用の柱をボードやトリムで囲ったもの'],
+      ['Glass fiber and resin, or PVC plastic', 'ガラス繊維と樹脂、または PVC プラスチック'],
+    ],
+  },
+  {
+    label: 'How it arrives', labelJa: '納品時の状態',
+    cells: [
+      ['One finished piece, ready to install', '一本の完成品。そのまま取り付け可能'],
+      ['Rough or planed stock; select, cull and finish on site', '粗材またはプレーナー材。現場で選別・仕上げ'],
+      ['Built on site from many pieces', '多くの部材から現場で組み立て'],
+      ['Ready-made shell; many wrap a separate structural post', '既製のシェル。別の構造用の柱を囲うものが多い'],
+    ],
+  },
+  {
+    label: 'Stability', labelJa: '安定性',
+    cells: [
+      ['Engineered to resist twisting and surface checking', 'ねじれや表面の干割れを抑えるよう設計'],
+      ['Can twist, crown and check as it dries', '乾燥とともにねじれ・反り・干割れが起こることがある'],
+      ['Depends on workmanship; seams and miters can open', '施工品質次第。継ぎ目や留め部が開くことがある'],
+      ['Dimensionally stable', '寸法が安定'],
+    ],
+  },
+  {
+    label: 'Appearance', labelJa: '見た目',
+    cells: [
+      ['Reads as a single solid timber; real grain on every face', '一本の無垢材に見え、すべての面に本物の木目'],
+      ['Solid timber, including any checks and defects', '干割れや欠点も含めた無垢材そのもの'],
+      ['Visible joints at corners unless finished carefully', '丁寧に仕上げないと角に継ぎ目が見える'],
+      ['Molded finish; no real wood grain', '成形による仕上げ。本物の木目はない'],
+    ],
+  },
+  {
+    label: 'Structural data', labelJa: '構造データ',
+    cells: [
+      ['Hollow Fascia Post: QAI code-evaluated (CERUS-1064 / CERcan-1065)', '中空 Fascia Post：QAI コード評価取得（CERUS-1064 / CERcan-1065）'],
+      ['Standard lumber design values by species and grade', '樹種・等級ごとの一般的な製材の設計値'],
+      ['Comes from the structural post inside', '内部の構造用の柱による'],
+      ['Varies by manufacturer and model', 'メーカー・製品により異なる'],
+    ],
+  },
+  {
+    label: 'Finishing', labelJa: '仕上げ',
+    cells: [
+      ['Primed for paint, natural cedar, or stain-ready fir', '塗装用プライマー済み、天然シーダー、ステイン対応のファー'],
+      ['Paint or stain after it has dried and been prepped', '乾燥・下地処理のあとに塗装やステイン'],
+      ['Paint, after filling and caulking seams', '継ぎ目をパテ・コーキングしてから塗装'],
+      ['Usually painted', '通常は塗装'],
+    ],
+  },
+  {
+    label: 'Hidden wiring', labelJa: '配線の隠蔽',
+    cells: [
+      ['Built-in channel in hollow-core posts', '中空構造の柱に通線チャンネル内蔵'],
+      ['Must be bored', '穴あけが必要'],
+      ['Can run inside the wrap', '囲いの内部に通せる'],
+      ['Often hollow', '中空のものが多い'],
+    ],
+  },
+  {
+    label: 'Renewable', labelJa: '再生可能性',
+    cells: [
+      ['Yes — BC fiber that stores carbon for the life of the building', 'はい。建物が使われる限り炭素を蓄える BC州産の原木'],
+      ['Yes', 'はい'],
+      ['Mostly wood', '大部分は木'],
+      ['No — glass, resin or plastic', 'いいえ。ガラス、樹脂、プラスチック'],
+    ],
+  },
+];
+
+const whenOther = [
+  {
+    title: 'Solid sawn timber', titleJa: '無垢の製材品',
+    body: 'When checks, splits and movement are part of the rustic character you want, or a project calls for a size or length outside the Seamless range.',
+    bodyJa: '干割れや割れ、木の動きもラスティックな味わいとして楽しみたい場合や、Seamless のサイズ・長さの範囲外が必要な場合。',
+  },
+  {
+    title: 'Fiberglass or PVC', titleJa: 'FRP・PVC',
+    body: 'When you need a round, tapered or classical column. Seamless posts are square.',
+    bodyJa: '丸柱、エンタシス、クラシックな円柱が必要な場合。Seamless の柱は角柱です。',
+  },
+  {
+    title: 'Site-wrapped column', titleJa: '現場で巻く柱',
+    body: 'When a column needs an oversized or custom profile built around an existing post.',
+    bodyJa: '既存の柱のまわりに、特大や特注の形状の柱をつくる必要がある場合。',
+  },
+];
+---
+
+<Base
+  title="Seamless vs. Solid Timber, Wrapped & Fiberglass Columns"
+  titleJa="Seamless と無垢材・現場巻き・FRP の柱の比較"
+  description="How Seamless engineered wood posts compare with solid sawn timbers, site-wrapped columns and fiberglass or PVC columns: material, stability, appearance, structural data, finishing, wiring and sustainability."
+>
+  <!-- HEADER -->
+  <section class="max-w-7xl mx-auto px-6 border-b border-line" style="padding-top: 6rem; padding-bottom: 6rem;">
+    <div class="eyebrow mb-6"><T en="Compare" ja="比較" /></div>
+    <h1 class="text-5xl md:text-6xl font-medium tracking-tighter-2 leading-[0.95] max-w-3xl mb-8">
+      <T en="Alternatives to<br />" ja="無垢材に代わる<br />" />
+      <span class="italic text-cedar"><T en="solid wood timbers." ja="柱材の選択肢。" /></span>
+    </h1>
+    <p class="max-w-2xl text-lg text-smoke leading-relaxed">
+      <T
+        en="Porch posts, columns and exterior timbers usually come down to four options. Here is how Seamless engineered wood compares with solid sawn timber, a column wrapped on site, and fiberglass or PVC."
+        ja="ポーチの柱や屋外の角材は、たいてい 4 つの選択肢に絞られます。Seamless のエンジニアードウッドを、無垢の製材品、現場で巻く柱、FRP・PVC の柱と比べてみましょう。"
+      />
+    </p>
+  </section>
+
+  <!-- TABLE -->
+  <section class="max-w-7xl mx-auto px-6 py-20 border-b border-line">
+    <div class="overflow-x-auto -mx-6 px-6">
+      <table class="w-full text-sm border-collapse" style="min-width: 760px;">
+        <thead>
+          <tr class="border-b border-ink">
+            <th class="text-left py-3 pr-4 w-[16%]"><span class="sr-only"><T en="Question" ja="項目" /></span></th>
+            {options.map((o) => (
+              <th scope="col" class={`text-left py-3 px-4 align-bottom font-medium ${o.highlight ? 'text-cedar bg-cedar/5' : ''}`}><T en={o.en} ja={o.ja} /></th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr class="border-b border-line align-top">
+              <th scope="row" class="text-left py-4 pr-4 eyebrow text-ash font-normal"><T en={r.label} ja={r.labelJa} /></th>
+              {r.cells.map(([en, ja], i) => (
+                <td class={`py-4 px-4 leading-relaxed ${options[i].highlight ? 'bg-cedar/5 text-ink' : 'text-smoke'}`}><T en={en} ja={ja} /></td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="text-xs text-ash mt-6 max-w-3xl">
+      <T
+        en="General comparison only. Products from other manufacturers vary; check their published data. Structural use of any post should be confirmed by the project designer or engineer of record."
+        ja="一般的な比較です。他社製品は製品ごとに異なりますので、各社の公開データをご確認ください。どの柱も、構造用途に使う場合は設計者または構造設計責任者にご確認ください。"
+      />
+    </p>
+  </section>
+
+  <!-- WHEN SOMETHING ELSE FITS -->
+  <section class="max-w-7xl mx-auto px-6 py-20 border-b border-line">
+    <div class="eyebrow mb-4"><T en="Fair is fair" ja="公平に言えば" /></div>
+    <h2 class="text-3xl md:text-4xl font-medium tracking-tighter-2 mb-12">
+      <T en="When another option fits better." ja="ほかの選択肢が合う場合。" />
+    </h2>
+    <div class="grid md:grid-cols-3 gap-x-12 gap-y-8">
+      {whenOther.map((w) => (
+        <div class="border-t border-line pt-4">
+          <h3 class="text-sm font-medium text-cedar mb-2"><T en={w.title} ja={w.titleJa} /></h3>
+          <p class="text-smoke leading-relaxed"><T en={w.body} ja={w.bodyJa} /></p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="max-w-7xl mx-auto px-6 py-20">
+    <h2 class="text-4xl md:text-5xl font-medium tracking-tighter-2 mb-4">
+      <T en='Real wood. <span class="italic text-cedar">One piece.</span>' ja='本物の木を、<span class="italic text-cedar">一本で。</span>' />
+    </h2>
+    <p class="text-lg text-smoke max-w-xl mb-8">
+      <T
+        en="See which Seamless post suits your porch, or browse the full range."
+        ja="ポーチに合う Seamless の柱を選ぶか、全製品をご覧ください。"
+      />
+    </p>
+    <div class="flex flex-wrap gap-3">
+      <a href="/porch-posts" class="btn-primary"><T en="Porch post guide →" ja="ポーチの柱ガイド →" /></a>
+      <a href="/products" class="btn-secondary"><T en="See the products" ja="製品を見る" /></a>
+    </div>
+  </section>
+</Base>

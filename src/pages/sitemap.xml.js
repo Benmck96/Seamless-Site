@@ -2,7 +2,7 @@
 // Product pages come from products.js, so new products are picked up automatically.
 import { productOrder } from '../data/products.js';
 
-const staticPages = ['/', '/products', '/technical', '/sustainability', '/substitution', '/contact'];
+const staticPages = ['/', '/products', '/porch-posts', '/compare', '/faq', '/technical', '/sustainability', '/substitution', '/contact'];
 
 export function GET({ site }) {
   const base = (site?.href ?? 'https://www.curewood.co/').replace(/\/$/, '');

@@ -1,6 +1,7 @@
 // /llms.txt — a plain-text summary of the site for AI assistants (llmstxt.org format).
 // Built from products.js so it never drifts from the product pages.
 import { products, productOrder } from '../data/products.js';
+import { faqs, stripHtml } from '../data/faq.js';
 
 const clean = (s) => String(s ?? '').replace(/\s+/g, ' ').trim();
 
@@ -40,6 +41,16 @@ Key facts:
 ## Products
 
 ${productLines.join('\n')}
+
+## Guides
+
+- [Porch posts & columns guide](${base}/porch-posts): how to choose an engineered wood porch post — painted, natural cedar, stained Douglas-fir or treated; hollow-core vs. solid; 6x6 vs. 8x8; length, structure and installation.
+- [Seamless vs. other post options](${base}/compare): compared with solid sawn timbers, site-wrapped columns and fiberglass or PVC columns.
+- [FAQ](${base}/faq): common questions about Seamless.
+
+## Frequently asked questions
+
+${faqs.map((f) => `### ${f.q}\n${stripHtml(f.a)}`).join('\n\n')}
 
 ## Technical
 
