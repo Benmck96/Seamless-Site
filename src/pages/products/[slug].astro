@@ -53,9 +53,27 @@ const fieldLabel = product.fieldLabel ?? { en: 'Installed · Residential', ja: '
 const docCols = ['lg:grid-cols-1', 'lg:grid-cols-2', 'lg:grid-cols-3', 'lg:grid-cols-4'][Math.max(1, Math.min(product.documents.length, 4)) - 1];
 const descJa = ja.description ? (Array.isArray(ja.description) ? ja.description : [ja.description]) : [];
 const treatJa = ja.treatmentDetails ?? {};
+
+// schema.org Product data for search engines and AI assistants.
+const siteUrl = (Astro.site?.href ?? 'https://www.curewood.co/').replace(/\/$/, '');
+const productJsonLd = {
+  '@type': 'Product',
+  name: product.name,
+  url: `${siteUrl}/products/${product.slug}`,
+  image: product.featuredImage ? `${siteUrl}${product.featuredImage}` : undefined,
+  description: [product.tagline, ...descEn].join(' '),
+  category: product.construction === 'FJ Edge-Glued' ? 'Engineered wood boards and siding' : 'Engineered wood posts and timbers',
+  material: product.species,
+  brand: { '@type': 'Brand', name: 'Seamless' },
+  manufacturer: { '@id': `${siteUrl}/#organization` },
+  additionalProperty: specRows.map((r) => ({ '@type': 'PropertyValue', name: r.label, value: r.en })),
+};
+
+// Description for the <meta> tag and search snippets: tagline plus the first paragraph.
+const metaDescription = `${product.tagline} ${descEn[0] ?? ''}`.trim();
 ---
 
-<Base title={`${product.name} — Seamless™ by CureWood`} titleJa={`${product.name} — Seamless™ by CureWood`} description={product.tagline}>
+<Base title={`${product.name} — Seamless™ by CureWood`} titleJa={`${product.name} — Seamless™ by CureWood`} description={metaDescription} jsonLd={productJsonLd}>
   <!-- HERO -->
   {product.fieldImages?.length > 0 ? (
     <section class="relative overflow-hidden" style="min-height: 600px;">

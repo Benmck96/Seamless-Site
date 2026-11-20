@@ -1,0 +1,6 @@
+# Search engines and AI assistants are welcome to read the whole site.
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://www.curewood.co/sitemap.xml

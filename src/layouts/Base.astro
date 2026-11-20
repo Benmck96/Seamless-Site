@@ -8,13 +8,37 @@ export interface Props {
   title: string;
   titleJa?: string;
   description?: string;
+  /** Extra schema.org JSON-LD for this page (e.g. a Product), added after the Organization block. */
+  jsonLd?: Record<string, unknown>;
 }
 
 const {
   title,
   titleJa,
   description = 'Seamless engineered timbers by CureWood. Hollow-core posts and timbers in cedar, treated, cypress, and Douglas-fir. Premium timber aesthetics, responsibly sourced.',
+  jsonLd,
 } = Astro.props;
+
+const siteUrl = (Astro.site?.href ?? 'https://www.curewood.co/').replace(/\/$/, '');
+// No trailing slash (except the homepage), matching the sitemap and site links.
+const canonical = siteUrl + (Astro.url.pathname.replace(/\/+$/, '') || '/');
+
+// Tells search engines and AI assistants who makes Seamless. Same on every page.
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${siteUrl}/#organization`,
+  name: 'CureWood Engineered Building Products',
+  alternateName: 'CureWood',
+  url: `${siteUrl}/`,
+  logo: `${siteUrl}/favicon.svg`,
+  email: 'technical@curewood.co',
+  telephone: '+1-250-732-0310',
+  description: 'Canadian manufacturer of Seamless engineered timbers: hollow-core and solid laminated wood posts, timbers and columns, and finger-jointed cedar boards.',
+  address: { '@type': 'PostalAddress', addressLocality: 'Vancouver', addressRegion: 'BC', addressCountry: 'CA' },
+  brand: { '@type': 'Brand', name: 'Seamless' },
+};
+const schemas = jsonLd ? [organization, { '@context': 'https://schema.org', ...jsonLd }] : [organization];
 ---
 
 <!doctype html>
@@ -28,6 +52,9 @@ const {
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <link rel="canonical" href={canonical} />
+    {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
     <meta property="og:type" content="website" />
     <!-- Language: ?lang=ja / ?lang=en in the URL wins, then the visitor's last
          choice. Runs before the page paints so there's no flash of English. -->
