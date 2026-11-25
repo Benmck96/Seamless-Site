@@ -54,19 +54,31 @@ const docCols = ['lg:grid-cols-1', 'lg:grid-cols-2', 'lg:grid-cols-3', 'lg:grid-
 const descJa = ja.description ? (Array.isArray(ja.description) ? ja.description : [ja.description]) : [];
 const treatJa = ja.treatmentDetails ?? {};
 
-// schema.org Product data for search engines and AI assistants.
+// schema.org data for search engines and AI assistants.
+// Deliberately NOT '@type': 'Product': Google treats Product markup as a shop
+// listing and flags it unless it has a price, review or rating, and prices
+// aren't published on this site. So the page is described as a WebPage about
+// the product, with the specs written out in plain text.
 const siteUrl = (Astro.site?.href ?? 'https://www.curewood.co/').replace(/\/$/, '');
+const pageUrl = `${siteUrl}/products/${product.slug}`;
+const category = product.construction === 'FJ Edge-Glued' ? 'Engineered wood boards and siding' : 'Engineered wood posts and timbers';
+const specText = specRows.map((r) => `${r.label}: ${r.en}`).join('. ');
 const productJsonLd = {
-  '@type': 'Product',
-  name: product.name,
-  url: `${siteUrl}/products/${product.slug}`,
-  image: product.featuredImage ? `${siteUrl}${product.featuredImage}` : undefined,
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#webpage`,
+  url: pageUrl,
+  name: `${product.name} — Seamless by CureWood`,
   description: [product.tagline, ...descEn].join(' '),
-  category: product.construction === 'FJ Edge-Glued' ? 'Engineered wood boards and siding' : 'Engineered wood posts and timbers',
-  material: product.species,
-  brand: { '@type': 'Brand', name: 'Seamless' },
-  manufacturer: { '@id': `${siteUrl}/#organization` },
-  additionalProperty: specRows.map((r) => ({ '@type': 'PropertyValue', name: r.label, value: r.en })),
+  primaryImageOfPage: product.featuredImage ? `${siteUrl}${product.featuredImage}` : undefined,
+  publisher: { '@id': `${siteUrl}/#organization` },
+  keywords: [category, product.species, 'Seamless', 'CureWood'].filter(Boolean).join(', '),
+  mainEntity: {
+    '@type': 'Thing',
+    name: product.name,
+    url: pageUrl,
+    image: product.featuredImage ? `${siteUrl}${product.featuredImage}` : undefined,
+    description: [product.tagline, ...descEn, `Category: ${category}.`, product.species ? `Material: ${product.species}.` : '', 'Brand: Seamless, made by CureWood.', specText].filter(Boolean).join(' '),
+  },
 };
 
 // Description for the <meta> tag and search snippets: tagline plus the first paragraph.
